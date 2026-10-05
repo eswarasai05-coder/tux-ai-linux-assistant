@@ -1,234 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TUX-AI Chat</title>
+</head>
 
+<body style="background:#05070d;color:white;font-family:Arial;text-align:center;padding:60px 20px;">
 
-  <style>
+  <h1 style="color:#00e5ff;">🤖 TUX-AI Chat</h1>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+  <p style="color:#9aa8b8;">
+    TUX-AI Chat is working!
+  </p>
+
+  <br>
+
+  <input
+    id="message"
+    type="text"
+    placeholder="Ask something..."
+    style="padding:15px;width:80%;max-width:500px;"
+  >
+
+  <button
+    onclick="reply()"
+    style="padding:15px;background:#00e5ff;border:0;"
+  >
+    Send
+  </button>
+
+  <p id="answer" style="margin-top:30px;color:#00e5ff;"></p>
+
+  <br>
+
+  <a href="index.html" style="color:#00e5ff;">
+    ← Back to Home
+  </a>
+
+  <script>
+    function reply() {
+      const message = document.getElementById("message").value;
+      const answer = document.getElementById("answer");
+
+      if (message.trim() === "") {
+        answer.textContent = "Please type something.";
+        return;
+      }
+
+      answer.textContent =
+        "TUX-AI: I received your question — " + message;
     }
+  </script>
 
-
-    body {
-
-      background:
-        radial-gradient(
-          circle at top,
-          #082331,
-          #05070d 55%
-        );
-
-      color: white;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      min-height: 100vh;
-
-    }
-
-
-    /* HEADER */
-
-    header {
-
-      height: 70px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      padding: 0 6%;
-
-      background: rgba(5,7,13,0.95);
-
-      border-bottom:
-        1px solid #193044;
-
-    }
-
-
-    .logo {
-
-      font-size: 25px;
-
-      font-weight: bold;
-
-      color: #00e5ff;
-
-    }
-
-
-    .logo span {
-
-      color: white;
-
-    }
-
-
-    .home {
-
-      color: #00e5ff;
-
-      text-decoration: none;
-
-      font-size: 14px;
-
-    }
-
-
-    /* MAIN */
-
-    .container {
-
-      width: 95%;
-
-      max-width: 1000px;
-
-      margin: 35px auto;
-
-    }
-
-
-    .title {
-
-      text-align: center;
-
-      margin-bottom: 25px;
-
-    }
-
-
-    .title h1 {
-
-      font-size: 42px;
-
-      margin-bottom: 8px;
-
-    }
-
-
-    .title h1 span {
-
-      color: #00e5ff;
-
-    }
-
-
-    .title p {
-
-      color: #8997a8;
-
-    }
-
-
-    /* CHAT */
-
-    .chat-box {
-
-      height: 520px;
-
-      overflow-y: auto;
-
-      background: #080d16;
-
-      border:
-        1px solid #1a3348;
-
-      border-radius: 18px;
-
-      padding: 25px;
-
-      box-shadow:
-        0 0 40px rgba(0,229,255,0.06);
-
-    }
-
-
-    .message {
-
-      max-width: 80%;
-
-      margin-bottom: 20px;
-
-      padding: 15px 18px;
-
-      border-radius: 14px;
-
-      line-height: 1.6;
-
-      white-space: pre-wrap;
-
-    }
-
-
-    .ai {
-
-      background: #0d1723;
-
-      border-left:
-        3px solid #00e5ff;
-
-      margin-right: auto;
-
-    }
-
-
-    .user {
-
-      background: #10232d;
-
-      border-right:
-        3px solid #00e5ff;
-
-      margin-left: auto;
-
-    }
-
-
-    .label {
-
-      color: #00e5ff;
-
-      font-size: 12px;
-
-      font-weight: bold;
-
-      margin-bottom: 6px;
-
-    }
-
-
-    /* INPUT */
-
-    .input-area {
-
-      display: flex;
-
-      gap: 10px;
-
-      margin-top: 15px;
-
-    }
-
-
-    #userInput {
-
-      flex: 1;
-
-      padding:
+</body>
+</html>
