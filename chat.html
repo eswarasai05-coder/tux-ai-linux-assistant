@@ -1,8 +1,16 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TUX-AI Chat</title>  <style>
+
+  <title>TUX-AI Chat</title>
+
+  <style>
+
     * {
       box-sizing: border-box;
     }
@@ -15,14 +23,14 @@
     }
 
     header {
-      padding: 18px 20px;
+      padding: 18px 25px;
       background: #080c14;
       border-bottom: 1px solid #1b3042;
     }
 
     .logo {
       color: #00e5ff;
-      font-size: 24px;
+      font-size: 25px;
       font-weight: bold;
     }
 
@@ -74,9 +82,9 @@
 
     .label {
       color: #00e5ff;
-      font-weight: bold;
       font-size: 13px;
-      margin-bottom: 6px;
+      font-weight: bold;
+      margin-bottom: 7px;
     }
 
     .input-area {
@@ -100,7 +108,7 @@
       border-color: #00e5ff;
     }
 
-    button {
+    #sendButton {
       padding: 15px 25px;
       border: none;
       border-radius: 10px;
@@ -110,7 +118,7 @@
       cursor: pointer;
     }
 
-    button:hover {
+    #sendButton:hover {
       background: #48e7ff;
     }
 
@@ -123,65 +131,107 @@
     }
 
     @media (max-width: 600px) {
+
       .input-area {
         flex-direction: column;
       }
 
-      button {
+      #sendButton {
         width: 100%;
       }
+
+      .chat-box {
+        height: 400px;
+      }
+
     }
-  </style></head><body>  <header>
-    <div class="logo">TUX-AI</div>
-  </header>  <div class="container"><h1>🤖 TUX-AI Chat</h1>
 
-<p class="subtitle">
-  Your Linux & Cybersecurity Learning Assistant
-</p>
+  </style>
 
-<div class="chat-box" id="chatBox">
+</head>
 
-  <div class="message ai">
-    <div class="label">TUX-AI</div>
-    Hello! 👋
 
-    I can help you learn Linux, networking,
-    commands, troubleshooting, and cybersecurity concepts.
+<body>
 
-    Try:
-    • What is Linux?
-    • What is pwd?
-    • What does ls do?
-    • What is an IP address?
-    • Explain TCP
-    • Explain UDP
-    • What is a port?
-    • What is ping?
-  </div>
+  <header>
 
-</div>
+    <div class="logo">
+      TUX-AI
+    </div>
 
-<div class="input-area">
+  </header>
 
-  <input
-    id="userInput"
-    type="text"
-    placeholder="Ask TUX-AI something..."
-    autocomplete="off"
-  >
 
-  <button id="sendButton">Send</button>
+  <main class="container">
 
-</div>
+    <h1>
+      🤖 TUX-AI Chat
+    </h1>
 
-<a class="back" href="index.html">
-  ← Back to Home
-</a>
+    <p class="subtitle">
+      Your Linux & Cybersecurity Learning Assistant
+    </p>
 
-  </div>  <script>
+
+    <div class="chat-box" id="chatBox">
+
+      <div class="message ai">
+
+        <div class="label">
+          TUX-AI
+        </div>
+
+        Hello! 👋
+
+        I'm TUX-AI, your Linux and cybersecurity learning assistant.
+
+        Try asking:
+
+        What is Linux?
+        Explain pwd
+        What does ls do?
+        Explain TCP
+        Explain UDP
+        What is an IP address?
+        What is DNS?
+        What is a port?
+
+      </div>
+
+    </div>
+
+
+    <div class="input-area">
+
+      <input
+        type="text"
+        id="userInput"
+        placeholder="Ask TUX-AI something..."
+        autocomplete="off"
+      >
+
+      <button id="sendButton">
+        Send
+      </button>
+
+    </div>
+
+
+    <a class="back" href="index.html">
+      ← Back to Home
+    </a>
+
+  </main>
+
+
+  <!-- TUX-AI JAVASCRIPT -->
+
+  <script>
 
     const input = document.getElementById("userInput");
+
     const chatBox = document.getElementById("chatBox");
+
     const sendButton = document.getElementById("sendButton");
 
 
@@ -191,22 +241,28 @@
 
       message.className = "message " + type;
 
+
       const label = document.createElement("div");
 
       label.className = "label";
 
       label.textContent = name;
 
+
       const content = document.createElement("div");
 
       content.textContent = text;
 
+
       message.appendChild(label);
+
       message.appendChild(content);
 
       chatBox.appendChild(message);
 
+
       chatBox.scrollTop = chatBox.scrollHeight;
+
     }
 
 
@@ -215,37 +271,56 @@
       const q = question.toLowerCase().trim();
 
 
-      if (q.includes("hello") || q.includes("hi")) {
+      if (
+        q.includes("hello") ||
+        q === "hi" ||
+        q.includes("hey")
+      ) {
 
-        return "Hello! 👋 I'm TUX-AI.\n\nAsk me anything about Linux, networking, or cybersecurity concepts.";
-
-      }
-
-
-      if (q.includes("what is linux") || q === "linux") {
-
-        return "Linux is an open-source operating system kernel. Distributions such as Kali Linux, Ubuntu, Debian, and Fedora use the Linux kernel.";
+        return "Hello! 👋\n\nI'm TUX-AI. I'm ready to help you learn Linux, networking and cybersecurity.";
 
       }
 
 
-      if (q === "pwd" || q.includes("what does pwd")) {
+      if (
+        q.includes("what is linux") ||
+        q === "linux"
+      ) {
+
+        return "Linux is an open-source operating-system kernel. Linux distributions such as Kali Linux, Ubuntu and Debian use the Linux kernel.";
+
+      }
+
+
+      if (
+        q === "pwd" ||
+        q.includes("what is pwd") ||
+        q.includes("print working directory")
+      ) {
 
         return "pwd means Print Working Directory.\n\nIt shows the directory you are currently inside.\n\nCommand:\npwd";
 
       }
 
 
-      if (q === "ls" || q.includes("what does ls")) {
+      if (
+        q === "ls" ||
+        q.includes("what is ls") ||
+        q.includes("list files")
+      ) {
 
-        return "ls lists files and directories in your current directory.\n\nCommand:\nls\n\nUseful example:\nls -la";
+        return "ls lists files and directories.\n\nExamples:\nls\nls -l\nls -la";
 
       }
 
 
-      if (q === "cd" || q.includes("what does cd")) {
+      if (
+        q === "cd" ||
+        q.includes("what is cd") ||
+        q.includes("change directory")
+      ) {
 
-        return "cd means Change Directory.\n\nIt is used to move between directories.\n\nExample:\ncd Documents\n\nGo back one directory:\ncd ..";
+        return "cd means Change Directory.\n\nExamples:\ncd Documents\ncd ..\ncd ~";
 
       }
 
@@ -257,70 +332,221 @@
       }
 
 
-      if (q.includes("ip address") || q === "ip") {
+      if (q.includes("touch")) {
 
-        return "An IP address identifies a device/interface on a network.\n\nOn Linux, you can inspect network interfaces with:\nip addr\n\nA shorter view is:\nip -br a";
-
-      }
-
-
-      if (q.includes("tcp")) {
-
-        return "TCP stands for Transmission Control Protocol.\n\nTCP is connection-oriented and provides reliable, ordered delivery of data.\n\nA simplified TCP connection uses a three-way handshake:\nSYN → SYN-ACK → ACK";
+        return "touch can create an empty file.\n\nExample:\ntouch notes.txt";
 
       }
 
 
-      if (q.includes("udp")) {
+      if (q.includes("cat")) {
 
-        return "UDP stands for User Datagram Protocol.\n\nUDP is connectionless and has lower overhead than TCP. It does not provide TCP-style delivery guarantees.";
-
-      }
-
-
-      if (q.includes("port")) {
-
-        return "A network port identifies a service endpoint on a device.\n\nFor example, a web service may listen on a TCP port.\n\nTo view listening TCP ports on Linux:\nss -ltn";
+        return "cat displays the contents of a text file.\n\nExample:\ncat notes.txt";
 
       }
 
 
-      if (q.includes("ping")) {
+      if (q.includes("cp")) {
 
-        return "ping is a network diagnostic command commonly used to test whether a host responds to ICMP echo requests.\n\nExample:\nping 8.8.8.8";
+        return "cp copies files or directories.\n\nExample:\ncp file.txt backup.txt";
+
+      }
+
+
+      if (q.includes("mv")) {
+
+        return "mv moves or renames files and directories.\n\nExample:\nmv old.txt new.txt";
+
+      }
+
+
+      if (q.includes("rm")) {
+
+        return "rm removes files.\n\nExample:\nrm notes.txt\n\nBe careful when deleting files.";
 
       }
 
 
       if (q.includes("chmod")) {
 
-        return "chmod changes file permissions on Linux.\n\nExample:\nchmod +x script.sh\n\nThis adds execute permission for the file owner/group/others according to the symbolic mode used.";
+        return "chmod changes Linux file permissions.\n\nExample:\nchmod +x script.sh\n\nYou can check permissions with:\nls -l";
 
       }
 
 
-      if (q.includes("network") || q.includes("networking")) {
+      if (q.includes("whoami")) {
 
-        return "Networking connects devices so they can communicate.\n\nImportant concepts include:\n• IP address\n• MAC address\n• Gateway\n• DNS\n• TCP\n• UDP\n• Ports";
+        return "whoami displays the username of the current user.\n\nCommand:\nwhoami";
 
       }
 
 
-      if (q.includes("cybersecurity") || q.includes("ethical hacking")) {
+      if (q.includes("sudo")) {
 
-        return "Cybersecurity is the practice of protecting systems, networks, and data.\n\nFor learning, practice only on systems and labs you own or have explicit permission to test.";
+        return "sudo allows an authorized user to run a command with elevated privileges.\n\nExample:\nsudo apt update";
+
+      }
+
+
+      if (q.includes("apt")) {
+
+        return "APT is a package manager commonly used by Debian-based Linux distributions.\n\nExamples:\nsudo apt update\nsudo apt install package-name";
+
+      }
+
+
+      if (
+        q.includes("ip address") ||
+        q === "ip"
+      ) {
+
+        return "An IP address identifies a network interface on an IP network.\n\nUseful commands:\nip addr\nip -br a\nip route";
+
+      }
+
+
+      if (q.includes("mac address")) {
+
+        return "A MAC address is a link-layer address associated with a network interface.\n\nView interfaces with:\nip link";
+
+      }
+
+
+      if (q.includes("dns")) {
+
+        return "DNS stands for Domain Name System.\n\nIt translates domain names into IP addresses so applications can find network services.";
+
+      }
+
+
+      if (q.includes("gateway")) {
+
+        return "A default gateway is normally the router or next-hop device used to reach networks outside your local network.\n\nView routes with:\nip route";
+
+      }
+
+
+      if (
+        q.includes("tcp vs udp") ||
+        q.includes("tcp and udp")
+      ) {
+
+        return "TCP vs UDP:\n\nTCP:\n• Connection-oriented\n• Reliable and ordered\n• More protocol overhead\n\nUDP:\n• Connectionless\n• No TCP-style delivery guarantee\n• Lower protocol overhead";
+
+      }
+
+
+      if (q.includes("tcp")) {
+
+        return "TCP stands for Transmission Control Protocol.\n\nTCP is connection-oriented and provides reliable, ordered data delivery.\n\nSimplified handshake:\nSYN → SYN-ACK → ACK";
+
+      }
+
+
+      if (q.includes("udp")) {
+
+        return "UDP stands for User Datagram Protocol.\n\nUDP is connectionless and has lower protocol overhead than TCP.\n\nApplications can implement reliability themselves when required.";
+
+      }
+
+
+      if (q.includes("port")) {
+
+        return "A network port identifies a service endpoint for TCP or UDP.\n\nTo view listening TCP ports on Linux:\n\nss -ltn\n\nTo include process information when permitted:\nss -ltnp";
+
+      }
+
+
+      if (q.includes("ping")) {
+
+        return "ping is a network diagnostic utility commonly used to test reachability using ICMP echo messages.\n\nExample:\nping 8.8.8.8";
+
+      }
+
+
+      if (
+        q === "ss" ||
+        q.includes("ss command")
+      ) {
+
+        return "ss displays socket information.\n\nExamples:\nss -tuln\nss -ltn\nss -ltnp";
+
+      }
+
+
+      if (q.includes("tcpdump")) {
+
+        return "tcpdump is a command-line packet capture and analysis tool.\n\nIn an authorized local lab you can use:\nsudo tcpdump -i lo -nn\n\nIt is useful for learning network traffic and protocols.";
+
+      }
+
+
+      if (q.includes("process")) {
+
+        return "A process is a running instance of a program.\n\nUseful commands:\nps\nps aux\ntop";
+
+      }
+
+
+      if (
+        q.includes("memory") ||
+        q.includes("ram")
+      ) {
+
+        return "You can inspect memory usage with:\n\nfree -h";
+
+      }
+
+
+      if (
+        q.includes("disk") ||
+        q.includes("storage")
+      ) {
+
+        return "Useful disk commands:\n\ndf -h\n\nShows filesystem space.\n\ndu -sh folder\n\nShows folder size.";
+
+      }
+
+
+      if (q.includes("bash")) {
+
+        return "Bash is a command-line shell commonly used on Linux.\n\nIt supports commands, scripts, variables, loops and functions.";
+
+      }
+
+
+      if (q.includes("firewall")) {
+
+        return "A firewall controls network traffic according to configured rules.\n\nLinux systems commonly use technologies such as nftables and tools such as UFW.";
+
+      }
+
+
+      if (q.includes("wireshark")) {
+
+        return "Wireshark is a graphical network protocol analyzer.\n\nIt is useful for studying packets and protocols such as TCP, UDP and DNS in an authorized lab.";
+
+      }
+
+
+      if (
+        q.includes("cybersecurity") ||
+        q.includes("ethical hacking")
+      ) {
+
+        return "Cybersecurity focuses on protecting systems, networks and data.\n\nFor ethical security learning, practice only on systems you own or have explicit permission to test.";
 
       }
 
 
       if (q.includes("help")) {
 
-        return "I can currently explain:\n\nLinux basics\nLinux commands\nFiles and directories\nIP addresses\nNetworking\nTCP and UDP\nPorts\nPing\nFile permissions\nCybersecurity fundamentals\n\nTry asking: \"Explain TCP\"";
+        return "TUX-AI currently understands:\n\n• Linux\n• pwd\n• ls\n• cd\n• mkdir\n• touch\n• cat\n• cp\n• mv\n• rm\n• chmod\n• sudo\n• apt\n• IP addresses\n• MAC addresses\n• DNS\n• Gateways\n• TCP\n• UDP\n• Ports\n• ping\n• ss\n• tcpdump\n• Processes\n• Memory\n• Disk\n• Bash\n• Firewalls\n• Wireshark\n• Cybersecurity";
 
       }
 
 
-      return "I'm still learning that topic. 🤖\n\nTry asking about Linux, pwd, ls, cd, mkdir, IP addresses, TCP, UDP, ports, ping, chmod, networking, or cybersecurity.";
+      return "I don't have a built-in answer for that topic yet. 🤖\n\nTry asking about Linux, commands, networking, TCP, UDP, ports, DNS, processes, permissions or cybersecurity.";
 
     }
 
@@ -329,15 +555,30 @@
 
       const question = input.value.trim();
 
+
       if (question === "") {
+
         return;
+
       }
 
-      addMessage("user", "You", question);
+
+      addMessage(
+        "user",
+        "You",
+        question
+      );
+
 
       const response = getResponse(question);
 
-      addMessage("ai", "TUX-AI", response);
+
+      addMessage(
+        "ai",
+        "TUX-AI",
+        response
+      );
+
 
       input.value = "";
 
@@ -346,18 +587,28 @@
     }
 
 
-    sendButton.addEventListener("click", sendMessage);
+    sendButton.addEventListener(
+      "click",
+      sendMessage
+    );
 
 
-    input.addEventListener("keydown", function(event) {
+    input.addEventListener(
+      "keydown",
+      function(event) {
 
-      if (event.key === "Enter") {
+        if (event.key === "Enter") {
 
-        sendMessage();
+          sendMessage();
+
+        }
 
       }
+    );
 
-    });
+  </script>
 
-  </script></body>
-</html>
+
+</body>
+
+    </html>
