@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>TUX-AI | Linux & Cybersecurity AI Assistant</title>
 
   <style>
@@ -17,11 +16,9 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #05070d;
-      color: #ffffff;
+      color: white;
       line-height: 1.6;
     }
-
-    /* NAVBAR */
 
     nav {
       position: fixed;
@@ -36,9 +33,9 @@
 
       padding: 18px 7%;
 
-      background: rgba(5, 7, 13, 0.92);
+      background: rgba(5, 7, 13, 0.95);
       border-bottom: 1px solid #142233;
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(10px);
     }
 
     .logo {
@@ -60,15 +57,11 @@
     nav ul li a {
       color: #b9c4d2;
       text-decoration: none;
-      font-size: 15px;
-      transition: 0.3s;
     }
 
     nav ul li a:hover {
       color: #00e5ff;
     }
-
-    /* HERO */
 
     .hero {
       min-height: 100vh;
@@ -82,7 +75,11 @@
       padding: 120px 7% 80px;
 
       background:
-        radial-gradient(circle at 50% 30%, #073044 0%, #05070d 45%);
+        radial-gradient(
+          circle at 50% 30%,
+          #073044 0%,
+          #05070d 50%
+        );
     }
 
     .hero-content {
@@ -98,6 +95,7 @@
       border-radius: 30px;
 
       color: #00e5ff;
+
       font-size: 13px;
 
       margin-bottom: 25px;
@@ -106,7 +104,6 @@
     .hero h1 {
       font-size: 65px;
       margin-bottom: 20px;
-      letter-spacing: -2px;
     }
 
     .hero h1 span {
@@ -120,8 +117,6 @@
       color: #9aa8b8;
       font-size: 18px;
     }
-
-    /* BUTTONS */
 
     .buttons {
       display: flex;
@@ -163,10 +158,7 @@
     .secondary:hover {
       border-color: #00e5ff;
       color: #00e5ff;
-      transform: translateY(-2px);
     }
-
-    /* SECTIONS */
 
     section {
       padding: 90px 7%;
@@ -186,8 +178,6 @@
       color: #8d9aaa;
     }
 
-    /* FEATURES */
-
     .features {
       background: #070a11;
     }
@@ -197,7 +187,9 @@
       margin: auto;
 
       display: grid;
+
       grid-template-columns: repeat(3, 1fr);
+
       gap: 20px;
     }
 
@@ -207,6 +199,7 @@
       background: #0a1019;
 
       border: 1px solid #17283a;
+
       border-radius: 16px;
 
       transition: 0.3s;
@@ -231,9 +224,7 @@
       font-size: 14px;
     }
 
-    /* TERMINAL */
-
-    .terminal-section {
+    .labs {
       background: #05070d;
     }
 
@@ -244,11 +235,10 @@
       background: #020409;
 
       border: 1px solid #193044;
+
       border-radius: 15px;
 
       overflow: hidden;
-
-      box-shadow: 0 0 40px rgba(0, 229, 255, 0.08);
     }
 
     .terminal-top {
@@ -257,13 +247,13 @@
       background: #0b111b;
 
       color: #647386;
-      font-size: 13px;
     }
 
     .terminal-body {
       padding: 25px;
 
       font-family: monospace;
+
       color: #00e5ff;
 
       min-height: 220px;
@@ -272,8 +262,6 @@
     .terminal-body span {
       color: #75ff9a;
     }
-
-    /* ABOUT */
 
     .about {
       background: #070a11;
@@ -290,13 +278,15 @@
       font-size: 17px;
     }
 
-    /* CTA */
-
     .cta {
       text-align: center;
 
       background:
-        radial-gradient(circle at center, #073044 0%, #05070d 60%);
+        radial-gradient(
+          circle at center,
+          #073044 0%,
+          #05070d 60%
+        );
     }
 
     .cta h2 {
@@ -305,5 +295,4 @@
     }
 
     .cta p {
-      color: #9aa8b8;
-      margin-bottom: 30
+      color: #
