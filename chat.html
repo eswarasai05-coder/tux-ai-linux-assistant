@@ -1,57 +1,363 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TUX-AI Chat</title>
-</head>
+  <title>TUX-AI Chat</title>  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<body style="background:#05070d;color:white;font-family:Arial;text-align:center;padding:60px 20px;">
+    body {
+      margin: 0;
+      background: #05070d;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-  <h1 style="color:#00e5ff;">🤖 TUX-AI Chat</h1>
+    header {
+      padding: 18px 20px;
+      background: #080c14;
+      border-bottom: 1px solid #1b3042;
+    }
 
-  <p style="color:#9aa8b8;">
-    TUX-AI Chat is working!
-  </p>
+    .logo {
+      color: #00e5ff;
+      font-size: 24px;
+      font-weight: bold;
+    }
 
-  <br>
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 35px auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00e5ff;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #9aa8b8;
+      margin-bottom: 25px;
+    }
+
+    .chat-box {
+      height: 430px;
+      overflow-y: auto;
+      background: #080d16;
+      border: 1px solid #1b3042;
+      border-radius: 15px;
+      padding: 20px;
+    }
+
+    .message {
+      padding: 14px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .ai {
+      background: #0d1723;
+      border-left: 3px solid #00e5ff;
+    }
+
+    .user {
+      background: #10202a;
+      border-right: 3px solid #00e5ff;
+    }
+
+    .label {
+      color: #00e5ff;
+      font-weight: bold;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    #userInput {
+      flex: 1;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #26384a;
+      background: #080d16;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    #userInput:focus {
+      border-color: #00e5ff;
+    }
+
+    button {
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      background: #00e5ff;
+      color: #031018;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #48e7ff;
+    }
+
+    .back {
+      display: block;
+      width: fit-content;
+      margin: 25px auto;
+      color: #00e5ff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .input-area {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style></head><body>  <header>
+    <div class="logo">TUX-AI</div>
+  </header>  <div class="container"><h1>🤖 TUX-AI Chat</h1>
+
+<p class="subtitle">
+  Your Linux & Cybersecurity Learning Assistant
+</p>
+
+<div class="chat-box" id="chatBox">
+
+  <div class="message ai">
+    <div class="label">TUX-AI</div>
+    Hello! 👋
+
+    I can help you learn Linux, networking,
+    commands, troubleshooting, and cybersecurity concepts.
+
+    Try:
+    • What is Linux?
+    • What is pwd?
+    • What does ls do?
+    • What is an IP address?
+    • Explain TCP
+    • Explain UDP
+    • What is a port?
+    • What is ping?
+  </div>
+
+</div>
+
+<div class="input-area">
 
   <input
-    id="message"
+    id="userInput"
     type="text"
-    placeholder="Ask something..."
-    style="padding:15px;width:80%;max-width:500px;"
+    placeholder="Ask TUX-AI something..."
+    autocomplete="off"
   >
 
-  <button
-    onclick="reply()"
-    style="padding:15px;background:#00e5ff;border:0;"
-  >
-    Send
-  </button>
+  <button id="sendButton">Send</button>
 
-  <p id="answer" style="margin-top:30px;color:#00e5ff;"></p>
+</div>
 
-  <br>
+<a class="back" href="index.html">
+  ← Back to Home
+</a>
 
-  <a href="index.html" style="color:#00e5ff;">
-    ← Back to Home
-  </a>
+  </div>  <script>
 
-  <script>
-    function reply() {
-      const message = document.getElementById("message").value;
-      const answer = document.getElementById("answer");
+    const input = document.getElementById("userInput");
+    const chatBox = document.getElementById("chatBox");
+    const sendButton = document.getElementById("sendButton");
 
-      if (message.trim() === "") {
-        answer.textContent = "Please type something.";
+
+    function addMessage(type, name, text) {
+
+      const message = document.createElement("div");
+
+      message.className = "message " + type;
+
+      const label = document.createElement("div");
+
+      label.className = "label";
+
+      label.textContent = name;
+
+      const content = document.createElement("div");
+
+      content.textContent = text;
+
+      message.appendChild(label);
+      message.appendChild(content);
+
+      chatBox.appendChild(message);
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+
+    function getResponse(question) {
+
+      const q = question.toLowerCase().trim();
+
+
+      if (q.includes("hello") || q.includes("hi")) {
+
+        return "Hello! 👋 I'm TUX-AI.\n\nAsk me anything about Linux, networking, or cybersecurity concepts.";
+
+      }
+
+
+      if (q.includes("what is linux") || q === "linux") {
+
+        return "Linux is an open-source operating system kernel. Distributions such as Kali Linux, Ubuntu, Debian, and Fedora use the Linux kernel.";
+
+      }
+
+
+      if (q === "pwd" || q.includes("what does pwd")) {
+
+        return "pwd means Print Working Directory.\n\nIt shows the directory you are currently inside.\n\nCommand:\npwd";
+
+      }
+
+
+      if (q === "ls" || q.includes("what does ls")) {
+
+        return "ls lists files and directories in your current directory.\n\nCommand:\nls\n\nUseful example:\nls -la";
+
+      }
+
+
+      if (q === "cd" || q.includes("what does cd")) {
+
+        return "cd means Change Directory.\n\nIt is used to move between directories.\n\nExample:\ncd Documents\n\nGo back one directory:\ncd ..";
+
+      }
+
+
+      if (q.includes("mkdir")) {
+
+        return "mkdir means Make Directory.\n\nIt creates a new directory.\n\nExample:\nmkdir linux_lab";
+
+      }
+
+
+      if (q.includes("ip address") || q === "ip") {
+
+        return "An IP address identifies a device/interface on a network.\n\nOn Linux, you can inspect network interfaces with:\nip addr\n\nA shorter view is:\nip -br a";
+
+      }
+
+
+      if (q.includes("tcp")) {
+
+        return "TCP stands for Transmission Control Protocol.\n\nTCP is connection-oriented and provides reliable, ordered delivery of data.\n\nA simplified TCP connection uses a three-way handshake:\nSYN → SYN-ACK → ACK";
+
+      }
+
+
+      if (q.includes("udp")) {
+
+        return "UDP stands for User Datagram Protocol.\n\nUDP is connectionless and has lower overhead than TCP. It does not provide TCP-style delivery guarantees.";
+
+      }
+
+
+      if (q.includes("port")) {
+
+        return "A network port identifies a service endpoint on a device.\n\nFor example, a web service may listen on a TCP port.\n\nTo view listening TCP ports on Linux:\nss -ltn";
+
+      }
+
+
+      if (q.includes("ping")) {
+
+        return "ping is a network diagnostic command commonly used to test whether a host responds to ICMP echo requests.\n\nExample:\nping 8.8.8.8";
+
+      }
+
+
+      if (q.includes("chmod")) {
+
+        return "chmod changes file permissions on Linux.\n\nExample:\nchmod +x script.sh\n\nThis adds execute permission for the file owner/group/others according to the symbolic mode used.";
+
+      }
+
+
+      if (q.includes("network") || q.includes("networking")) {
+
+        return "Networking connects devices so they can communicate.\n\nImportant concepts include:\n• IP address\n• MAC address\n• Gateway\n• DNS\n• TCP\n• UDP\n• Ports";
+
+      }
+
+
+      if (q.includes("cybersecurity") || q.includes("ethical hacking")) {
+
+        return "Cybersecurity is the practice of protecting systems, networks, and data.\n\nFor learning, practice only on systems and labs you own or have explicit permission to test.";
+
+      }
+
+
+      if (q.includes("help")) {
+
+        return "I can currently explain:\n\nLinux basics\nLinux commands\nFiles and directories\nIP addresses\nNetworking\nTCP and UDP\nPorts\nPing\nFile permissions\nCybersecurity fundamentals\n\nTry asking: \"Explain TCP\"";
+
+      }
+
+
+      return "I'm still learning that topic. 🤖\n\nTry asking about Linux, pwd, ls, cd, mkdir, IP addresses, TCP, UDP, ports, ping, chmod, networking, or cybersecurity.";
+
+    }
+
+
+    function sendMessage() {
+
+      const question = input.value.trim();
+
+      if (question === "") {
         return;
       }
 
-      answer.textContent =
-        "TUX-AI: I received your question — " + message;
-    }
-  </script>
+      addMessage("user", "You", question);
 
-</body>
+      const response = getResponse(question);
+
+      addMessage("ai", "TUX-AI", response);
+
+      input.value = "";
+
+      input.focus();
+
+    }
+
+
+    sendButton.addEventListener("click", sendMessage);
+
+
+    input.addEventListener("keydown", function(event) {
+
+      if (event.key === "Enter") {
+
+        sendMessage();
+
+      }
+
+    });
+
+  </script></body>
 </html>
