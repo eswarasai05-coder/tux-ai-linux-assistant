@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>TUX-AI Linux Assistant</title>
-  <meta name="description" content="TUX-AI Linux & Cybersecurity AI Assistant">
+
+  <meta
+    name="description"
+    content="TUX-AI Linux & Cybersecurity AI Assistant"
+  >
 
   <style>
     * {
@@ -21,11 +25,9 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #05070d;
-      color: #f4f7ff;
+      color: #f5f7ff;
       line-height: 1.6;
     }
-
-    /* NAVBAR */
 
     nav {
       position: fixed;
@@ -33,20 +35,23 @@
       left: 0;
       width: 100%;
       z-index: 1000;
+
       padding: 16px 7%;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(5, 7, 13, 0.85);
+
+      background: rgba(5, 7, 13, 0.9);
       backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(0, 220, 255, 0.15);
+
+      border-bottom: 1px solid rgba(0, 229, 255, 0.2);
     }
 
     .logo {
       font-size: 23px;
       font-weight: bold;
       color: #00e5ff;
-      letter-spacing: 1px;
     }
 
     .logo span {
@@ -55,29 +60,28 @@
 
     nav ul {
       display: flex;
+      gap: 25px;
       list-style: none;
-      gap: 28px;
     }
 
     nav a {
       color: #b9c4d6;
       text-decoration: none;
       font-size: 14px;
-      transition: 0.3s;
     }
 
     nav a:hover {
       color: #00e5ff;
     }
 
-    /* HERO */
-
     .hero {
       min-height: 100vh;
       padding: 150px 7% 80px;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -86,13 +90,17 @@
     .hero::before {
       content: "";
       position: absolute;
+
       width: 500px;
       height: 500px;
+
       background: rgba(0, 200, 255, 0.12);
       filter: blur(120px);
       border-radius: 50%;
+
       top: 5%;
       left: 50%;
+
       transform: translateX(-50%);
     }
 
@@ -104,22 +112,26 @@
 
     .badge {
       display: inline-block;
+
       padding: 8px 16px;
+      margin-bottom: 25px;
+
       border: 1px solid rgba(0, 229, 255, 0.4);
       border-radius: 30px;
+
       color: #00e5ff;
       background: rgba(0, 229, 255, 0.06);
+
       font-size: 13px;
-      margin-bottom: 25px;
     }
 
-    .hero h1 {
+    h1 {
       font-size: clamp(42px, 8vw, 82px);
       line-height: 1.05;
       margin-bottom: 25px;
     }
 
-    .hero h1 span {
+    h1 span {
       color: #00e5ff;
       text-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
     }
@@ -133,6 +145,7 @@
 
     .buttons {
       margin-top: 35px;
+
       display: flex;
       justify-content: center;
       gap: 15px;
@@ -141,22 +154,17 @@
 
     .btn {
       display: inline-block;
+
       padding: 13px 25px;
       border-radius: 10px;
+
       text-decoration: none;
       font-weight: bold;
-      transition: 0.3s;
     }
 
     .primary {
       background: #00d9ff;
       color: #031018;
-      box-shadow: 0 0 25px rgba(0, 217, 255, 0.2);
-    }
-
-    .primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 35px rgba(0, 217, 255, 0.4);
     }
 
     .secondary {
@@ -164,13 +172,6 @@
       color: white;
       background: #0a0e17;
     }
-
-    .secondary:hover {
-      border-color: #00e5ff;
-      color: #00e5ff;
-    }
-
-    /* SECTIONS */
 
     section {
       padding: 90px 7%;
@@ -190,26 +191,29 @@
       color: #8e9bae;
     }
 
-    /* FEATURES */
-
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
       gap: 20px;
     }
 
     .card {
       padding: 28px;
+
       border-radius: 18px;
+
       background: rgba(12, 18, 29, 0.8);
       border: 1px solid #172536;
+
       transition: 0.3s;
     }
 
     .card:hover {
       transform: translateY(-7px);
       border-color: rgba(0, 229, 255, 0.5);
-      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.3);
     }
 
     .icon {
@@ -227,8 +231,6 @@
       font-size: 14px;
     }
 
-    /* TERMINAL */
-
     .terminal-section {
       background: #070a11;
     }
@@ -236,14 +238,346 @@
     .terminal {
       max-width: 850px;
       margin: auto;
+
       background: #020407;
       border: 1px solid #1d3040;
       border-radius: 16px;
+
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
     }
 
     .terminal-top {
       padding: 12px 18px;
       background: #0c111a;
-      border-bottom: 
+      border-bottom: 1px solid #1d3040;
+
+      color: #7f8b9c;
+    }
+
+    .terminal-body {
+      padding: 25px;
+
+      font-family: monospace;
+      font-size: 15px;
+      color: #8fffa8;
+
+      min-height: 220px;
+    }
+
+    .prompt {
+      color: #00e5ff;
+    }
+
+    .about {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .about p {
+      color: #aab5c7;
+      margin-top: 15px;
+    }
+
+    .cta {
+      text-align: center;
+      background: #070b14;
+    }
+
+    .cta h2 {
+      font-size: 38px;
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      color: #9ba8ba;
+      margin-bottom: 30px;
+    }
+
+    footer {
+      padding: 30px 7%;
+
+      text-align: center;
+
+      border-top: 1px solid #162333;
+
+      color: #738096;
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      nav ul {
+        display: none;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      section {
+        padding: 70px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo">
+      TUX<span>-AI</span>
+    </div>
+
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#labs">Labs</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="home">
+
+    <div class="hero-content">
+
+      <div class="badge">
+        Linux & Cybersecurity AI Assistant
+      </div>
+
+      <h1>
+        Meet <span>TUX-AI</span>
+      </h1>
+
+      <p>
+        Your intelligent learning companion for Linux,
+        cybersecurity, ethical security education,
+        troubleshooting and technical learning.
+      </p>
+
+      <div class="buttons">
+        <a href="#features" class="btn primary">
+          Explore TUX-AI
+        </a>
+
+        <a href="#labs" class="btn secondary">
+          Explore Labs
+        </a>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section id="features">
+
+    <div class="section-title">
+
+      <h2>Powerful Features</h2>
+
+      <p>
+        Everything you need to learn and explore Linux.
+      </p>
+
+    </div>
+
+
+    <div class="features">
+
+      <div class="card">
+
+        <div class="icon">🤖</div>
+
+        <h3>AI Assistant</h3>
+
+        <p>
+          Ask Linux and technical questions
+          and get clear explanations.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="icon">🔍</div>
+
+        <h3>Error Analyzer</h3>
+
+        <p>
+          Understand Linux errors and learn
+          practical troubleshooting methods.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="icon">🐧</div>
+
+        <h3>Learn Linux</h3>
+
+        <p>
+          Study Linux commands, networking,
+          processes, filesystems and more.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="icon">🛡️</div>
+
+        <h3>Security Labs</h3>
+
+        <p>
+          Practice cybersecurity concepts
+          in safe and authorized environments.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="icon">⌨️</div>
+
+        <h3>Linux Tools</h3>
+
+        <p>
+          Explore useful Linux commands and
+          understand what each option does.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="icon">📚</div>
+
+        <h3>Study Guides</h3>
+
+        <p>
+          Organize your Linux learning with
+          structured study material.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="terminal-section" id="labs">
+
+    <div class="section-title">
+
+      <h2>Terminal Learning</h2>
+
+      <p>
+        Learn what commands actually do.
+      </p>
+
+    </div>
+
+
+    <div class="terminal">
+
+      <div class="terminal-top">
+        TUX-AI Terminal
+      </div>
+
+      <div class="terminal-body">
+
+        <div>
+          <span class="prompt">kali@tux-ai:~$</span>
+          ss -ltn
+        </div>
+
+        <br>
+
+        <div>
+          State&nbsp;&nbsp; Local Address:Port
+        </div>
+
+        <div>
+          LISTEN&nbsp; 0.0.0.0:8080
+        </div>
+
+        <br>
+
+        <div>
+          <span class="prompt">kali@tux-ai:~$</span>
+          echo "Learn. Build. Secure."
+        </div>
+
+        <div>
+          Learn. Build. Secure.
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section id="about">
+
+    <div class="about">
+
+      <div class="section-title">
+
+        <h2>About TUX-AI</h2>
+
+      </div>
+
+      <p>
+        TUX-AI is an educational Linux and cybersecurity
+        assistant designed to make technical learning
+        easier, clearer and more practical.
+      </p>
+
+      <p>
+        The project focuses on responsible,
+        authorized and educational security learning.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <section class="cta">
+
+    <h2>Start Learning With TUX-AI</h2>
+
+    <p>
+      Explore Linux. Understand cybersecurity.
+      Build your skills.
+    </p>
+
+    <a href="#home" class="btn primary">
+      Back to Top
+    </a>
+
+  </section>
+
+
+  <footer>
+
+    © 2026 TUX-AI Linux Assistant.
+    Built for Linux & Cybersecurity learning.
+
+  </footer>
+
+</body>
+</html>
