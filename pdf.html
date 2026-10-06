@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TUX-AI PDF Study Guide</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#030805;
+  color:#fff;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(3,8,5,.96);
+  border-bottom:1px solid #123d22;
+  backdrop-filter:blur(12px);
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.logo{
+  color:#00ff66;
+  font-size:22px;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  justify-content:center;
+}
+
+nav a{
+  color:#b8c9be;
+  text-decoration:none;
+  padding:9px 12px;
+  border-radius:8px;
+  font-size:14px;
+}
+
+nav a:hover,
+nav a.active{
+  background:#0b2615;
+  color:#00ff66;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:35px 20px 60px;
+}
+
+.hero{
+  text-align:center;
+  padding:20px 10px 35px;
+}
+
+.hero h1{
+  margin:0 0 12px;
+  color:#00ff66;
+  font-size:42px;
+}
+
+.hero p{
+  max-width:780px;
+  margin:auto;
+  color:#aebbb2;
+  line-height:1.7;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:25px;
+  align-items:start;
+}
+
+.panel{
+  background:#071009;
+  border:1px solid #153d24;
+  border-radius:16px;
+  padding:22px;
+}
+
+.panel h2{
+  margin-top:0;
+  color:#00ff66;
+}
+
+label{
+  display:block;
+  margin:17px 0 7px;
+  color:#b9c8bf;
+  font-size:14px;
+  font-weight:bold;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  background:#030805;
+  border:1px solid #1c4b2b;
+  color:#fff;
+  border-radius:9px;
+  padding:12px;
+  outline:none;
+  font-family:inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:#00ff66;
+  box-shadow:0 0 12px rgba(0,255,102,.1);
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.module-box{
+  border:1px solid #193f26;
+  border-radius:10px;
+  padding:12px;
+  margin-top:10px;
+  background:#050b07;
+}
+
+.module-box input{
+  margin:0;
+}
+
+.button-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+button{
+  border:0;
+  border-radius:9px;
+  padding:12px 16px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.primary{
+  background:#00ff66;
+  color:#001b08;
+}
+
+.primary:hover{
+  background:#39ff88;
+}
+
+.secondary{
+  background:#102117;
+  color:#00ff66;
+  border:1px solid #245b35;
+}
+
+.secondary:hover{
+  border-color:#00ff66;
+}
+
+.danger{
+  background:#24100d;
+  color:#ff9b8c;
+  border:1px solid #633027;
+}
+
+.preview{
+  background:#f7f7f7;
+  color:#111;
+  border-radius:8px;
+  min-height:800px;
+  padding:48px;
+  box-shadow:0 0 30px rgba(0,0,0,.3);
+}
+
+.preview h1{
+  color:#111;
+  font-size:32px;
+  margin-top:0;
+}
+
+.preview h2{
+  color:#111;
+  border-bottom:2px solid #ddd;
+  padding-bottom:7px;
+  margin-top:30px;
+}
+
+.preview h3{
+  color:#222;
+}
+
+.preview p,
+.preview li{
+  line-height:1.65;
+}
+
+.pdf-command{
+  background:#111;
+  color:#65ff9a;
+  padding:13px;
+  border-radius:6px;
+  font-family:monospace;
+  white-space:pre-wrap;
+  margin:8px 0;
+}
+
+.tip{
+  background:#eaf8ee;
+  border-left:4px solid #16a34a;
+  padding:12px;
+  margin:15px 0;
+}
+
+.checklist{
+  list-style:none;
+  padding:0;
+}
+
+.checklist li{
+  padding:8px 0;
+}
+
+footer{
+  text-align:center;
+  color:#718077;
+  border-top:1px solid #12351f;
+  padding:25px;
+  margin-top:40px;
+  font-size:13px;
+}
+
+@media(max-width:850px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .preview{
+    padding:25px;
+  }
+}
+
+@media(max-width:600px){
+  .nav{
+    flex-direction:column;
+  }
+
+  nav{
+    width:100%;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+}
+
+/* PRINT / PDF */
+
+@media print{
+
+  body{
+    background:white;
+    color:#111;
+  }
+
+  header,
+  .hero,
+  .builder,
+  footer,
+  .no-print{
+    display:none !important;
+  }
+
+  .container{
+    max-width:none;
+    padding:0;
+  }
+
+  .layout{
+    display:block;
+  }
+
+  .preview{
+    display:block !important;
+    box-shadow:none;
+    border:0;
+    padding:0;
+    min-height:0;
+  }
+
+  .preview h1,
+  .preview h2,
+  .preview h3,
+  .preview p,
+  .preview li{
+    color:#111;
+  }
+
+  .pdf-command{
+    background:#eee;
+    color:#111;
+    border:1px solid #ccc;
+  }
+
+  .tip{
+    background:#f1f1f1;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+
+    <a class="logo" href="index.html">
+      ⚡ TUX-AI
+    </a>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="chat.html">Chat</a>
+      <a href="analyzer.html">Analyzer</a>
+      <a href="learn.html">Learn</a>
+      <a href="labs.html">Labs</a>
+      <a href="tools.html">Tools</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a class="active" href="pdf.html">PDF Guide</a>
+    </nav>
+
+  </div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+
+  <h1>📄 TUX-AI PDF Study Guide</h1>
+
+  <p>
+    Create a structured Linux, networking, cybersecurity and Python
+    study guide that you can print or save as a PDF.
+  </p>
+
+</section>
+
+<div class="layout">
+
+<!-- BUILDER -->
+
+<section class="panel builder">
+
+  <h2>⚙️ Guide Builder</h2>
+
+  <label for="topic">
+    Guide Topic
+  </label>
+
+  <input
+    id="topic"
+    type="text"
+    placeholder="Example: Linux Networking"
+    value="Linux & Cybersecurity Fundamentals"
+  >
+
+  <label for="level">
+    Target Proficiency
+  </label>
+
+  <select id="level">
+
+    <option>Beginner</option>
+    <option>Intermediate</option>
+    <option>Advanced</option>
+
+  </select>
+
+  <label for="author">
+    Student / Author
+  </label>
+
+  <input
+    id="author"
+    type="text"
+    placeholder="Your name"
+  >
+
+  <label>
+    📚 Select Modules
+  </label>
+
+  <div class="module-box">
+    <label>
+      <input type="checkbox" id="m1" checked>
+      1. Linux Foundations
+    </label>
+  </div>
+
+  <div class="module-box">
+    <label>
+      <input type="checkbox" id="m2" checked>
+      2. Networking Fundamentals
+    </label>
+  </div>
+
+  <div class="module-box">
+    <label>
+      <input type="checkbox" id="m3" checked>
+      3. Cybersecurity Fundamentals
+    </label>
+  </div>
+
+  <div class="module-box">
+    <label>
+      <input type="checkbox" id="m4" checked>
+      4. Python on Linux
+    </label>
+  </div>
+
+  <div class="module-box">
+    <label>
+      <input type="checkbox" id="m5" checked>
+      5. System Administration
+    </label>
+  </div>
+
+  <div class="module-box">
+    <label>
+      <input type="checkbox" id="m6" checked>
+      6. Safe Security Lab
+    </label>
+  </div>
+
+  <label for="notes">
+    Extra Notes
+  </label>
+
+  <textarea
+    id="notes"
+    placeholder="Add your own study notes..."
+  ></textarea>
+
+  <div class="button-row">
+
+    <button
+      class="primary"
+      onclick="generateGuide()">
+      🔄 Generate Guide
+    </button>
+
+    <button
+      class="secondary"
+      onclick="printPDF()">
+      🖨️ Save / Print PDF
+    </button>
+
+    <button
+      class="danger"
+      onclick="resetGuide()">
+      Reset
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- PREVIEW -->
+
+<section>
+
+  <div id="preview" class="preview">
+
+    <h1>TUX-AI Study Guide</h1>
+
+    <p>
+      Generate your personalized guide using the builder.
+    </p>
+
+  </div>
+
+</section>
+
+</div>
+
+</main>
+
+<footer>
+  TUX-AI Linux Assistant • PDF Study Guide
+  <br><br>
+  Educational use only. Practice cybersecurity only on systems
+  you own or are authorized to test.
+</footer>
+
+
+<script>
+
+const moduleData = {
+
+  1:{
+    title:"Linux Foundations",
+    description:
+      "Linux is an operating system family widely used for servers, development, cloud computing and security education.",
+    concepts:[
+      "Linux filesystem structure",
+      "Terminal basics",
+      "Files and directories",
+      "Permissions",
+      "Processes"
+    ],
+    commands:[
+      "pwd",
+      "ls -la",
+      "cd ~",
+      "mkdir study_lab",
+      "touch notes.txt",
+      "cp notes.txt backup.txt",
+      "chmod 600 notes.txt",
+      "ps aux"
+    ]
+  },
+
+  2:{
+    title:"Networking Fundamentals",
+    description:
+      "Networking allows systems and applications to communicate using interfaces, addresses, ports and protocols.",
+    concepts:[
+      "IPv4 and IPv6",
+      "Network interfaces",
+      "Default gateways",
+      "DNS",
+      "TCP and UDP",
+      "Ports and sockets"
+    ],
+    commands:[
+      "ip -br address",
+      "ip route",
+      "ip neigh",
+      "ss -tuln",
+      "getent hosts example.com"
+    ]
+  },
+
+  3:{
+    title:"Cybersecurity Fundamentals",
+    description:
+      "Cybersecurity focuses on protecting systems, data, applications and networks from unauthorized access and misuse.",
+    concepts:[
+      "Confidentiality",
+      "Integrity",
+      "Availability",
+      "Authentication",
+      "Authorization",
+      "Logging and monitoring"
+    ],
+    commands:[
+      "whoami",
+      "id",
+      "sudo -l",
+      "ss -tuln",
+      "journalctl -n 20"
+    ]
+  },
+
+  4:{
+    title:"Python on Linux",
+    description:
+      "Python can automate tasks, inspect system information and help build useful Linux utilities.",
+    concepts:[
+      "Python basics",
+      "Variables",
+      "Functions",
+      "Modules",
+      "Command-line scripts"
+    ],
+    commands:[
+      "python3 --version",
+      "python3 -c \"print('Hello from TUX-AI')\"",
+      "python3 -c \"import platform; print(platform.system())\""
+    ]
+  },
+
+  5:{
+    title:"System Administration",
+    description:
+      "System administration involves monitoring processes, storage, packages, services, users and system logs.",
+    concepts:[
+      "Package management",
+      "Storage monitoring",
+      "Process monitoring",
+      "System logs",
+      "Users and permissions"
+    ],
+    commands:[
+      "df -h",
+      "du -sh .",
+      "free -h",
+      "uptime",
+      "ps aux",
+      "journalctl -n 20",
+      "apt list --installed"
+    ]
+  },
+
+  6:{
+    title:"Safe Security Lab",
+    description:
+      "A security lab should be isolated and authorized. Use your own VM, localhost or a deliberately provided training environment.",
+    concepts:[
+      "Define authorization",
+      "Define scope",
+      "Use an isolated lab",
+      "Collect observations",
+      "Document results",
+      "Clean up the lab"
+    ],
+    commands:[
+      "ip -br address",
+      "ss -tuln",
+      "sudo tcpdump -i lo -nn -c 10",
+      "journalctl -n 20"
+    ]
+  }
+
+};
+
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function getSelectedModules(){
+
+  const selected = [];
+
+  for(let i=1;i<=6;i++){
+
+    const checkbox =
+      document.getElementById("m"+i);
+
+    if(checkbox.checked){
+      selected.push(i);
+    }
+
+  }
+
+  return selected;
+}
+
+
+function generateGuide(){
+
+  const topic =
+    document.getElementById("topic").value.trim()
+    || "Linux & Cybersecurity Fundamentals";
+
+  const level =
+    document.getElementById("level").value;
+
+  const author =
+    document.getElementById("author").value.trim()
+    || "TUX-AI Learner";
+
+  const notes =
+    document.getElementById("notes").value.trim();
+
+  const selected =
+    getSelectedModules();
+
+  const today =
+    new Date().toLocaleDateString();
+
+  let html = `
+
+    <h1>${escapeHTML(topic)}</h1>
+
+    <p>
+      <strong>TUX-AI Study Guide</strong>
+    </p>
+
+    <p>
+      <strong>Target:</strong>
+      ${escapeHTML(level)}
+      <br>
+      <strong>Author:</strong>
+      ${escapeHTML(author)}
+      <br>
+      <strong>Generated:</strong>
+      ${today}
+    </p>
+
+    <div class="tip">
+      <strong>🛡️ Safety Notice:</strong>
+      Use cybersecurity commands only on your own systems,
+      localhost, virtual machines, or systems where you have
+      explicit permission to test.
+    </div>
+
+    <h2>📋 Study Plan</h2>
+
+    <p>
+      Complete each selected module, practice the commands in
+      an authorized environment, and record what you learn.
+    </p>
+
+  `;
+
+
+  if(selected.length === 0){
+
+    html += `
+      <div class="tip">
+        No modules were selected. Return to the builder and
+        select at least one module.
+      </div>
+    `;
+
+  }
+
+
+  selected.forEach((id,index)=>{
+
+    const module =
+      moduleData[id];
+
+    html += `
+
+      <h2>
+        Module ${index+1}: ${escapeHTML(module.title)}
+      </h2>
+
+      <p>
+        ${escapeHTML(module.description)}
+      </p>
+
+      <h3>📚 Key Concepts</h3>
+
+      <ul>
+        ${module.concepts
+          .map(item =>
+            `<li>${escapeHTML(item)}</li>`
+          )
+          .join("")}
+      </ul>
+
+      <h3>💻 Runnable Commands</h3>
+
+      <p>
+        Run these examples in your own Linux environment.
+      </p>
+
+      ${module.commands
+        .map(command =>
+          `<div class="pdf-command">$ ${escapeHTML(command)}</div>`
+        )
+        .join("")}
+
+      <h3>🧪 Practice Task</h3>
+
+      <p>
+        Run the commands safely, observe the output,
+        and write down what each command does.
+      </p>
+
+      <h3>✅ Checklist</h3>
+
+      <ul class="checklist">
+
+        <li>☐ I understand the main concepts.</li>
+
+        <li>☐ I ran the commands in an authorized environment.</li>
+
+        <li>☐ I checked the command output.</li>
+
+        <li>☐ I documented what I learned.</li>
+
+      </ul>
+
+    `;
+
+  });
+
+
+  if(notes){
+
+    html += `
+
+      <h2>📝 My Notes</h2>
+
+      <p>
+        ${escapeHTML(notes)
+          .replace(/\n/g,"<br>")}
+      </p>
+
+    `;
+
+  }
+
+
+  html += `
+
+    <h2>🎯 Final Review</h2>
+
+    <ul class="checklist">
+
+      <li>☐ I can explain the major concepts.</li>
+
+      <li>☐ I can use basic Linux commands.</li>
+
+      <li>☐ I understand basic networking.</li>
+
+      <li>☐ I understand basic defensive security.</li>
+
+      <li>☐ I can practice safely in an authorized lab.</li>
+
+    </ul>
+
+    <div class="tip">
+
+      <strong>🚀 Keep Learning:</strong>
+
+      Use TUX-AI Learn and Security Labs to continue
+      practicing Linux, networking, Python and defensive
+      cybersecurity concepts.
+
+    </div>
+
+    <p>
+      <strong>Generated by TUX-AI Linux Assistant</strong>
+    </p>
+
+  `;
+
+
+  document.getElementById("preview").innerHTML =
+    html;
+
+}
+
+
+function printPDF(){
+
+  generateGuide();
+
+  setTimeout(()=>{
+
+    window.print();
+
+  },150);
+
+}
+
+
+function resetGuide(){
+
+  document.getElementById("topic").value =
+    "Linux & Cybersecurity Fundamentals";
+
+  document.getElementById("level").value =
+    "Beginner";
+
+  document.getElementById("author").value =
+    "";
+
+  document.getElementById("notes").value =
+    "";
+
+  for(let i=1;i<=6;i++){
+
+    document.getElementById("m"+i).checked =
+      true;
+
+  }
+
+  generateGuide();
+
+}
+
+
+/* Generate initial guide */
+
+generateGuide();
+
+</script>
+
+</body>
+</html>
