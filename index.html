@@ -1,562 +1,655 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TUX-AI Linux Assistant</title>
+<title>TUX-AI Linux Assistant</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+*{
+  box-sizing:border-box;
+}
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top, #092b20 0%, #05070d 45%, #020304 100%);
-      color: white;
-      min-height: 100vh;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#030805;
+  color:#fff;
+}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(3, 8, 6, 0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(0, 255, 140, 0.18);
-    }
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(3,8,5,.96);
+  border-bottom:1px solid #123d22;
+  backdrop-filter:blur(12px);
+}
 
-    .nav {
-      max-width: 1200px;
-      margin: auto;
-      padding: 16px 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #00ff88;
-      letter-spacing: 1px;
-    }
+.logo{
+  color:#00ff66;
+  text-decoration:none;
+  font-size:23px;
+  font-weight:bold;
+}
 
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: flex-end;
-    }
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:7px;
+}
 
-    .nav-links a {
-      padding: 9px 13px;
-      border-radius: 10px;
-      color: #c9d8d1;
-      font-size: 14px;
-      transition: 0.25s;
-    }
+nav a{
+  color:#b8c9be;
+  text-decoration:none;
+  padding:9px 11px;
+  border-radius:8px;
+  font-size:14px;
+}
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      background: rgba(0, 255, 136, 0.12);
-      color: #00ff88;
-      box-shadow: 0 0 15px rgba(0, 255, 136, 0.12);
-    }
+nav a:hover{
+  color:#00ff66;
+  background:#0b2615;
+}
 
-    .hero {
-      max-width: 1100px;
-      margin: auto;
-      padding: 85px 22px 55px;
-      text-align: center;
-    }
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 20px;
+}
 
-    .badge {
-      display: inline-block;
-      padding: 8px 14px;
-      border: 1px solid rgba(0, 255, 136, 0.3);
-      border-radius: 999px;
-      color: #00ff88;
-      background: rgba(0, 255, 136, 0.07);
-      margin-bottom: 22px;
-      font-size: 14px;
-    }
+/* HERO */
 
-    h1 {
-      font-size: clamp(42px, 8vw, 78px);
-      line-height: 1;
-      margin-bottom: 22px;
-      color: #ffffff;
-      text-shadow: 0 0 30px rgba(0, 255, 136, 0.18);
-    }
+.hero{
+  min-height:620px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:70px 15px;
+}
 
-    h1 span {
-      color: #00ff88;
-    }
+.hero-content{
+  max-width:900px;
+}
 
-    .hero p {
-      max-width: 760px;
-      margin: auto;
-      color: #a9bbb3;
-      font-size: 18px;
-      line-height: 1.7;
-    }
+.badge{
+  display:inline-block;
+  padding:8px 14px;
+  border:1px solid #1c6033;
+  border-radius:30px;
+  background:#07140b;
+  color:#6dff9b;
+  font-size:13px;
+  margin-bottom:20px;
+}
 
-    .hero-buttons {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+.hero h1{
+  font-size:58px;
+  margin:0 0 18px;
+  color:#00ff66;
+  text-shadow:0 0 25px rgba(0,255,102,.18);
+}
 
-    .btn {
-      display: inline-block;
-      padding: 13px 21px;
-      border-radius: 12px;
-      font-weight: bold;
-      border: 1px solid rgba(0, 255, 136, 0.25);
-      transition: 0.25s;
-    }
+.hero h2{
+  margin:0 0 18px;
+  font-size:27px;
+  color:#dce9df;
+}
 
-    .btn.primary {
-      background: #00ff88;
-      color: #021009;
-      box-shadow: 0 0 25px rgba(0, 255, 136, 0.2);
-    }
+.hero p{
+  max-width:760px;
+  margin:0 auto 30px;
+  color:#9eaca3;
+  font-size:17px;
+  line-height:1.7;
+}
 
-    .btn.secondary {
-      background: rgba(255, 255, 255, 0.04);
-      color: #d8e5df;
-    }
+.buttons{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
 
-    .btn:hover {
-      transform: translateY(-2px);
-    }
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  padding:13px 19px;
+  border-radius:10px;
+  font-weight:bold;
+  transition:.2s;
+}
 
-    .section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 35px 22px 75px;
-    }
+.primary{
+  background:#00ff66;
+  color:#001b08;
+}
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+.primary:hover{
+  background:#38ff87;
+  transform:translateY(-2px);
+}
 
-    .section-title h2 {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
+.secondary{
+  background:#0b1c11;
+  color:#00ff66;
+  border:1px solid #245b35;
+}
 
-    .section-title p {
-      color: #8fa39a;
-    }
+.secondary:hover{
+  border-color:#00ff66;
+  transform:translateY(-2px);
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 18px;
-    }
+/* STATS */
 
-    .card {
-      position: relative;
-      overflow: hidden;
-      padding: 26px;
-      min-height: 205px;
-      border-radius: 18px;
-      background: linear-gradient(
-        145deg,
-        rgba(11, 27, 21, 0.95),
-        rgba(5, 10, 9, 0.95)
-      );
-      border: 1px solid rgba(0, 255, 136, 0.14);
-      transition: 0.3s;
-    }
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:55px;
+}
 
-    .card::before {
-      content: "";
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      background: rgba(0, 255, 136, 0.08);
-      filter: blur(35px);
-      border-radius: 50%;
-      right: -40px;
-      top: -40px;
-    }
+.stat{
+  text-align:center;
+  background:#071009;
+  border:1px solid #153d24;
+  border-radius:14px;
+  padding:22px 10px;
+}
 
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(0, 255, 136, 0.45);
-      box-shadow: 0 10px 35px rgba(0, 255, 136, 0.08);
-    }
+.stat-number{
+  color:#00ff66;
+  font-size:28px;
+  font-weight:bold;
+}
 
-    .icon {
-      font-size: 32px;
-      margin-bottom: 18px;
-    }
+.stat-label{
+  margin-top:7px;
+  color:#89988f;
+  font-size:13px;
+}
 
-    .card h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
+/* SECTION */
 
-    .card p {
-      color: #91a39a;
-      line-height: 1.55;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
+.section{
+  padding:40px 0 70px;
+}
 
-    .card-link {
-      color: #00ff88;
-      font-weight: bold;
-      font-size: 14px;
-    }
+.section-title{
+  text-align:center;
+  margin-bottom:35px;
+}
 
-    /* Dashboard special card */
-    .dashboard-card {
-      border-color: rgba(0, 255, 136, 0.38);
-      background:
-        linear-gradient(
-          145deg,
-          rgba(0, 55, 34, 0.75),
-          rgba(4, 16, 11, 0.95)
-        );
-      box-shadow:
-        inset 0 0 30px rgba(0, 255, 136, 0.04),
-        0 0 25px rgba(0, 255, 136, 0.05);
-    }
+.section-title h2{
+  margin:0 0 10px;
+  font-size:34px;
+  color:#00ff66;
+}
 
-    .dashboard-card .card-link {
-      display: inline-block;
-      padding: 9px 13px;
-      border-radius: 9px;
-      background: rgba(0, 255, 136, 0.1);
-      border: 1px solid rgba(0, 255, 136, 0.25);
-    }
+.section-title p{
+  color:#89988f;
+  margin:0;
+}
 
-    .stats {
-      margin-top: 35px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
+/* FEATURE CARDS */
 
-    .stat {
-      text-align: center;
-      padding: 22px 12px;
-      border-radius: 15px;
-      background: rgba(255,255,255,0.025);
-      border: 1px solid rgba(0,255,136,0.1);
-    }
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
 
-    .stat strong {
-      display: block;
-      font-size: 28px;
-      color: #00ff88;
-      margin-bottom: 6px;
-    }
+.card{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  background:#071009;
+  border:1px solid #153d24;
+  border-radius:16px;
+  padding:25px;
+  min-height:220px;
+  transition:.25s;
+}
 
-    .stat span {
-      color: #81948b;
-      font-size: 13px;
-    }
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#00ff66;
+  box-shadow:0 0 25px rgba(0,255,102,.08);
+}
 
-    footer {
-      border-top: 1px solid rgba(0,255,136,0.12);
-      padding: 28px 20px;
-      text-align: center;
-      color: #65766e;
-      font-size: 13px;
-    }
+.card-icon{
+  font-size:38px;
+  margin-bottom:15px;
+}
 
-    footer strong {
-      color: #00ff88;
-    }
+.card h3{
+  margin:0 0 10px;
+  color:#fff;
+  font-size:21px;
+}
 
-    @media (max-width: 800px) {
-      .nav {
-        flex-direction: column;
-      }
+.card p{
+  color:#91a098;
+  line-height:1.6;
+  margin:0;
+}
 
-      .nav-links {
-        justify-content: center;
-      }
+.card-link{
+  display:inline-block;
+  margin-top:18px;
+  color:#00ff66;
+  font-weight:bold;
+}
 
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+/* PDF SPECIAL CARD */
 
-    @media (max-width: 500px) {
-      .hero {
-        padding-top: 55px;
-      }
+.pdf-card{
+  border-color:#23633a;
+}
 
-      .hero p {
-        font-size: 15px;
-      }
+.pdf-card .card-link{
+  color:#00ff66;
+}
 
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
+/* SAFETY */
 
-      .nav-links a {
-        font-size: 12px;
-        padding: 7px 9px;
-      }
-    }
-  </style>
+.safety{
+  background:#071009;
+  border:1px solid #174827;
+  border-radius:16px;
+  padding:25px;
+  margin-bottom:60px;
+}
+
+.safety h2{
+  margin-top:0;
+  color:#00ff66;
+}
+
+.safety p{
+  color:#a8b6ad;
+  line-height:1.7;
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid #12351f;
+  padding:30px 20px;
+  text-align:center;
+  color:#718077;
+  font-size:13px;
+}
+
+.footer-logo{
+  color:#00ff66;
+  font-weight:bold;
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero h1{
+    font-size:45px;
+  }
+}
+
+@media(max-width:650px){
+
+  .nav{
+    flex-direction:column;
+  }
+
+  nav{
+    width:100%;
+  }
+
+  .hero{
+    min-height:auto;
+    padding:70px 10px;
+  }
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  .hero h2{
+    font-size:22px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- NAVIGATION -->
-  <header>
-    <nav class="nav">
+<header>
 
-      <a href="index.html" class="logo">
-        🐧 TUX-AI
-      </a>
+  <div class="nav">
 
-      <div class="nav-links">
-        <a href="index.html" class="active">Home</a>
-        <a href="chat.html">Chat</a>
-        <a href="analyzer.html">Analyzer</a>
-        <a href="learn.html">Learn</a>
-        <a href="labs.html">Labs</a>
-        <a href="tools.html">Tools</a>
-        <a href="dashboard.html">Dashboard</a>
-      </div>
+    <a class="logo" href="index.html">
+      ⚡ TUX-AI
+    </a>
 
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="chat.html">Chat</a>
+      <a href="analyzer.html">Analyzer</a>
+      <a href="learn.html">Learn</a>
+      <a href="labs.html">Labs</a>
+      <a href="tools.html">Tools</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="pdf.html">PDF Guide</a>
     </nav>
-  </header>
+
+  </div>
+
+</header>
 
 
-  <!-- HERO -->
-  <section class="hero">
+<main>
 
-    <div class="badge">
-      🟢 Linux • Cybersecurity • Learning
-    </div>
+<section class="hero">
 
-    <h1>
-      Welcome to <span>TUX-AI</span>
-    </h1>
+  <div class="hero-content">
+
+    <span class="badge">
+      🐧 Linux • Cybersecurity • Learning
+    </span>
+
+    <h1>TUX-AI</h1>
+
+    <h2>Your Linux & Cybersecurity AI Assistant</h2>
 
     <p>
-      Your intelligent learning companion for Linux,
-      cybersecurity, ethical security education,
-      troubleshooting and technical learning.
+      Learn Linux, networking, cybersecurity, Python and
+      system administration through structured lessons,
+      safe security labs, troubleshooting tools and
+      downloadable study guides.
     </p>
 
-    <div class="hero-buttons">
+    <div class="buttons">
 
-      <a href="chat.html" class="btn primary">
+      <a
+        class="btn primary"
+        href="chat.html">
         💬 Open TUX-AI Chat
       </a>
 
-      <a href="dashboard.html" class="btn secondary">
+      <a
+        class="btn secondary"
+        href="dashboard.html">
         📊 Open Dashboard
       </a>
 
-      <a href="labs.html" class="btn secondary">
-        🧪 Explore Labs
+      <a
+        class="btn secondary"
+        href="pdf.html">
+        📄 Create PDF Study Guide
       </a>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
-  <!-- FEATURES -->
-  <section class="section">
+<div class="container">
 
-    <div class="section-title">
-      <h2>TUX-AI Platform</h2>
-      <p>Everything you need in one Linux learning workspace.</p>
-    </div>
+<!-- STATS -->
 
-    <div class="cards">
+<section class="stats">
 
-      <!-- CHAT -->
-      <a href="chat.html" class="card">
+  <div class="stat">
+    <div class="stat-number">20+</div>
+    <div class="stat-label">Lessons</div>
+  </div>
 
-        <div class="icon">💬</div>
+  <div class="stat">
+    <div class="stat-number">20</div>
+    <div class="stat-label">Security Labs</div>
+  </div>
 
-        <h3>Chat with TUX-AI</h3>
+  <div class="stat">
+    <div class="stat-number">12</div>
+    <div class="stat-label">Tools</div>
+  </div>
 
-        <p>
-          Ask Linux, networking, Python and
-          cybersecurity questions and get
-          beginner-friendly explanations.
-        </p>
+  <div class="stat">
+    <div class="stat-number">24/7</div>
+    <div class="stat-label">Learning</div>
+  </div>
 
-        <div class="card-link">
-          Open Chat →
-        </div>
-
-      </a>
-
-
-      <!-- ANALYZER -->
-      <a href="analyzer.html" class="card">
-
-        <div class="icon">🔍</div>
-
-        <h3>Smart Error Analyzer</h3>
-
-        <p>
-          Paste Linux, networking, Python,
-          Git or HTTP errors and get useful
-          troubleshooting guidance.
-        </p>
-
-        <div class="card-link">
-          Analyze Error →
-        </div>
-
-      </a>
+</section>
 
 
-      <!-- LEARN -->
-      <a href="learn.html" class="card">
+<!-- FEATURES -->
 
-        <div class="icon">📚</div>
+<section class="section" id="features">
 
-        <h3>Learn Linux</h3>
+  <div class="section-title">
 
-        <p>
-          Study structured Linux, networking,
-          cybersecurity, Python and system
-          administration lessons.
-        </p>
-
-        <div class="card-link">
-          Start Learning →
-        </div>
-
-      </a>
-
-
-      <!-- LABS -->
-      <a href="labs.html" class="card">
-
-        <div class="icon">🧪</div>
-
-        <h3>Security Labs</h3>
-
-        <p>
-          Practice safe and authorized Linux
-          and cybersecurity concepts inside
-          controlled learning labs.
-        </p>
-
-        <div class="card-link">
-          Explore Labs →
-        </div>
-
-      </a>
-
-
-      <!-- TOOLS -->
-      <a href="tools.html" class="card">
-
-        <div class="icon">🛠️</div>
-
-        <h3>Linux Tools</h3>
-
-        <p>
-          Explore command references,
-          permission calculations, networking
-          references and system utilities.
-        </p>
-
-        <div class="card-link">
-          Open Tools →
-        </div>
-
-      </a>
-
-
-      <!-- DASHBOARD -->
-      <a href="dashboard.html" class="card dashboard-card">
-
-        <div class="icon">📊</div>
-
-        <h3>TUX-AI Dashboard</h3>
-
-        <p>
-          Track your lessons, labs, tools,
-          learning progress and platform
-          activity from one place.
-        </p>
-
-        <div class="card-link">
-          Open Dashboard →
-        </div>
-
-      </a>
-
-    </div>
-
-
-    <!-- QUICK STATS -->
-    <div class="stats">
-
-      <div class="stat">
-        <strong>20+</strong>
-        <span>Lessons</span>
-      </div>
-
-      <div class="stat">
-        <strong>20</strong>
-        <span>Security Labs</span>
-      </div>
-
-      <div class="stat">
-        <strong>12</strong>
-        <span>Tools</span>
-      </div>
-
-      <div class="stat">
-        <strong>24/7</strong>
-        <span>Learning</span>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- FOOTER -->
-  <footer>
+    <h2>Explore TUX-AI</h2>
 
     <p>
-      <strong>TUX-AI Linux Assistant</strong>
-      • Learn Linux • Practice Safely • Build Skills
+      Everything you need to learn and practice safely.
     </p>
 
-    <p style="margin-top:8px;">
-      Ethical security education — use labs only on systems
-      you own or are authorized to test.
-    </p>
+  </div>
 
-  </footer>
 
+  <div class="cards">
+
+    <a class="card" href="chat.html">
+
+      <div class="card-icon">💬</div>
+
+      <h3>Chat with TUX-AI</h3>
+
+      <p>
+        Ask questions about Linux, networking,
+        Python and cybersecurity concepts.
+      </p>
+
+      <span class="card-link">
+        Open Chat →
+      </span>
+
+    </a>
+
+
+    <a class="card" href="analyzer.html">
+
+      <div class="card-icon">🔎</div>
+
+      <h3>Smart Error Analyzer</h3>
+
+      <p>
+        Enter Linux, networking, Python or
+        system errors and get beginner-friendly
+        troubleshooting guidance.
+      </p>
+
+      <span class="card-link">
+        Analyze Error →
+      </span>
+
+    </a>
+
+
+    <a class="card" href="learn.html">
+
+      <div class="card-icon">📚</div>
+
+      <h3>Learning Center</h3>
+
+      <p>
+        Follow structured lessons covering
+        Linux, networking, security, Python
+        and system administration.
+      </p>
+
+      <span class="card-link">
+        Learn Linux →
+      </span>
+
+    </a>
+
+
+    <a class="card" href="labs.html">
+
+      <div class="card-icon">🧪</div>
+
+      <h3>Security Labs</h3>
+
+      <p>
+        Practice safe Linux, networking and
+        defensive cybersecurity concepts
+        in authorized environments.
+      </p>
+
+      <span class="card-link">
+        Explore Labs →
+      </span>
+
+    </a>
+
+
+    <a class="card" href="tools.html">
+
+      <div class="card-icon">🛠️</div>
+
+      <h3>Linux Tools</h3>
+
+      <p>
+        Use command references, permission
+        calculators, networking references
+        and system diagnostic tools.
+      </p>
+
+      <span class="card-link">
+        Open Tools →
+      </span>
+
+    </a>
+
+
+    <a class="card" href="dashboard.html">
+
+      <div class="card-icon">📊</div>
+
+      <h3>Dashboard</h3>
+
+      <p>
+        Track your Learning Center and Security
+        Labs progress from one place.
+      </p>
+
+      <span class="card-link">
+        Open Dashboard →
+      </span>
+
+    </a>
+
+
+    <a class="card pdf-card" href="pdf.html">
+
+      <div class="card-icon">📄</div>
+
+      <h3>PDF Study Guide</h3>
+
+      <p>
+        Create a personalized Linux and cybersecurity
+        study guide with modules, explanations,
+        commands, practice tasks and checklists.
+      </p>
+
+      <span class="card-link">
+        Create PDF Guide →
+      </span>
+
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- SAFETY -->
+
+<section class="safety">
+
+  <h2>🛡️ Ethical Security</h2>
+
+  <p>
+    TUX-AI is designed for education and authorized
+    security practice. Use labs and commands only on
+    systems you own, your own virtual machines,
+    localhost environments, or systems where you have
+    explicit permission to test.
+  </p>
+
+  <p>
+    Learn first. Practice safely. Document what you learn.
+  </p>
+
+</section>
+
+</div>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-logo">
+    ⚡ TUX-AI Linux Assistant
+  </div>
+
+  Linux • Networking • Cybersecurity • Python
+
+  <br><br>
+
+  Educational use only. Practice safely and responsibly.
+
+</footer>
 
 </body>
-  </html>
+        </html>
