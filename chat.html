@@ -190,8 +190,9 @@
         What is Linux?
         Explain pwd
         What does ls do?
-        Explain TCP
-        Explain UDP
+        What is TCP?
+        What is UDP?
+        What is the difference between TCP and UDP?
         What is an IP address?
         What is DNS?
         What is a port?
@@ -271,6 +272,10 @@
       const q = question.toLowerCase().trim();
 
 
+      /* =========================
+         GREETINGS
+         ========================= */
+
       if (
         q.includes("hello") ||
         q === "hi" ||
@@ -282,19 +287,28 @@
       }
 
 
+      /* =========================
+         LINUX
+         ========================= */
+
       if (
-        q.includes("what is linux") ||
-        q === "linux"
+        q === "linux" ||
+        q.includes("what is linux")
       ) {
 
-        return "Linux is an open-source operating-system kernel. Linux distributions such as Kali Linux, Ubuntu and Debian use the Linux kernel.";
+        return "Linux is an open-source operating-system kernel.\n\nLinux distributions such as Kali Linux, Ubuntu and Debian use the Linux kernel.";
 
       }
 
 
+      /* =========================
+         PWD
+         ========================= */
+
       if (
         q === "pwd" ||
         q.includes("what is pwd") ||
+        q.includes("what does pwd") ||
         q.includes("print working directory")
       ) {
 
@@ -303,9 +317,14 @@
       }
 
 
+      /* =========================
+         LS
+         ========================= */
+
       if (
         q === "ls" ||
         q.includes("what is ls") ||
+        q.includes("what does ls") ||
         q.includes("list files")
       ) {
 
@@ -314,9 +333,14 @@
       }
 
 
+      /* =========================
+         CD
+         ========================= */
+
       if (
         q === "cd" ||
         q.includes("what is cd") ||
+        q.includes("what does cd") ||
         q.includes("change directory")
       ) {
 
@@ -325,148 +349,317 @@
       }
 
 
-      if (q.includes("mkdir")) {
+      /* =========================
+         MKDIR
+         ========================= */
+
+      if (
+        q === "mkdir" ||
+        q.includes("what is mkdir") ||
+        q.includes("what does mkdir") ||
+        q.includes("mkdir command")
+      ) {
 
         return "mkdir means Make Directory.\n\nIt creates a new directory.\n\nExample:\nmkdir linux_lab";
 
       }
 
 
-      if (q.includes("touch")) {
+      /* =========================
+         TOUCH
+         ========================= */
+
+      if (
+        q === "touch" ||
+        q.includes("what is touch") ||
+        q.includes("what does touch") ||
+        q.includes("touch command")
+      ) {
 
         return "touch can create an empty file.\n\nExample:\ntouch notes.txt";
 
       }
 
 
-      if (q.includes("cat")) {
+      /* =========================
+         CAT
+         ========================= */
+
+      if (
+        q === "cat" ||
+        q.includes("what is cat") ||
+        q.includes("what does cat") ||
+        q.includes("cat command")
+      ) {
 
         return "cat displays the contents of a text file.\n\nExample:\ncat notes.txt";
 
       }
 
 
-      if (q.includes("cp")) {
+      /* =========================
+         CP
+         IMPORTANT:
+         Do NOT use q.includes("cp")
+         because TCP contains 'cp'.
+         ========================= */
+
+      if (
+        q === "cp" ||
+        q.includes("what is cp") ||
+        q.includes("what does cp") ||
+        q.includes("cp command")
+      ) {
 
         return "cp copies files or directories.\n\nExample:\ncp file.txt backup.txt";
 
       }
 
 
-      if (q.includes("mv")) {
+      /* =========================
+         MV
+         ========================= */
+
+      if (
+        q === "mv" ||
+        q.includes("what is mv") ||
+        q.includes("what does mv") ||
+        q.includes("mv command")
+      ) {
 
         return "mv moves or renames files and directories.\n\nExample:\nmv old.txt new.txt";
 
       }
 
 
-      if (q.includes("rm")) {
+      /* =========================
+         RM
+         ========================= */
+
+      if (
+        q === "rm" ||
+        q.includes("what is rm") ||
+        q.includes("what does rm") ||
+        q.includes("rm command")
+      ) {
 
         return "rm removes files.\n\nExample:\nrm notes.txt\n\nBe careful when deleting files.";
 
       }
 
 
-      if (q.includes("chmod")) {
+      /* =========================
+         CHMOD
+         ========================= */
+
+      if (
+        q === "chmod" ||
+        q.includes("what is chmod") ||
+        q.includes("what does chmod") ||
+        q.includes("chmod command")
+      ) {
 
         return "chmod changes Linux file permissions.\n\nExample:\nchmod +x script.sh\n\nYou can check permissions with:\nls -l";
 
       }
 
 
-      if (q.includes("whoami")) {
+      /* =========================
+         WHOAMI
+         ========================= */
+
+      if (
+        q === "whoami" ||
+        q.includes("what is whoami") ||
+        q.includes("what does whoami")
+      ) {
 
         return "whoami displays the username of the current user.\n\nCommand:\nwhoami";
 
       }
 
 
-      if (q.includes("sudo")) {
+      /* =========================
+         SUDO
+         ========================= */
+
+      if (
+        q === "sudo" ||
+        q.includes("what is sudo") ||
+        q.includes("what does sudo")
+      ) {
 
         return "sudo allows an authorized user to run a command with elevated privileges.\n\nExample:\nsudo apt update";
 
       }
 
 
-      if (q.includes("apt")) {
+      /* =========================
+         APT
+         ========================= */
+
+      if (
+        q === "apt" ||
+        q.includes("what is apt") ||
+        q.includes("what does apt") ||
+        q.includes("apt command")
+      ) {
 
         return "APT is a package manager commonly used by Debian-based Linux distributions.\n\nExamples:\nsudo apt update\nsudo apt install package-name";
 
       }
 
 
-      if (
-        q.includes("ip address") ||
-        q === "ip"
-      ) {
-
-        return "An IP address identifies a network interface on an IP network.\n\nUseful commands:\nip addr\nip -br a\nip route";
-
-      }
-
-
-      if (q.includes("mac address")) {
-
-        return "A MAC address is a link-layer address associated with a network interface.\n\nView interfaces with:\nip link";
-
-      }
-
-
-      if (q.includes("dns")) {
-
-        return "DNS stands for Domain Name System.\n\nIt translates domain names into IP addresses so applications can find network services.";
-
-      }
-
-
-      if (q.includes("gateway")) {
-
-        return "A default gateway is normally the router or next-hop device used to reach networks outside your local network.\n\nView routes with:\nip route";
-
-      }
-
+      /* =========================
+         TCP vs UDP
+         IMPORTANT:
+         This comes BEFORE TCP and UDP.
+         ========================= */
 
       if (
+        q.includes("difference between tcp and udp") ||
+        q.includes("difference between tcp udp") ||
         q.includes("tcp vs udp") ||
-        q.includes("tcp and udp")
+        q.includes("tcp versus udp") ||
+        q.includes("tcp and udp difference") ||
+        q.includes("compare tcp and udp")
       ) {
 
-        return "TCP vs UDP:\n\nTCP:\n• Connection-oriented\n• Reliable and ordered\n• More protocol overhead\n\nUDP:\n• Connectionless\n• No TCP-style delivery guarantee\n• Lower protocol overhead";
+        return "TCP vs UDP:\n\nTCP:\n• Connection-oriented\n• Reliable and ordered\n• Uses acknowledgments\n• Retransmits missing data\n• More protocol overhead\n\nUDP:\n• Connectionless\n• No TCP-style delivery guarantee\n• Lower protocol overhead\n• Does not use TCP-style acknowledgments\n\nIn simple terms:\nTCP focuses on reliable, ordered delivery.\nUDP focuses on lower overhead and does not provide TCP's delivery guarantees.";
 
       }
 
 
-      if (q.includes("tcp")) {
+      /* =========================
+         TCP
+         ========================= */
+
+      if (
+        q === "tcp" ||
+        q.includes("what is tcp") ||
+        q.includes("what does tcp") ||
+        q.includes("explain tcp")
+      ) {
 
         return "TCP stands for Transmission Control Protocol.\n\nTCP is connection-oriented and provides reliable, ordered data delivery.\n\nSimplified handshake:\nSYN → SYN-ACK → ACK";
 
       }
 
 
-      if (q.includes("udp")) {
+      /* =========================
+         UDP
+         ========================= */
 
-        return "UDP stands for User Datagram Protocol.\n\nUDP is connectionless and has lower protocol overhead than TCP.\n\nApplications can implement reliability themselves when required.";
+      if (
+        q === "udp" ||
+        q.includes("what is udp") ||
+        q.includes("what does udp") ||
+        q.includes("explain udp")
+      ) {
+
+        return "UDP stands for User Datagram Protocol.\n\nUDP is connectionless and has lower protocol overhead than TCP.\n\nUDP does not provide TCP-style delivery guarantees.";
 
       }
 
 
-      if (q.includes("port")) {
+      /* =========================
+         IP ADDRESS
+         ========================= */
+
+      if (
+        q === "ip" ||
+        q.includes("what is an ip address") ||
+        q.includes("what is ip address") ||
+        q.includes("explain ip address")
+      ) {
+
+        return "An IP address identifies a network interface on an IP network.\n\nUseful Linux commands:\nip addr\nip -br a\nip route";
+
+      }
+
+
+      /* =========================
+         MAC ADDRESS
+         ========================= */
+
+      if (
+        q.includes("mac address") ||
+        q.includes("what is mac")
+      ) {
+
+        return "A MAC address is a link-layer address associated with a network interface.\n\nView interfaces with:\nip link";
+
+      }
+
+
+      /* =========================
+         DNS
+         ========================= */
+
+      if (
+        q === "dns" ||
+        q.includes("what is dns") ||
+        q.includes("explain dns")
+      ) {
+
+        return "DNS stands for Domain Name System.\n\nIt translates domain names into IP addresses so applications can find network services.";
+
+      }
+
+
+      /* =========================
+         GATEWAY
+         ========================= */
+
+      if (
+        q.includes("gateway") ||
+        q.includes("what is a gateway")
+      ) {
+
+        return "A default gateway is normally the router or next-hop device used to reach networks outside your local network.\n\nView routes with:\nip route";
+
+      }
+
+
+      /* =========================
+         PORT
+         ========================= */
+
+      if (
+        q === "port" ||
+        q.includes("what is a port") ||
+        q.includes("network port") ||
+        q.includes("explain port")
+      ) {
 
         return "A network port identifies a service endpoint for TCP or UDP.\n\nTo view listening TCP ports on Linux:\n\nss -ltn\n\nTo include process information when permitted:\nss -ltnp";
 
       }
 
 
-      if (q.includes("ping")) {
+      /* =========================
+         PING
+         ========================= */
+
+      if (
+        q === "ping" ||
+        q.includes("what is ping") ||
+        q.includes("what does ping")
+      ) {
 
         return "ping is a network diagnostic utility commonly used to test reachability using ICMP echo messages.\n\nExample:\nping 8.8.8.8";
 
       }
 
 
+      /* =========================
+         SS
+         ========================= */
+
       if (
         q === "ss" ||
-        q.includes("ss command")
+        q.includes("ss command") ||
+        q.includes("what is ss")
       ) {
 
         return "ss displays socket information.\n\nExamples:\nss -tuln\nss -ltn\nss -ltnp";
@@ -474,19 +667,39 @@
       }
 
 
-      if (q.includes("tcpdump")) {
+      /* =========================
+         TCPDUMP
+         ========================= */
+
+      if (
+        q === "tcpdump" ||
+        q.includes("what is tcpdump") ||
+        q.includes("explain tcpdump")
+      ) {
 
         return "tcpdump is a command-line packet capture and analysis tool.\n\nIn an authorized local lab you can use:\nsudo tcpdump -i lo -nn\n\nIt is useful for learning network traffic and protocols.";
 
       }
 
 
-      if (q.includes("process")) {
+      /* =========================
+         PROCESS
+         ========================= */
+
+      if (
+        q === "process" ||
+        q.includes("what is a process") ||
+        q.includes("what is process")
+      ) {
 
         return "A process is a running instance of a program.\n\nUseful commands:\nps\nps aux\ntop";
 
       }
 
+
+      /* =========================
+         MEMORY
+         ========================= */
 
       if (
         q.includes("memory") ||
@@ -498,9 +711,14 @@
       }
 
 
+      /* =========================
+         DISK
+         ========================= */
+
       if (
-        q.includes("disk") ||
-        q.includes("storage")
+        q.includes("disk space") ||
+        q.includes("storage") ||
+        q.includes("disk usage")
       ) {
 
         return "Useful disk commands:\n\ndf -h\n\nShows filesystem space.\n\ndu -sh folder\n\nShows folder size.";
@@ -508,29 +726,57 @@
       }
 
 
-      if (q.includes("bash")) {
+      /* =========================
+         BASH
+         ========================= */
+
+      if (
+        q === "bash" ||
+        q.includes("what is bash") ||
+        q.includes("what does bash")
+      ) {
 
         return "Bash is a command-line shell commonly used on Linux.\n\nIt supports commands, scripts, variables, loops and functions.";
 
       }
 
 
-      if (q.includes("firewall")) {
+      /* =========================
+         FIREWALL
+         ========================= */
+
+      if (
+        q.includes("firewall") ||
+        q.includes("what is a firewall")
+      ) {
 
         return "A firewall controls network traffic according to configured rules.\n\nLinux systems commonly use technologies such as nftables and tools such as UFW.";
 
       }
 
 
-      if (q.includes("wireshark")) {
+      /* =========================
+         WIRESHARK
+         ========================= */
+
+      if (
+        q === "wireshark" ||
+        q.includes("what is wireshark") ||
+        q.includes("explain wireshark")
+      ) {
 
         return "Wireshark is a graphical network protocol analyzer.\n\nIt is useful for studying packets and protocols such as TCP, UDP and DNS in an authorized lab.";
 
       }
 
 
+      /* =========================
+         CYBERSECURITY
+         ========================= */
+
       if (
         q.includes("cybersecurity") ||
+        q.includes("what is cybersecurity") ||
         q.includes("ethical hacking")
       ) {
 
@@ -539,17 +785,32 @@
       }
 
 
-      if (q.includes("help")) {
+      /* =========================
+         HELP
+         ========================= */
 
-        return "TUX-AI currently understands:\n\n• Linux\n• pwd\n• ls\n• cd\n• mkdir\n• touch\n• cat\n• cp\n• mv\n• rm\n• chmod\n• sudo\n• apt\n• IP addresses\n• MAC addresses\n• DNS\n• Gateways\n• TCP\n• UDP\n• Ports\n• ping\n• ss\n• tcpdump\n• Processes\n• Memory\n• Disk\n• Bash\n• Firewalls\n• Wireshark\n• Cybersecurity";
+      if (
+        q === "help" ||
+        q.includes("what can you do")
+      ) {
+
+        return "TUX-AI currently understands:\n\n• Linux\n• pwd\n• ls\n• cd\n• mkdir\n• touch\n• cat\n• cp\n• mv\n• rm\n• chmod\n• sudo\n• apt\n• IP addresses\n• MAC addresses\n• DNS\n• Gateways\n• TCP\n• UDP\n• TCP vs UDP\n• Ports\n• ping\n• ss\n• tcpdump\n• Processes\n• Memory\n• Disk\n• Bash\n• Firewalls\n• Wireshark\n• Cybersecurity";
 
       }
 
 
-      return "I don't have a built-in answer for that topic yet. 🤖\n\nTry asking about Linux, commands, networking, TCP, UDP, ports, DNS, processes, permissions or cybersecurity.";
+      /* =========================
+         DEFAULT
+         ========================= */
+
+      return "I don't have a built-in answer for that topic yet. 🤖\n\nTry asking about Linux, commands, networking, TCP, UDP, TCP vs UDP, ports, DNS, processes, permissions or cybersecurity.";
 
     }
 
+
+    /* =========================
+       SEND MESSAGE
+       ========================= */
 
     function sendMessage() {
 
@@ -587,11 +848,19 @@
     }
 
 
+    /* =========================
+       SEND BUTTON
+       ========================= */
+
     sendButton.addEventListener(
       "click",
       sendMessage
     );
 
+
+    /* =========================
+       ENTER KEY
+       ========================= */
 
     input.addEventListener(
       "keydown",
@@ -611,4 +880,4 @@
 
 </body>
 
-    </html>
+</html>
