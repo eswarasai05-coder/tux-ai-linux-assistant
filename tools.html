@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TUX-AI | Tools Center</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#05070d;
+  color:white;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(5,7,13,.96);
+  border-bottom:1px solid #17202b;
+  backdrop-filter:blur(12px);
+}
+
+.nav{
+  max-width:1250px;
+  margin:auto;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  color:#00ff88;
+  font-size:23px;
+  font-weight:bold;
+}
+
+.nav-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  justify-content:center;
+}
+
+.nav-links a{
+  color:#aeb6c0;
+  text-decoration:none;
+  padding:8px 11px;
+  border-radius:8px;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+  color:#00ff88;
+  background:#09150f;
+}
+
+.hero{
+  max-width:1100px;
+  margin:auto;
+  padding:55px 20px 25px;
+  text-align:center;
+}
+
+.hero-icon{
+  font-size:58px;
+}
+
+.hero h1{
+  font-size:43px;
+  margin:10px 0;
+}
+
+.hero h1 span{
+  color:#00ff88;
+}
+
+.hero p{
+  max-width:800px;
+  margin:auto;
+  color:#a7afb9;
+  line-height:1.7;
+}
+
+.search{
+  max-width:750px;
+  margin:28px auto;
+  padding:0 20px;
+}
+
+.search input{
+  width:100%;
+  padding:16px;
+  background:#0b1017;
+  color:white;
+  border:1px solid #26313d;
+  border-radius:10px;
+  outline:none;
+  font-size:15px;
+}
+
+.search input:focus{
+  border-color:#00ff88;
+  box-shadow:0 0 15px rgba(0,255,136,.08);
+}
+
+.categories{
+  max-width:1150px;
+  margin:10px auto 30px;
+  padding:0 20px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:9px;
+}
+
+.category{
+  border:1px solid #26313d;
+  background:#0b1017;
+  color:#aaa;
+  padding:9px 15px;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+.category:hover,
+.category.active{
+  color:#00ff88;
+  border-color:#00ff88;
+  background:#09150f;
+}
+
+.tools{
+  max-width:1250px;
+  margin:auto;
+  padding:10px 20px 70px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:18px;
+}
+
+.tool-card{
+  min-height:290px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  background:#0a0f16;
+  border:1px solid #1b2632;
+  border-radius:15px;
+  transition:.25s;
+}
+
+.tool-card:hover{
+  transform:translateY(-4px);
+  border-color:#00ff88;
+  box-shadow:0 0 25px rgba(0,255,136,.08);
+}
+
+.tool-icon{
+  font-size:35px;
+  margin-bottom:10px;
+}
+
+.tag{
+  width:max-content;
+  color:#00ff88;
+  background:#08150f;
+  border:1px solid #17452e;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  margin-bottom:12px;
+}
+
+.tool-card h3{
+  margin:0 0 10px;
+}
+
+.tool-card p{
+  color:#9ca5b0;
+  line-height:1.55;
+  flex:1;
+}
+
+.tool-btn{
+  border:none;
+  background:#00ff88;
+  color:#031008;
+  font-weight:bold;
+  padding:11px;
+  border-radius:9px;
+  cursor:pointer;
+}
+
+.tool-btn:hover{
+  background:#55ffaa;
+}
+
+#noResults{
+  display:none;
+  grid-column:1/-1;
+  text-align:center;
+  padding:45px;
+  color:#888;
+}
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  background:rgba(0,0,0,.84);
+  padding:20px;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  position:relative;
+  width:100%;
+  max-width:920px;
+  max-height:92vh;
+  overflow-y:auto;
+  background:#090e15;
+  border:1px solid #293744;
+  border-radius:17px;
+  padding:28px;
+}
+
+.close{
+  position:absolute;
+  top:10px;
+  right:17px;
+  background:transparent;
+  border:none;
+  color:#aaa;
+  font-size:31px;
+  cursor:pointer;
+}
+
+.close:hover{
+  color:#00ff88;
+}
+
+.modal-box h2{
+  color:#00ff88;
+  padding-right:35px;
+}
+
+.modal-box h3{
+  color:#e5e8eb;
+  margin-top:25px;
+}
+
+.modal-box p,
+.modal-box li{
+  color:#b3bbc4;
+  line-height:1.7;
+}
+
+.command-row{
+  display:flex;
+  gap:8px;
+  margin:10px 0;
+}
+
+.command{
+  flex:1;
+  padding:14px;
+  background:#030508;
+  border:1px solid #1d2a35;
+  border-left:3px solid #00ff88;
+  border-radius:8px;
+  color:#d7ffe8;
+  font-family:Consolas,monospace;
+  white-space:pre-wrap;
+  overflow-x:auto;
+}
+
+.copy-btn{
+  border:1px solid #244332;
+  background:#07150e;
+  color:#00ff88;
+  padding:8px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  align-self:flex-start;
+}
+
+.copy-btn:hover{
+  background:#0d2418;
+}
+
+.info{
+  background:#07150e;
+  border:1px solid #155c38;
+  color:#a7f5c8;
+  padding:15px;
+  border-radius:9px;
+  line-height:1.6;
+  margin:15px 0;
+}
+
+.warning{
+  background:#111007;
+  border:1px solid #5a4b17;
+  color:#e3d18b;
+  padding:15px;
+  border-radius:9px;
+  line-height:1.6;
+  margin:15px 0;
+}
+
+.calculator{
+  background:#070b11;
+  border:1px solid #1e2b36;
+  padding:18px;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+.calculator input,
+.calculator select{
+  width:100%;
+  padding:12px;
+  margin:7px 0;
+  background:#0b1017;
+  color:white;
+  border:1px solid #26313d;
+  border-radius:8px;
+  outline:none;
+}
+
+.calculator button{
+  width:100%;
+  margin-top:8px;
+  padding:11px;
+  border:none;
+  border-radius:8px;
+  background:#00ff88;
+  color:#031008;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.result{
+  margin-top:15px;
+  padding:15px;
+  background:#030508;
+  border:1px solid #214333;
+  border-radius:9px;
+  color:#baffd7;
+  line-height:1.8;
+  white-space:pre-wrap;
+}
+
+.reference-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+.reference-table th,
+.reference-table td{
+  border:1px solid #24303b;
+  padding:10px;
+  text-align:left;
+}
+
+.reference-table th{
+  color:#00ff88;
+  background:#07100b;
+}
+
+.reference-table td{
+  color:#b7bec7;
+}
+
+footer{
+  border-top:1px solid #17202b;
+  text-align:center;
+  padding:30px 20px;
+  color:#69727d;
+  line-height:1.8;
+}
+
+footer strong{
+  color:#00ff88;
+}
+
+@media(max-width:700px){
+
+  .nav{
+    flex-direction:column;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .command-row{
+    flex-direction:column;
+  }
+
+  .modal-box{
+    padding:22px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+<nav class="nav">
+
+<div class="logo">🐧 TUX-AI</div>
+
+<div class="nav-links">
+
+<a href="index.html">Home</a>
+<a href="chat.html">Chat</a>
+<a href="analyzer.html">Analyzer</a>
+<a href="learn.html">Learn</a>
+<a href="labs.html">Labs</a>
+<a href="tools.html" class="active">Tools</a>
+
+</div>
+
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<div class="hero-icon">🛠️</div>
+
+<h1>
+TUX-AI <span>Tools Center</span>
+</h1>
+
+<p>
+Your Linux, networking, Python and defensive security
+reference center — built directly into TUX-AI.
+</p>
+
+</section>
+
+
+<div class="search">
+
+<input
+id="searchInput"
+type="text"
+placeholder="🔎 Search tools... e.g. chmod, TCP, DNS, HTTP"
+oninput="searchTools()"
+>
+
+</div>
+
+
+<div class="categories">
+
+<button class="category active" onclick="filterTools('all',this)">
+All
+</button>
+
+<button class="category" onclick="filterTools('linux',this)">
+🐧 Linux
+</button>
+
+<button class="category" onclick="filterTools('networking',this)">
+🌐 Networking
+</button>
+
+<button class="category" onclick="filterTools('security',this)">
+🛡️ Security
+</button>
+
+<button class="category" onclick="filterTools('python',this)">
+🐍 Python
+</button>
+
+<button class="category" onclick="filterTools('reference',this)">
+📚 Reference
+</button>
+
+</div>
+
+
+<section class="tools" id="toolsGrid">
+
+
+<!-- 1 -->
+
+<article class="tool-card"
+data-category="linux"
+data-search="linux command commands pwd ls cd mkdir touch cp mv rm find grep cat head tail">
+
+<div class="tool-icon">🐧</div>
+
+<span class="tag">Linux</span>
+
+<h3>Linux Command Reference</h3>
+
+<p>
+Essential Linux navigation, file, directory and text commands.
+</p>
+
+<button class="tool-btn" onclick="openTool('commands')">
+Open Reference →
+</button>
+
+</article>
+
+
+<!-- 2 -->
+
+<article class="tool-card"
+data-category="security"
+data-search="chmod permission permissions rwx calculator">
+
+<div class="tool-icon">🔐</div>
+
+<span class="tag">Security</span>
+
+<h3>Permission Calculator</h3>
+
+<p>
+Convert numeric permissions such as 755 and 644 into rwx permissions.
+</p>
+
+<button class="tool-btn" onclick="openTool('permissions')">
+Open Calculator →
+</button>
+
+</article>
+
+
+<!-- 3 -->
+
+<article class="tool-card"
+data-category="networking"
+data-search="ipv4 ip subnet cidr network broadcast calculator">
+
+<div class="tool-icon">🌐</div>
+
+<span class="tag">Networking</span>
+
+<h3>IPv4 Calculator</h3>
+
+<p>
+Calculate IPv4 network, broadcast and usable host information.
+</p>
+
+<button class="tool-btn" onclick="openTool('ipv4')">
+Open Calculator →
+</button>
+
+</article>
+
+
+<!-- 4 -->
+
+<article class="tool-card"
+data-category="networking"
+data-search="ports tcp udp socket port numbers">
+
+<div class="tool-icon">🔌</div>
+
+<span class="tag">Networking</span>
+
+<h3>Port Reference</h3>
+
+<p>
+Quick reference for common TCP and UDP ports.
+</p>
+
+<button class="tool-btn" onclick="openTool('ports')">
+Open Reference →
+</button>
+
+</article>
+
+
+<!-- 5 -->
+
+<article class="tool-card"
+data-category="reference"
+data-search="http status code 200 201 301 302 400 401 403 404 500">
+
+<div class="tool-icon">🌍</div>
+
+<span class="tag">Reference</span>
+
+<h3>HTTP Status Codes</h3>
+
+<p>
+Understand common HTTP response codes.
+</p>
+
+<button class="tool-btn" onclick="openTool('http')">
+Open Reference →
+</button>
+
+</article>
+
+
+<!-- 6 -->
+
+<article class="tool-card"
+data-category="linux"
+data-search="apt dpkg package install update upgrade remove linux">
+
+<div class="tool-icon">📦</div>
+
+<span class="tag">Linux</span>
+
+<h3>APT Command Guide</h3>
+
+<p>
+Useful package-management commands for Debian-based Linux.
+</p>
+
+<button class="tool-btn" onclick="openTool('apt')">
+Open Guide →
+</button>
+
+</article>
+
+
+<!-- 7 -->
+
+<article class="tool-card"
+data-category="networking"
+data-search="tcp udp reliable connectionless transport protocol">
+
+<div class="tool-icon">🔄</div>
+
+<span class="tag">Networking</span>
+
+<h3>TCP / UDP Reference</h3>
+
+<p>
+Compare TCP and UDP and understand when each is used.
+</p>
+
+<button class="tool-btn" onclick="openTool('tcpudp')">
+Open Reference →
+</button>
+
+</article>
+
+
+<!-- 8 -->
+
+<article class="tool-card"
+data-category="networking"
+data-search="dns domain hostname dig nslookup getent resolver">
+
+<div class="tool-icon">🔎</div>
+
+<span class="tag">Networking</span>
+
+<h3>DNS Reference</h3>
+
+<p>
+Commands for understanding and troubleshooting DNS resolution.
+</p>
+
+<button class="tool-btn" onclick="openTool('dns')">
+Open Reference →
+</button>
+
+</article>
+
+
+<!-- 9 -->
+
+<article class="tool-card"
+data-category="networking"
+data-search="ssh secure shell remote keys ssh-keygen authorized">
+
+<div class="tool-icon">🔑</div>
+
+<span class="tag">Networking</span>
+
+<h3>SSH Reference</h3>
+
+<p>
+Learn SSH basics, keys and safe remote administration.
+</p>
+
+<button class="tool-btn" onclick="openTool('ssh')">
+Open Reference →
+</button>
+
+</article>
+
+
+<!-- 10 -->
+
+<article class="tool-card"
+data-category="python"
+data-search="python python3 pip venv virtual environment module">
+
+<div class="tool-icon">🐍</div>
+
+<span class="tag">Python</span>
+
+<h3>Python/Linux Reference</h3>
+
+<p>
+Python execution, pip and virtual-environment commands.
+</p>
+
+<button class="tool-btn" onclick="openTool('python')">
+Open Reference →
+</button>
+
+</article>
+
+
+<!-- 11 -->
+
+<article class="tool-card"
+data-category="security"
+data-search="logs journalctl system logs troubleshooting">
+
+<div class="tool-icon">📜</div>
+
+<span class="tag">Security</span>
+
+<h3>Linux Log Reference</h3>
+
+<p>
+Useful commands for defensive log analysis.
+</p>
+
+<button class="tool-btn" onclick="openTool('logs')">
+Open Reference →
+</button>
+
+</article>
+
+
+<!-- 12 -->
+
+<article class="tool-card"
+data-category="linux"
+data-search="system diagnostics process ps top free df du systemctl">
+
+<div class="tool-icon">⚙️</div>
+
+<span class="tag">Linux</span>
+
+<h3>System Diagnostics</h3>
+
+<p>
+Check processes, memory, storage and services.
+</p>
+
+<button class="tool-btn" onclick="openTool('diagnostics')">
+Open Reference →
+</button>
+
+</article>
+
+
+<div id="noResults">
+
+<h3>No tools found</h3>
+
+<p>Try another search term.</p>
+
+</div>
+
+
+</section>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="toolModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeTool()">×</button>
+
+<div id="toolContent"></div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+<strong>TUX-AI</strong> Tools Center
+
+<br>
+
+Linux • Networking • Python • Security • Reference
+
+<br>
+
+Use security-related tools only on systems and networks you own
+or are explicitly authorized to test.
+
+</footer>
+
+
+<script>
+
+
+/* ================================
+   HELPER FUNCTIONS
+================================ */
+
+function cmd(command,description){
+
+return `
+<div class="command-row">
+
+<div class="command">${escapeHTML(command)}</div>
+
+<button class="copy-btn"
+onclick="copyCommand(this,${JSON.stringify(command)})">
+Copy
+</button>
+
+</div>
+
+<p>${description}</p>
+`;
+
+}
+
+
+function escapeHTML(text){
+
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* ================================
+   TOOL DATABASE
+================================ */
+
+const tools={
+
+
+commands:{
+
+title:"🐧 Linux Command Reference",
+
+html:`
+
+<h3>Navigation</h3>
+
+${cmd("pwd","Show your current working directory.")}
+
+${cmd("ls","List files and directories.")}
+
+${cmd("ls -la","List all files including hidden files with details.")}
+
+${cmd("cd /path","Change to a directory.")}
+
+${cmd("cd ..","Move to the parent directory.")}
+
+${cmd("clear","Clear the terminal screen.")}
+
+
+<h3>Files and Directories</h3>
+
+${cmd("mkdir folder","Create a directory.")}
+
+${cmd("touch file.txt","Create an empty file.")}
+
+${cmd("cp file.txt backup.txt","Copy a file.")}
+
+${cmd("mv old.txt new.txt","Rename or move a file.")}
+
+${cmd("rm file.txt","Remove a file.")}
+
+${cmd("find . -name \"file.txt\"","Search for a file by name.")}
+
+
+<div class="warning">
+Always verify the path before using destructive commands such as rm.
+</div>
+
+
+<h3>Reading Files</h3>
+
+${cmd("cat file.txt","Print the complete file.")}
+
+${cmd("less file.txt","Read a file interactively.")}
+
+${cmd("head file.txt","Show the beginning of a file.")}
+
+${cmd("tail file.txt","Show the end of a file.")}
+
+${cmd("grep \"text\" file.txt","Search for text inside a file.")}
+
+
+<h3>User and System</h3>
+
+${cmd("whoami","Show the current user.")}
+
+${cmd("id","Show user and group information.")}
+
+${cmd("uname -a","Show kernel/system information.")}
+
+${cmd("hostname","Show the system hostname.")}
+
+`
+
+},
+
+
+permissions:{
+
+title:"🔐 Linux Permission Calculator",
+
+html:`
+
+<p>
+Enter a numeric permission such as <b>755</b>, <b>644</b> or <b>700</b>.
+</p>
+
+<div class="calculator">
+
+<input
+id="permInput"
+maxlength="3"
+placeholder="Example: 755"
+>
+
+<button onclick="calculatePermissions()">
+Calculate
+</button>
+
+<div class="result" id="permResult">
+Result will appear here.
+</div>
+
+</div>
+
+
+<h3>Permission Values</h3>
+
+<table class="reference-table">
+
+<tr>
+<th>Number</th>
+<th>Permission</th>
+</tr>
+
+<tr><td>0</td><td>---</td></tr>
+<tr><td>1</td><td>--x</td></tr>
+<tr><td>2</td><td>-w-</td></tr>
+<tr><td>3</td><td>-wx</td></tr>
+<tr><td>4</td><td>r--</td></tr>
+<tr><td>5</td><td>r-x</td></tr>
+<tr><td>6</td><td>rw-</td></tr>
+<tr><td>7</td><td>rwx</td></tr>
+
+</table>
+
+
+<div class="info">
+
+Example:
+
+755 = rwx r-x r-x
+
+Owner = rwx
+
+Group = r-x
+
+Others = r-x
+
+</div>
+
+`
+
+},
+
+
+ipv4:{
+
+title:"🌐 IPv4 Network Calculator",
+
+html:`
+
+<p>
+Enter an IPv4 address and CIDR prefix.
+</p>
+
+<div class="calculator">
+
+<input
+id="ipInput"
+placeholder="Example: 192.168.1.10"
+>
+
+<input
+id="cidrInput"
+type="number"
+min="0"
+max="32"
+placeholder="CIDR: 24"
+>
+
+<button onclick="calculateIPv4()">
+Calculate Network
+</button>
+
+<div class="result" id="ipResult">
+Result will appear here.
+</div>
+
+</div>
+
+<div class="info">
+
+Example:
+
+192.168.1.10 / 24
+
+Network = 192.168.1.0
+
+Broadcast = 192.168.1.255
+
+</div>
+
+`
+
+},
+
+
+ports:{
+
+title:"🔌 Common TCP / UDP Ports",
+
+html:`
+
+<table class="reference-table">
+
+<tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>Common Service</th>
+</tr>
+
+<tr><td>20</td><td>TCP</td><td>FTP Data</td></tr>
+<tr><td>21</td><td>TCP</td><td>FTP Control</td></tr>
+<tr><td>22</td><td>TCP</td><td>SSH</td></tr>
+<tr><td>23</td><td>TCP</td><td>Telnet</td></tr>
+<tr><td>25</td><td>TCP</td><td>SMTP</td></tr>
+<tr><td>53</td><td>TCP/UDP</td><td>DNS</td></tr>
+<tr><td>67</td><td>UDP</td><td>DHCP Server</td></tr>
+<tr><td>68</td><td>UDP</td><td>DHCP Client</td></tr>
+<tr><td>80</td><td>TCP</td><td>HTTP</td></tr>
+<tr><td>110</td><td>TCP</td><td>POP3</td></tr>
+<tr><td>143</td><td>TCP</td><td>IMAP</td></tr>
+<tr><td>443</td><td>TCP</td><td>HTTPS</td></tr>
+<tr><td>3306</td><td>TCP</td><td>MySQL</td></tr>
+<tr><td>5432</td><td>TCP</td><td>PostgreSQL</td></tr>
+
+</table>
+
+
+<div class="info">
+
+A port number identifies a logical endpoint used by network applications.
+A listening port does not automatically mean a system is vulnerable.
+
+</div>
+
+`
+
+},
+
+
+http:{
+
+title:"🌍 HTTP Status Code Reference",
+
+html:`
+
+<table class="reference-table">
+
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+
+<tr><td>200</td><td>OK</td></tr>
+<tr><td>201</td><td>Created</td></tr>
+<tr><td>204</td><td>No Content</td></tr>
+
+<tr><td>301</td><td>Moved Permanently</td></tr>
+<tr><td>302</td><td>Found / Redirect</td></tr>
+
+<tr><td>400</td><td>Bad Request</td></tr>
+<tr><td>401</td><td>Unauthorized</td></tr>
+<tr><td>403</td><td>Forbidden</td></tr>
+<tr><td>404</td><td>Not Found</td></tr>
+<tr><td>405</td><td>Method Not Allowed</td></tr>
+<tr><td>408</td><td>Request Timeout</td></tr>
+<tr><td>429</td><td>Too Many Requests</td></tr>
+
+<tr><td>500</td><td>Internal Server Error</td></tr>
+<tr><td>502</td><td>Bad Gateway</td></tr>
+<tr><td>503</td><td>Service Unavailable</td></tr>
+<tr><td>504</td><td>Gateway Timeout</td></tr>
+
+</table>
+
+<h3>Useful command</h3>
+
+${cmd("curl -I https://example.com","Request only HTTP headers from a public example site.")}
+
+`
+
+},
+
+
+apt:{
+
+title:"📦 APT & DPKG Command Guide",
+
+html:`
+
+<h3>Update Package Lists</h3>
+
+${cmd("sudo apt update","Refresh package information.")}
+
+
+<h3>Upgrade Packages</h3>
+
+${cmd("sudo apt upgrade","Upgrade installed packages.")}
+
+
+<h3>Search</h3>
+
+${cmd("apt search package-name","Search available packages.")}
+
+
+<h3>Install</h3>
+
+${cmd("sudo apt install package-name","Install an available package.")}
+
+
+<h3>Remove</h3>
+
+${cmd("sudo apt remove package-name","Remove a package while keeping configuration where applicable.")}
+
+
+<h3>Package Information</h3>
+
+${cmd("apt show package-name","Show package information.")}
+
+
+<h3>DPKG Recovery</h3>
+
+${cmd("sudo dpkg --configure -a","Finish interrupted package configuration.")}
+
+
+<div class="warning">
+
+Only install software from sources you trust.
+If APT reports an interrupted dpkg operation, understand the error before forcing package operations.
+
+</div>
+
+`
+
+},
+
+
+tcpudp:{
+
+title:"🔄 TCP vs UDP Reference",
+
+html:`
+
+<table class="reference-table">
+
+<tr>
+<th>Feature</th>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+
+<tr>
+<td>Connection</td>
+<td>Connection-oriented</td>
+<td>Connectionless</td>
+</tr>
+
+<tr>
+<td>Reliability</td>
+<td>Reliable delivery mechanisms</td>
+<td>No built-in delivery guarantee</td>
+</tr>
+
+<tr>
+<td>Ordering</td>
+<td>Maintains ordered byte stream</td>
+<td>No ordering guarantee</td>
+</tr>
+
+<tr>
+<td>Overhead</td>
+<td>Higher</td>
+<td>Lower</td>
+</tr>
+
+<tr>
+<td>Examples</td>
+<td>HTTP/HTTPS, SSH</td>
+<td>DNS, DHCP, streaming applications</td>
+</tr>
+
+</table>
+
+
+<h3>Inspect sockets</h3>
+
+${cmd("ss -tulnp","Show listening TCP/UDP sockets and associated processes when permitted.")}
+
+<div class="info">
+
+TCP commonly uses a connection establishment process involving SYN,
+SYN-ACK and ACK.
+
+UDP does not perform the same TCP handshake.
+
+</div>
+
+`
+
+},
+
+
+dns:{
+
+title:"🔎 DNS Troubleshooting Reference",
+
+html:`
+
+<h3>Check Hostname Resolution</h3>
+
+${cmd("getent hosts example.com","Ask the system resolver for an address.")}
+
+${cmd("dig example.com","Query DNS and display detailed results when dig is installed.")}
+
+${cmd("nslookup example.com","Perform a DNS lookup.")}
+
+${cmd("hostname","Show the local hostname.")}
+
+
+<h3>Common DNS Errors</h3>
+
+<ul>
+
+<li>Temporary failure in name resolution</li>
+
+<li>Could not resolve hostname</li>
+
+<li>Name or service not known</li>
+
+<li>Unknown host</li>
+
+</ul>
+
+
+<div class="info">
+
+When DNS fails, separate the problem into:
+
+1. Can the system reach the network?
+
+2. Can it reach a DNS server?
+
+3. Can the resolver translate the hostname?
+
+</div>
+
+`
+
+},
+
+
+ssh:{
+
+title:"🔑 SSH Reference",
+
+html:`
+
+<h3>Basic SSH</h3>
+
+${cmd("ssh user@host","Connect to a host you are authorized to administer.")}
+
+
+<h3>Specify Port</h3>
+
+${cmd("ssh -p 2222 user@host","Connect using a specific SSH port.")}
+
+
+<h3>Generate an SSH Key</h3>
+
+${cmd("ssh-keygen -t ed25519","Generate an Ed25519 SSH key pair.")}
+
+
+<h3>Check SSH Service</h3>
+
+${cmd("systemctl status ssh","Check SSH service status on systems using systemd.")}
+
+
+<h3>Test a Port</h3>
+
+${cmd("ss -ltnp","View listening TCP sockets on your own system.")}
+
+
+<div class="warning">
+
+Only connect to systems where you have authorization.
+Do not use SSH credentials that do not belong to you.
+
+</div>
+
+`
+
+},
+
+
+python:{
+
+title:"🐍 Python on Linux Reference",
+
+html:`
+
+<h3>Python Version</h3>
+
+${cmd("python3 --version","Show the installed Python 3 version.")}
+
+
+<h3>Run a Python File</h3>
+
+${cmd("python3 app.py","Run a Python script.")}
+
+
+<h3>Install a Package</h3>
+
+${cmd("python3 -m pip install package-name","Install a Python package using the selected Python interpreter.")}
+
+
+<h3>Create a Virtual Environment</h3>
+
+${cmd("python3 -m venv .venv","Create a Python virtual environment.")}
+
+
+<h3>Activate</h3>
+
+${cmd("source .venv/bin/activate","Activate the virtual environment in Bash.")}
+
+
+<h3>Deactivate</h3>
+
+${cmd("deactivate","Leave the active virtual environment.")}
+
+
+<h3>Show Installed Packages</h3>
+
+${cmd("python3 -m pip list","List packages installed for that Python environment.")}
+
+`
+
+},
+
+
+logs:{
+
+title:"📜 Linux Log Analysis Reference",
+
+html:`
+
+<h3>System Journal</h3>
+
+${cmd("journalctl","View system journal entries.")}
+
+${cmd("journalctl -b","View logs from the current boot.")}
+
+${cmd("journalctl -p err","Show error-priority messages.")}
+
+${cmd("journalctl -u ssh","View logs associated with the SSH service when available.")}
+
+${cmd("journalctl --since \"1 hour ago\"","View recent journal entries.")}
+
+
+<h3>Follow New Entries</h3>
+
+${cmd("journalctl -f","Follow new journal entries.")}
+
+
+<div class="info">
+
+Logs are valuable for defensive troubleshooting.
+Look for timestamps, service names, error messages and repeated failures.
+
+</div>
+
+`
+
+},
+
+
+diagnostics:{
+
+title:"⚙️ Linux System Diagnostics",
+
+html:`
+
+<h3>Processes</h3>
+
+${cmd("ps aux","Show running processes.")}
+
+${cmd("top","Interactive process and resource view.")}
+
+
+<h3>Memory</h3>
+
+${cmd("free -h","Display memory usage in human-readable form.")}
+
+
+<h3>Storage</h3>
+
+${cmd("df -h","Show filesystem disk usage.")}
+
+${cmd("du -sh .","Show the size of the current directory.")}
+
+
+<h3>Network</h3>
+
+${cmd("ip -br a","Show network interfaces and addresses.")}
+
+${cmd("ip route","Show the routing table.")}
+
+${cmd("ss -tuln","Show listening TCP and UDP sockets.")}
+
+
+<h3>Services</h3>
+
+${cmd("systemctl --type=service --state=running","List running services on systemd systems.")}
+
+
+<div class="info">
+
+For troubleshooting, collect evidence first:
+processes → memory → storage → network → services → logs.
+
+</div>
+
+`
+
+}
+
+};
+
+
+/* ================================
+   OPEN TOOL
+================================ */
+
+function openTool(name){
+
+const tool=tools[name];
+
+if(!tool) return;
+
+document.getElementById("toolContent").innerHTML=`
+
+<h2>${tool.title}</h2>
+
+${tool.html}
+
+`;
+
+document.getElementById("toolModal").classList.add("show");
+
+document.body.style.overflow="hidden";
+
+}
+
+
+/* ================================
+   CLOSE TOOL
+================================ */
+
+function closeTool(){
+
+document.getElementById("toolModal").classList.remove("show");
+
+document.body.style.overflow="auto";
+
+}
+
+
+/* ================================
+   ESC KEY
+================================ */
+
+document.addEventListener("keydown",function(event){
+
+if(event.key==="Escape"){
+
+closeTool();
+
+}
+
+});
+
+
+/* ================================
+   CLICK OUTSIDE MODAL
+================================ */
+
+document.getElementById("toolModal").addEventListener("click",function(event){
+
+if(event.target===this){
+
+closeTool();
+
+}
+
+});
+
+
+/* ================================
+   COPY COMMAND
+================================ */
+
+function copyCommand(button,command){
+
+navigator.clipboard.writeText(command)
+.then(function(){
+
+const old=button.innerText;
+
+button.innerText="Copied!";
+
+setTimeout(function(){
+
+button.innerText=old;
+
+},1200);
+
+})
+.catch(function(){
+
+button.innerText="Copy failed";
+
+setTimeout(function(){
+
+button.innerText="Copy";
+
+},1200);
+
+});
+
+}
+
+
+/* ================================
+   PERMISSION CALCULATOR
+================================ */
+
+function permissionText(value){
+
+const map={
+
+0:"---",
+1:"--x",
+2:"-w-",
+3:"-wx",
+4:"r--",
+5:"r-x",
+6:"rw-",
+7:"rwx"
+
+};
+
+return map[value];
+
+}
+
+
+function calculatePermissions(){
+
+const input=document.getElementById("permInput").value.trim();
+
+const result=document.getElementById("permResult");
+
+if(!/^[0-7]{3}$/.test(input)){
+
+result.innerText=
+"❌ Enter exactly three octal digits.\nExample: 755";
+
+return;
+
+}
+
+const owner=permissionText(Number(input[0]));
+const group=permissionText(Number(input[1]));
+const others=permissionText(Number(input[2]));
+
+result.innerText=
+
+"Permission: "+input+
+"\n\n"+
+"Owner  : "+owner+
+"\n"+
+"Group  : "+group+
+"\n"+
+"Others : "+others+
+"\n\n"+
+"Symbolic: "+owner+group+others;
+
+}
+
+
+/* ================================
+   IPv4 CALCULATOR
+================================ */
+
+function ipToNumber(ip){
+
+const parts=ip.split(".");
+
+if(parts.length!==4) return null;
+
+let result=0;
+
+for(let i=0;i<4;i++){
+
+const n=Number(parts[i]);
+
+if(!Number.isInteger(n)||n<0||n>255){
+
+return null;
+
+}
+
+result=result*256+n;
+
+}
+
+return result;
+
+}
+
+
+function numberToIP(num){
+
+return [
+
+(num>>>24)&255,
+(num>>>16)&255,
+(num>>>8)&255,
+num&255
+
+].join(".");
+
+}
+
+
+function calculateIPv4(){
+
+const ip=document.getElementById("ipInput").value.trim();
+
+const cidr=Number(document.getElementById("cidrInput").value);
+
+const result=document.getElementById("ipResult");
+
+if(ipToNumber(ip)===null){
+
+result.innerText="❌ Invalid IPv4 address.";
+
+return;
+
+}
+
+if(!Number.isInteger(cidr)||cidr<0||cidr>32){
+
+result.innerText="❌ CIDR must be between 0 and 32.";
+
+return;
+
+}
+
+const ipNum=ipToNumber(ip);
+
+let mask;
+
+if(cidr===0){
+
+mask=0;
+
+}else{
+
+mask=(0xffffffff << (32-cidr))>>>0;
+
+}
+
+const network=(ipNum & mask)>>>0;
+
+const broadcast=(network | (~mask>>>0))>>>0;
+
+let hosts;
+
+if(cidr===32){
+
+hosts=1;
+
+}else if(cidr===31){
+
+hosts=2;
+
+}else{
+
+hosts=Math.pow(2,32-cidr)-2;
+
+}
+
+result.innerText=
+
+"IP Address : "+ip+
+"\n"+
+"CIDR       : /"+cidr+
+"\n"+
+"Subnet Mask: "+numberToIP(mask)+
+"\n"+
+"Network    : "+numberToIP(network)+
+"\n"+
+"Broadcast  : "+numberToIP(broadcast)+
+"\n"+
+"Host Count : "+hosts;
+
+}
+
+
+/* ================================
+   SEARCH
+================================ */
+
+let activeCategory="all";
+
+
+function searchTools(){
+
+const query=
+document.getElementById("searchInput")
+.value
+.toLowerCase()
+.trim();
+
+const cards=
+document.querySelectorAll(".tool-card");
+
+let visible=0;
+
+cards.forEach(function(card){
+
+const category=card.dataset.category;
+
+const text=
+(card.dataset.search+" "+card.innerText)
+.toLowerCase();
+
+const categoryMatch=
+activeCategory==="all"||
+category===activeCategory;
+
+const searchMatch=
+query===""||
+text.includes(query);
+
+if(categoryMatch&&searchMatch){
+
+card.style.display="flex";
+
+visible++;
+
+}else{
+
+card.style.display="none";
+
+}
+
+});
+
+document.getElementById("noResults").style.display=
+visible===0?"block":"none";
+
+}
+
+
+/* ================================
+   CATEGORY FILTER
+================================ */
+
+function filterTools(category,button){
+
+activeCategory=category;
+
+document.querySelectorAll(".category")
+.forEach(function(btn){
+
+btn.classList.remove("active");
+
+});
+
+button.classList.add("active");
+
+searchTools();
+
+}
+
+
+/* ================================
+   ENTER SUPPORT
+================================ */
+
+document.getElementById("searchInput")
+.addEventListener("keydown",function(event){
+
+if(event.key==="Enter"){
+
+searchTools();
+
+}
+
+});
+
+
+</script>
+
+</body>
+</html>
