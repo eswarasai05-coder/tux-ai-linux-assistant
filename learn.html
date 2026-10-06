@@ -2,377 +2,367 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TUX-AI | Learn Linux</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>TUX-AI | Learning Center</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+}
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
+  margin:0;
   background:
-    radial-gradient(circle at top,#08291c 0%,#05070d 45%,#020304 100%);
-  color:#fff;
+    radial-gradient(circle at top left,#092015,#05070d 45%,#020407);
+  color:white;
+  font-family:Arial,Helvetica,sans-serif;
   min-height:100vh;
 }
 
-a{text-decoration:none;color:inherit}
+a{
+  text-decoration:none;
+  color:inherit;
+}
 
-header{
+.header{
   position:sticky;
   top:0;
   z-index:1000;
-  background:rgba(3,8,6,.94);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(0,255,136,.18);
+  background:rgba(3,6,8,.92);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid rgba(0,255,120,.15);
 }
 
 .nav{
-  max-width:1200px;
+  max-width:1250px;
   margin:auto;
   padding:15px 20px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
+  gap:20px;
 }
 
 .logo{
+  font-size:24px;
+  font-weight:900;
   color:#00ff88;
-  font-size:21px;
-  font-weight:bold;
 }
 
-.navlinks{
+.logo span{
+  color:white;
+}
+
+.nav-links{
   display:flex;
-  flex-wrap:wrap;
   gap:7px;
-  justify-content:flex-end;
+  flex-wrap:wrap;
 }
 
-.navlinks a{
-  color:#aebdb6;
-  padding:8px 11px;
+.nav-links a{
+  color:#aabbb3;
+  padding:9px 12px;
   border-radius:9px;
-  font-size:13px;
+  font-size:14px;
 }
 
-.navlinks a:hover,
-.navlinks a.active{
+.nav-links a:hover,
+.nav-links a.active{
   color:#00ff88;
-  background:rgba(0,255,136,.1);
+  background:rgba(0,255,120,.08);
+}
+
+.container{
+  width:min(1250px,92%);
+  margin:auto;
 }
 
 .hero{
-  max-width:1100px;
-  margin:auto;
-  text-align:center;
-  padding:65px 20px 35px;
+  padding:55px 0 30px;
 }
 
 .badge{
   display:inline-block;
-  padding:7px 13px;
-  border:1px solid rgba(0,255,136,.3);
-  border-radius:999px;
+  padding:7px 12px;
+  border:1px solid rgba(0,255,120,.25);
+  border-radius:30px;
   color:#00ff88;
-  background:rgba(0,255,136,.06);
+  background:rgba(0,255,120,.06);
   font-size:13px;
-  margin-bottom:18px;
-}
-
-h1{
-  font-size:clamp(38px,7vw,65px);
   margin-bottom:15px;
 }
 
-h1 span{color:#00ff88}
+.hero h1{
+  font-size:clamp(36px,6vw,62px);
+  margin:0;
+}
+
+.hero h1 span{
+  color:#00ff88;
+}
 
 .hero p{
-  max-width:700px;
-  margin:auto;
-  color:#91a39a;
+  max-width:760px;
+  color:#9cafA5;
   line-height:1.7;
-}
-
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:25px 20px 70px;
-}
-
-.controls{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:25px;
+  font-size:17px;
 }
 
 .search{
-  flex:1;
-  min-width:220px;
-  padding:14px 17px;
-  border-radius:12px;
-  border:1px solid rgba(0,255,136,.18);
-  background:#07100c;
-  color:#fff;
+  margin:15px 0;
+}
+
+.search input{
+  width:100%;
+  padding:16px;
+  border-radius:14px;
+  border:1px solid rgba(0,255,120,.18);
+  background:#080d0b;
+  color:white;
   outline:none;
 }
 
-.search:focus{
+.search input:focus{
   border-color:#00ff88;
-  box-shadow:0 0 18px rgba(0,255,136,.08);
 }
 
 .filters{
   display:flex;
-  gap:8px;
+  gap:10px;
   flex-wrap:wrap;
+  margin:18px 0 25px;
 }
 
 .filter{
-  border:1px solid rgba(0,255,136,.18);
-  background:#08100c;
-  color:#9aaba3;
-  padding:10px 13px;
-  border-radius:10px;
+  border:1px solid rgba(0,255,120,.18);
+  background:#080d0b;
+  color:#9eb0a7;
+  padding:9px 15px;
+  border-radius:30px;
   cursor:pointer;
 }
 
 .filter.active,
 .filter:hover{
-  background:rgba(0,255,136,.12);
   color:#00ff88;
-  border-color:rgba(0,255,136,.4);
+  border-color:#00ff88;
+  background:rgba(0,255,120,.07);
 }
 
-.progress-panel{
-  margin-bottom:28px;
+.progress-box{
+  background:#08100c;
+  border:1px solid rgba(0,255,120,.15);
+  border-radius:18px;
   padding:20px;
-  border-radius:16px;
-  background:rgba(4,18,12,.9);
-  border:1px solid rgba(0,255,136,.18);
+  margin-bottom:30px;
 }
 
 .progress-top{
   display:flex;
   justify-content:space-between;
-  gap:10px;
   margin-bottom:10px;
-  color:#a9b9b1;
-  font-size:14px;
-}
-
-.progress-top strong{
-  color:#00ff88;
-}
-
-.progress{
-  height:10px;
-  border-radius:99px;
-  background:#101914;
-  overflow:hidden;
+  color:#b6c5be;
 }
 
 .progress-bar{
+  height:11px;
+  background:#121a15;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress-fill{
   width:0%;
   height:100%;
-  background:#00ff88;
-  box-shadow:0 0 14px rgba(0,255,136,.5);
-  transition:.35s;
+  background:linear-gradient(90deg,#00a85a,#00ff88);
+  border-radius:20px;
+  transition:.4s;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:17px;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  padding-bottom:50px;
 }
 
 .lesson-card{
-  position:relative;
-  padding:21px;
-  min-height:230px;
-  border-radius:17px;
-  background:linear-gradient(145deg,rgba(10,27,20,.96),rgba(4,9,7,.96));
-  border:1px solid rgba(0,255,136,.13);
+  background:linear-gradient(145deg,#09120e,#050908);
+  border:1px solid rgba(0,255,120,.13);
+  border-radius:18px;
+  padding:22px;
   transition:.25s;
 }
 
 .lesson-card:hover{
   transform:translateY(-4px);
-  border-color:rgba(0,255,136,.42);
-  box-shadow:0 12px 30px rgba(0,255,136,.07);
+  border-color:rgba(0,255,120,.45);
+  box-shadow:0 15px 45px rgba(0,255,120,.07);
 }
 
-.lesson-card.completed{
-  border-color:rgba(0,255,136,.48);
-  box-shadow:inset 0 0 25px rgba(0,255,136,.035);
+.icon{
+  font-size:34px;
+  margin-bottom:12px;
 }
 
 .lesson-number{
-  display:inline-block;
   color:#00ff88;
-  background:rgba(0,255,136,.08);
-  border:1px solid rgba(0,255,136,.16);
-  padding:5px 9px;
-  border-radius:8px;
   font-size:12px;
-  margin-bottom:14px;
+  font-weight:bold;
+  letter-spacing:1px;
 }
 
 .lesson-card h3{
-  font-size:18px;
-  margin-bottom:9px;
+  margin:8px 0;
+  font-size:19px;
 }
 
 .lesson-card p{
-  color:#8fa29a;
+  color:#82948b;
+  line-height:1.6;
   font-size:14px;
-  line-height:1.55;
   min-height:65px;
 }
 
 .category{
   display:inline-block;
-  margin-top:12px;
+  padding:5px 9px;
+  border-radius:20px;
+  background:rgba(0,255,120,.07);
+  color:#00ff88;
   font-size:11px;
-  color:#73a18d;
+  margin-bottom:15px;
 }
 
-.card-buttons{
+.buttons{
   display:flex;
   gap:8px;
-  margin-top:17px;
+  flex-wrap:wrap;
 }
 
-.learn-btn,
+.start-btn,
 .complete-btn{
-  border:1px solid rgba(0,255,136,.2);
-  background:#07120d;
-  color:#00ff88;
+  border:0;
+  padding:10px 13px;
   border-radius:9px;
-  padding:9px 11px;
   cursor:pointer;
   font-weight:bold;
-  font-size:12px;
 }
 
-.learn-btn:hover,
-.complete-btn:hover{
-  background:rgba(0,255,136,.12);
+.start-btn{
+  background:#00ff88;
+  color:#021108;
+}
+
+.complete-btn{
+  background:#101813;
+  color:#aabbb3;
+  border:1px solid rgba(0,255,120,.15);
 }
 
 .complete-btn.done{
-  background:#00ff88;
-  color:#031009;
+  background:rgba(0,255,120,.12);
+  color:#00ff88;
+  border-color:#00ff88;
 }
 
-.empty{
+.no-results{
   display:none;
   text-align:center;
-  padding:50px;
-  color:#71827a;
+  padding:45px;
+  color:#71837a;
+  background:#080d0b;
+  border-radius:18px;
 }
 
-/* MODAL */
-
 .modal{
+  display:none;
   position:fixed;
   inset:0;
   z-index:2000;
-  display:none;
+  background:rgba(0,0,0,.82);
   align-items:center;
   justify-content:center;
   padding:20px;
-  background:rgba(0,0,0,.78);
 }
-
-.modal.show{display:flex}
 
 .modal-box{
-  width:min(850px,100%);
-  max-height:88vh;
+  width:min(800px,100%);
+  max-height:90vh;
   overflow:auto;
   background:#07100c;
-  border:1px solid rgba(0,255,136,.3);
-  border-radius:18px;
-  padding:25px;
-  box-shadow:0 0 45px rgba(0,255,136,.1);
-}
-
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:flex-start;
-  margin-bottom:20px;
-}
-
-.modal-head h2{
-  color:#00ff88;
+  border:1px solid rgba(0,255,120,.3);
+  border-radius:20px;
+  padding:28px;
+  box-shadow:0 0 60px rgba(0,255,120,.08);
 }
 
 .close{
+  float:right;
   border:0;
-  background:transparent;
-  color:#aaa;
-  font-size:28px;
+  background:#101813;
+  color:#00ff88;
+  border-radius:8px;
+  padding:8px 12px;
   cursor:pointer;
 }
 
-.modal-content{
-  color:#b6c5be;
+.modal h2{
+  color:#00ff88;
+  margin-top:5px;
+}
+
+.modal p,
+.modal li{
+  color:#b1c0b9;
   line-height:1.7;
 }
 
-.modal-content h3{
-  color:#00ff88;
-  margin:22px 0 8px;
-}
-
-.modal-content pre{
-  background:#020604;
-  border:1px solid rgba(0,255,136,.13);
-  padding:15px;
-  border-radius:10px;
+pre{
+  background:#020504;
+  border:1px solid rgba(0,255,120,.12);
+  padding:16px;
+  border-radius:12px;
   overflow:auto;
-  color:#b8ffd9;
-  margin:10px 0;
-}
-
-.modal-content code{
-  color:#8fffc1;
-}
-
-.modal-complete{
-  margin-top:20px;
-  width:100%;
-  padding:13px;
-  border:1px solid rgba(0,255,136,.25);
-  background:#00ff88;
-  color:#021009;
-  border-radius:11px;
-  cursor:pointer;
-  font-weight:bold;
+  color:#00ff88;
 }
 
 footer{
-  border-top:1px solid rgba(0,255,136,.12);
-  padding:25px;
   text-align:center;
-  color:#65766e;
-  font-size:13px;
+  color:#5e7068;
+  padding:35px;
+  border-top:1px solid rgba(0,255,120,.1);
 }
 
-footer strong{color:#00ff88}
+footer strong{
+  color:#00ff88;
+}
 
-@media(max-width:750px){
+@media(max-width:950px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:650px){
   .nav{
     flex-direction:column;
+    align-items:flex-start;
   }
 
-  .navlinks{
-    justify-content:center;
+  .nav-links{
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    width:100%;
+  }
+
+  .nav-links a{
+    white-space:nowrap;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
   }
 }
 </style>
@@ -380,12 +370,15 @@ footer strong{color:#00ff88}
 
 <body>
 
-<header>
+<header class="header">
+
 <nav class="nav">
 
-<a href="index.html" class="logo">🐧 TUX-AI</a>
+<a href="index.html" class="logo">
+TUX<span>-AI</span>
+</a>
 
-<div class="navlinks">
+<div class="nav-links">
 <a href="index.html">Home</a>
 <a href="chat.html">Chat</a>
 <a href="analyzer.html">Analyzer</a>
@@ -396,690 +389,805 @@ footer strong{color:#00ff88}
 </div>
 
 </nav>
+
 </header>
 
+<main class="container">
 
 <section class="hero">
 
-<div class="badge">📚 TUX-AI Learning Center</div>
+<div class="badge">📚 LEARNING CENTER</div>
 
-<h1>Learn <span>Linux</span></h1>
+<h1>
+Learn <span>Linux</span>
+</h1>
 
 <p>
-Build your Linux, networking, cybersecurity, Python and
-system administration knowledge through structured lessons.
+Build your Linux, networking, cybersecurity, Python
+and system administration knowledge through structured
+lessons.
 </p>
 
 </section>
 
-
-<main class="container">
-
-<div class="controls">
-
+<div class="search">
 <input
-  id="search"
-  class="search"
-  type="search"
-  placeholder="🔎 Search lessons..."
+id="search"
+type="search"
+placeholder="🔎 Search lessons..."
 >
+</div>
 
 <div class="filters">
-<button class="filter active" data-filter="All">All</button>
-<button class="filter" data-filter="Linux">Linux</button>
-<button class="filter" data-filter="Networking">Networking</button>
-<button class="filter" data-filter="Security">Security</button>
-<button class="filter" data-filter="Python">Python</button>
-<button class="filter" data-filter="Tools">Tools</button>
-</div>
+
+<button class="filter active" data-category="All">
+All
+</button>
+
+<button class="filter" data-category="Linux">
+Linux
+</button>
+
+<button class="filter" data-category="Networking">
+Networking
+</button>
+
+<button class="filter" data-category="Security">
+Security
+</button>
+
+<button class="filter" data-category="Python">
+Python
+</button>
+
+<button class="filter" data-category="Tools">
+Tools
+</button>
 
 </div>
 
-
-<section class="progress-panel">
+<section class="progress-box">
 
 <div class="progress-top">
-<span>Learning Progress</span>
-<strong id="progressText">0 / 20 completed</strong>
+<strong>Learning Progress</strong>
+<span id="progressText">
+0 / 20 completed
+</span>
 </div>
 
-<div class="progress">
-<div class="progress-bar" id="progressBar"></div>
+<div class="progress-bar">
+<div
+class="progress-fill"
+id="progressFill">
+</div>
 </div>
 
 </section>
 
+<div class="grid" id="lessonGrid"></div>
 
-<div id="lessonGrid" class="grid"></div>
-
-<div id="empty" class="empty">
+<div class="no-results" id="noResults">
 No lessons found.
 </div>
 
 </main>
 
-
-<div id="modal" class="modal">
+<div class="modal" id="modal">
 
 <div class="modal-box">
 
-<div class="modal-head">
-<h2 id="modalTitle"></h2>
-<button class="close" onclick="closeModal()">×</button>
-</div>
-
-<div id="modalContent" class="modal-content"></div>
-
-<button id="modalComplete" class="modal-complete">
-Mark Lesson Complete
+<button class="close" onclick="closeLesson()">
+✕
 </button>
 
-</div>
+<div id="modalContent"></div>
 
 </div>
 
+</div>
 
 <footer>
-<strong>TUX-AI Linux Assistant</strong>
+<strong>TUX-AI</strong> — Linux & Cybersecurity Learning Assistant
 <br><br>
-Learn Linux • Practice Safely • Build Skills
+Learn responsibly. Practice only on systems you are authorized to use.
 </footer>
 
-
 <script>
+
+/* =========================================================
+   TUX-AI LEARNING CENTER
+   ========================================================= */
+
+const STORAGE_KEY = "tuxLearnProgress";
 
 const lessons = [
 
 {
 id:1,
-title:"Introduction to Linux",
+icon:"⌨️",
 category:"Linux",
+title:"Introduction to Linux",
 description:"Understand Linux, distributions, the kernel and why Linux is widely used.",
 content:`
-<h3>What is Linux?</h3>
-<p>Linux is an open-source operating system kernel used by many operating systems called distributions.</p>
-
-<h3>Common Distributions</h3>
-<p>Ubuntu, Debian, Fedora, Arch Linux and Kali Linux are examples of Linux distributions.</p>
-
-<h3>Basic command</h3>
-<pre>uname -a</pre>
-<p>This displays kernel and system information.</p>
+<h2>Lesson 01 — Introduction to Linux</h2>
+<p>Linux is an open-source operating system kernel used by many operating systems and servers.</p>
+<h3>Key ideas</h3>
+<ul>
+<li>Kernel</li>
+<li>Shell</li>
+<li>Terminal</li>
+<li>Filesystems</li>
+<li>Users and permissions</li>
+</ul>
+<h3>Try</h3>
+<pre>uname -a
+whoami
+pwd</pre>
 `
 },
 
 {
 id:2,
-title:"Terminal & Essential Commands",
+icon:"⌨️",
 category:"Linux",
-description:"Learn the most important terminal commands for everyday Linux work.",
+title:"Terminal & Essential Commands",
+description:"Learn the basic commands used to work with Linux from the terminal.",
 content:`
-<h3>Navigation</h3>
+<h2>Lesson 02 — Terminal & Essential Commands</h2>
+<p>The terminal lets you interact with Linux using commands.</p>
 <pre>pwd
 ls
-cd /tmp</pre>
-
-<h3>Useful commands</h3>
-<pre>whoami
+cd
 clear
-history
+whoami
 date</pre>
-
-<p>Practice these commands inside your own Linux environment.</p>
 `
 },
 
 {
 id:3,
-title:"Files & Directories",
+icon:"📁",
 category:"Linux",
-description:"Create, copy, move, rename and inspect files and directories.",
+title:"Files & Directories",
+description:"Learn how to create, inspect, copy and organize files and directories.",
 content:`
-<h3>Directories</h3>
-<pre>mkdir lab
-cd lab
-pwd</pre>
-
-<h3>Files</h3>
-<pre>touch notes.txt
-ls -l
-cat notes.txt</pre>
-
-<h3>Copy and move</h3>
-<pre>cp notes.txt backup.txt
-mv backup.txt copy.txt</pre>
+<h2>Lesson 03 — Files & Directories</h2>
+<p>Linux represents many resources using files and directories.</p>
+<pre>mkdir practice
+cd practice
+touch notes.txt
+ls
+cp notes.txt copy.txt
+mv copy.txt renamed.txt</pre>
 `
 },
 
 {
 id:4,
-title:"Permissions & Ownership",
+icon:"🔐",
 category:"Linux",
-description:"Understand read, write and execute permissions.",
+title:"Permissions & Ownership",
+description:"Explore Linux read, write and execute permissions and ownership.",
 content:`
-<h3>Inspect permissions</h3>
-<pre>ls -l</pre>
-
-<h3>Permission model</h3>
-<p>Linux permissions are commonly represented as user, group and others.</p>
-
-<pre>chmod u+x script.sh</pre>
-
-<p>Only modify permissions on files you own or are authorized to administer.</p>
+<h2>Lesson 04 — Permissions & Ownership</h2>
+<p>Linux permissions control who can read, write or execute a file.</p>
+<pre>ls -l
+chmod 644 notes.txt
+chmod u+x script.sh</pre>
+<p>Practice only inside your own test directory.</p>
 `
 },
 
 {
 id:5,
-title:"Processes & Services",
+icon:"⚙️",
 category:"Linux",
-description:"Learn how Linux processes work and how to inspect them.",
+title:"Processes & Services",
+description:"Learn how Linux manages running programs and background services.",
 content:`
-<h3>Process commands</h3>
+<h2>Lesson 05 — Processes & Services</h2>
 <pre>ps
 ps aux
-top</pre>
-
-<h3>Process information</h3>
-<pre>pgrep bash</pre>
-
-<p>These commands help you understand what programs are currently running.</p>
+top
+systemctl --type=service</pre>
+<p>Use these commands to understand what is running on your own Linux system.</p>
 `
 },
 
 {
 id:6,
+icon:"📦",
+category:"Linux",
 title:"APT & Package Management",
-category:"Tools",
-description:"Learn safe package management using APT on Debian-based systems.",
+description:"Learn how Debian-based Linux systems install and manage packages.",
 content:`
-<h3>Update package information</h3>
-<pre>sudo apt update</pre>
-
-<h3>Install a package</h3>
-<pre>sudo apt install curl</pre>
-
-<h3>Search packages</h3>
-<pre>apt search python3</pre>
-
-<p>Use package management only on systems you are authorized to administer.</p>
+<h2>Lesson 06 — APT & Package Management</h2>
+<pre>apt search package-name
+apt show package-name
+sudo apt update
+sudo apt install package-name</pre>
+<p>Install software only from trusted repositories.</p>
 `
 },
 
 {
 id:7,
-title:"Linux Networking Basics",
+icon:"🌐",
 category:"Networking",
-description:"Understand interfaces, IP addresses, gateways and basic connectivity.",
+title:"Linux Networking Basics",
+description:"Understand interfaces, IP addresses, gateways and basic network commands.",
 content:`
-<h3>View interfaces</h3>
-<pre>ip -br a</pre>
-
-<h3>View routes</h3>
-<pre>ip route</pre>
-
-<h3>Test connectivity</h3>
-<pre>ping 127.0.0.1</pre>
-
-<p>Loopback testing is a safe way to understand local networking.</p>
+<h2>Lesson 07 — Linux Networking Basics</h2>
+<pre>ip -br address
+ip route
+ip link
+ping example.com</pre>
+<p>These commands help you understand your own network configuration.</p>
 `
 },
 
 {
 id:8,
-title:"TCP & UDP",
+icon:"🔄",
 category:"Networking",
-description:"Understand the differences between TCP and UDP.",
+title:"TCP & UDP",
+description:"Understand the differences between TCP and UDP and where each is useful.",
 content:`
-<h3>TCP</h3>
-<p>TCP provides connection-oriented, reliable delivery.</p>
-
-<h3>UDP</h3>
-<p>UDP is connectionless and has lower protocol overhead.</p>
-
-<h3>Useful reference</h3>
-<pre>ss -tuln</pre>
-
-<p>This can show listening TCP and UDP sockets.</p>
+<h2>Lesson 08 — TCP & UDP</h2>
+<p>TCP provides reliable, ordered communication. UDP is connectionless and has lower overhead.</p>
+<ul>
+<li>TCP — reliable and connection-oriented</li>
+<li>UDP — connectionless and lightweight</li>
+</ul>
 `
 },
 
 {
 id:9,
-title:"Ports & Sockets",
+icon:"🔌",
 category:"Networking",
-description:"Learn how applications use ports and sockets to communicate.",
+title:"Ports & Sockets",
+description:"Learn what ports and sockets represent in network communication.",
 content:`
-<h3>View listening ports</h3>
-<pre>ss -ltn</pre>
-
-<h3>More information</h3>
-<pre>ss -tulnp</pre>
-
-<p>A port identifies a communication endpoint associated with a service.</p>
+<h2>Lesson 09 — Ports & Sockets</h2>
+<pre>ss -tuln
+ss -ltn
+ss -lun</pre>
+<p>Use these commands to inspect services on systems you own or administer.</p>
 `
 },
 
 {
 id:10,
-title:"DNS Fundamentals",
+icon:"🌍",
 category:"Networking",
-description:"Understand domain names, DNS resolution and troubleshooting.",
+title:"DNS Fundamentals",
+description:"Learn how domain names are translated into IP addresses.",
 content:`
-<h3>DNS</h3>
-<p>DNS translates domain names into IP addresses and supports other record types.</p>
-
-<h3>Useful commands</h3>
-<pre>getent hosts example.com</pre>
-
-<p>Use domains you are authorized to troubleshoot.</p>
+<h2>Lesson 10 — DNS Fundamentals</h2>
+<pre>getent hosts example.com
+nslookup example.com</pre>
+<p>DNS translates names such as example.com into network addresses.</p>
 `
 },
 
 {
 id:11,
-title:"SSH Basics",
+icon:"🔑",
 category:"Networking",
-description:"Learn the concepts behind secure remote administration with SSH.",
+title:"SSH Basics",
+description:"Understand secure remote administration using SSH.",
 content:`
-<h3>SSH</h3>
-<p>SSH provides encrypted remote login and administration.</p>
-
-<h3>Example</h3>
-<pre>ssh user@your-authorized-server</pre>
-
-<p>Only connect to systems where you have permission.</p>
+<h2>Lesson 11 — SSH Basics</h2>
+<pre>ssh username@your-authorized-host</pre>
+<p>Use SSH only with systems you own or have explicit permission to administer.</p>
 `
 },
 
 {
 id:12,
-title:"Python on Linux",
+icon:"🐍",
 category:"Python",
-description:"Run Python scripts and understand the Python environment.",
+title:"Python on Linux",
+description:"Learn how Python works from the Linux terminal.",
 content:`
-<h3>Check Python</h3>
-<pre>python3 --version</pre>
-
-<h3>Run a script</h3>
-<pre>python3 script.py</pre>
-
-<h3>Simple Python</h3>
-<pre>print("Hello from TUX-AI")</pre>
+<h2>Lesson 12 — Python on Linux</h2>
+<pre>python3 --version
+python3
+python3 script.py</pre>
+<p>Python is useful for automation, scripting and technical projects.</p>
 `
 },
 
 {
 id:13,
-title:"Cybersecurity Fundamentals",
+icon:"🛡️",
 category:"Security",
-description:"Learn core security concepts including confidentiality, integrity and availability.",
+title:"Cybersecurity Fundamentals",
+description:"Understand core security concepts such as assets, threats, vulnerabilities and risk.",
 content:`
-<h3>CIA Triad</h3>
-<p>Confidentiality protects information from unauthorized access.</p>
-<p>Integrity protects information from unauthorized modification.</p>
-<p>Availability keeps systems and information accessible when needed.</p>
-
-<h3>Security mindset</h3>
-<p>Start with authorization, scope and safe testing.</p>
+<h2>Lesson 13 — Cybersecurity Fundamentals</h2>
+<ul>
+<li>Asset</li>
+<li>Threat</li>
+<li>Vulnerability</li>
+<li>Risk</li>
+<li>Defense</li>
+</ul>
+<p>Security work should always be performed with authorization.</p>
 `
 },
 
 {
 id:14,
-title:"Ethical Security",
+icon:"⚖️",
 category:"Security",
-description:"Understand authorization, scope, documentation and safe security testing.",
+title:"Ethical Security",
+description:"Learn the importance of authorization, scope and responsible security testing.",
 content:`
-<h3>Authorization comes first</h3>
-<p>Security testing must have clear permission and a defined scope.</p>
-
+<h2>Lesson 14 — Ethical Security</h2>
 <h3>Safe workflow</h3>
-<pre>1. Define scope
-2. Use an authorized lab
-3. Identify the system
-4. Test safely
-5. Document observations
-6. Report responsibly</pre>
+<ol>
+<li>Get permission.</li>
+<li>Define scope.</li>
+<li>Use an authorized lab.</li>
+<li>Test safely.</li>
+<li>Document findings.</li>
+</ol>
 `
 },
 
 {
 id:15,
+icon:"📋",
+category:"Security",
 title:"Linux Logs",
-category:"Tools",
-description:"Learn how logs help administrators understand system activity.",
+description:"Learn how system logs help with troubleshooting and defensive analysis.",
 content:`
-<h3>Journal logs</h3>
-<pre>journalctl</pre>
-
-<h3>Recent logs</h3>
-<pre>journalctl -n 20</pre>
-
-<h3>Follow logs</h3>
-<pre>journalctl -f</pre>
-
-<p>Use logs for defensive troubleshooting and system administration.</p>
+<h2>Lesson 15 — Linux Logs</h2>
+<pre>journalctl
+journalctl -b
+journalctl -p warning</pre>
+<p>Logs can help identify errors, services and system events.</p>
 `
 },
 
 {
 id:16,
+icon:"📡",
+category:"Tools",
 title:"Packet Capture Basics",
-category:"Networking",
-description:"Understand packet capture using safe local or authorized traffic.",
+description:"Learn the fundamentals of packet capture using an authorized lab.",
 content:`
-<h3>Packet capture</h3>
+<h2>Lesson 16 — Packet Capture Basics</h2>
 <pre>sudo tcpdump -i lo -nn</pre>
-
-<h3>Write a capture file</h3>
-<pre>sudo tcpdump -i lo -w lab.pcap</pre>
-
-<p>Capture only traffic you own or have explicit authorization to analyze.</p>
+<p>Only capture traffic you are authorized to inspect, such as your own lab traffic.</p>
 `
 },
 
 {
 id:17,
-title:"curl & HTTP Basics",
+icon:"🌐",
 category:"Tools",
-description:"Learn how command-line HTTP requests work.",
+title:"curl & HTTP Basics",
+description:"Understand HTTP requests and responses using curl and safe public examples.",
 content:`
-<h3>Basic request</h3>
-<pre>curl https://example.com</pre>
-
-<h3>Headers</h3>
-<pre>curl -I https://example.com</pre>
-
-<p>HTTP tools are useful for learning how web clients and servers communicate.</p>
+<h2>Lesson 17 — curl & HTTP Basics</h2>
+<pre>curl https://example.com
+curl -I https://example.com</pre>
+<p>curl is useful for learning how HTTP clients communicate with web servers.</p>
 `
 },
 
 {
 id:18,
-title:"Git Basics",
+icon:"📦",
 category:"Tools",
-description:"Learn the fundamentals of Git repositories and version control.",
+title:"Git Basics",
+description:"Learn how Git tracks changes and manages source-code projects.",
 content:`
-<h3>Start a repository</h3>
-<pre>git init</pre>
-
-<h3>Check status</h3>
-<pre>git status</pre>
-
-<h3>Commit changes</h3>
-<pre>git add .
-git commit -m "Initial commit"</pre>
+<h2>Lesson 18 — Git Basics</h2>
+<pre>git init
+git status
+git add .
+git commit -m "first commit"
+git log</pre>
 `
 },
 
 {
 id:19,
+icon:"💾",
+category:"Tools",
 title:"Storage & System Resources",
-category:"Linux",
-description:"Inspect disk space, memory and system resources.",
+description:"Learn how to inspect disk usage, memory and system resources.",
 content:`
-<h3>Disk space</h3>
-<pre>df -h</pre>
-
-<h3>Directory size</h3>
-<pre>du -sh .</pre>
-
-<h3>Memory</h3>
-<pre>free -h</pre>
+<h2>Lesson 19 — Storage & System Resources</h2>
+<pre>df -h
+du -sh .
+free -h
+uptime</pre>
 `
 },
 
 {
 id:20,
-title:"Build a Safe Security Lab",
+icon:"🧪",
 category:"Security",
-description:"Plan a controlled environment for cybersecurity learning.",
+title:"Build a Safe Security Lab",
+description:"Create a controlled environment for learning Linux and defensive security concepts.",
 content:`
-<h3>Safe lab design</h3>
-<p>A good security lab uses systems that you own or are explicitly authorized to test.</p>
-
-<h3>Example structure</h3>
-<pre>Your PC
- └── Virtual Machine
-      ├── Linux tools
-      ├── Test applications
-      └── Local test network</pre>
-
-<h3>Golden rule</h3>
-<p>Keep experiments inside your authorized lab and document what you learn.</p>
+<h2>Lesson 20 — Build a Safe Security Lab</h2>
+<h3>Recommended setup</h3>
+<ul>
+<li>Your own computer</li>
+<li>A Linux virtual machine</li>
+<li>Local test files</li>
+<li>Loopback networking</li>
+<li>Authorized practice targets</li>
+</ul>
+<p>Never test systems without permission.</p>
 `
 }
 
 ];
 
+/* =========================================================
+   STATE
+   ========================================================= */
 
-const grid = document.getElementById("lessonGrid");
-const search = document.getElementById("search");
-const empty = document.getElementById("empty");
+let activeCategory = "All";
+let searchTerm = "";
 
-let currentFilter = "All";
-let currentLesson = null;
+/* =========================================================
+   LOAD PROGRESS
+   ========================================================= */
 
+function getCompleted(){
 
-/* ---------- STORAGE ---------- */
-
-function getProgress(){
   try{
-    return JSON.parse(localStorage.getItem("tuxLearnProgress") || "[]");
+
+    const data =
+      JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || "[]"
+      );
+
+    if(Array.isArray(data)){
+      return data.map(Number);
+    }
+
+    if(data && Array.isArray(data.completed)){
+      return data.completed.map(Number);
+    }
+
+    return [];
+
   }catch{
     return [];
   }
 }
 
-function saveProgress(progress){
+/* =========================================================
+   SAVE PROGRESS
+   ========================================================= */
+
+function saveCompleted(list){
+
+  const unique =
+    [...new Set(list)]
+      .filter(
+        n =>
+          Number.isInteger(n) &&
+          n >= 1 &&
+          n <= lessons.length
+      );
+
   localStorage.setItem(
-    "tuxLearnProgress",
-    JSON.stringify(progress)
+    STORAGE_KEY,
+    JSON.stringify(unique)
   );
 
-  updateProgress();
 }
 
-function isComplete(id){
-  return getProgress().includes(id);
-}
-
-
-/* ---------- RENDER ---------- */
+/* =========================================================
+   RENDER
+   ========================================================= */
 
 function renderLessons(){
 
-  const query = search.value.toLowerCase().trim();
+  const grid =
+    document.getElementById("lessonGrid");
 
-  const filtered = lessons.filter(lesson => {
+  const noResults =
+    document.getElementById("noResults");
 
-    const matchesFilter =
-      currentFilter === "All" ||
-      lesson.category === currentFilter;
-
-    const matchesSearch =
-      lesson.title.toLowerCase().includes(query) ||
-      lesson.description.toLowerCase().includes(query) ||
-      lesson.category.toLowerCase().includes(query);
-
-    return matchesFilter && matchesSearch;
-  });
+  const completed =
+    getCompleted();
 
   grid.innerHTML = "";
 
-  empty.style.display =
-    filtered.length ? "none" : "block";
+  const filtered =
+    lessons.filter(lesson => {
+
+      const categoryMatch =
+        activeCategory === "All" ||
+        lesson.category === activeCategory;
+
+      const searchMatch =
+        (
+          lesson.title +
+          " " +
+          lesson.description +
+          " " +
+          lesson.category
+        )
+        .toLowerCase()
+        .includes(searchTerm);
+
+      return categoryMatch && searchMatch;
+    });
+
+  if(filtered.length === 0){
+
+    noResults.style.display = "block";
+
+  }else{
+
+    noResults.style.display = "none";
+
+  }
 
   filtered.forEach(lesson => {
 
-    const completed = isComplete(lesson.id);
+    const isDone =
+      completed.includes(lesson.id);
 
-    const card = document.createElement("article");
+    const card =
+      document.createElement("article");
 
-    card.className =
-      "lesson-card" +
-      (completed ? " completed" : "");
-
-    card.dataset.lesson = lesson.id;
+    card.className = "lesson-card";
 
     card.innerHTML = `
-      <div class="lesson-number">
-        Lesson ${lesson.id}
+
+      <div class="icon">
+        ${lesson.icon}
       </div>
 
-      <h3>${lesson.title}</h3>
+      <div class="lesson-number">
+        LESSON ${String(lesson.id).padStart(2,"0")}
+      </div>
 
-      <p>${lesson.description}</p>
+      <h3>
+        ${lesson.title}
+      </h3>
+
+      <p>
+        ${lesson.description}
+      </p>
 
       <span class="category">
         ${lesson.category}
       </span>
 
-      <div class="card-buttons">
+      <div class="buttons">
 
         <button
-          class="learn-btn"
+          class="start-btn"
           onclick="openLesson(${lesson.id})">
-          📖 Learn
+          Start Lesson →
         </button>
 
         <button
-          class="complete-btn ${completed ? "done" : ""}"
+          class="complete-btn ${isDone ? "done" : ""}"
           onclick="toggleComplete(${lesson.id})">
-          ${completed ? "✓ Completed" : "Mark Complete"}
+
+          ${
+            isDone
+              ? "✓ Completed"
+              : "Mark Complete"
+          }
+
         </button>
 
       </div>
+
     `;
 
     grid.appendChild(card);
+
   });
+
+  updateProgress();
+
 }
 
-
-/* ---------- PROGRESS ---------- */
+/* =========================================================
+   UPDATE PROGRESS
+   ========================================================= */
 
 function updateProgress(){
 
-  const progress = getProgress();
-
   const completed =
-    lessons.filter(l => progress.includes(l.id)).length;
+    getCompleted();
 
-  const total = lessons.length;
+  const count =
+    completed.length;
 
-  const percentage =
-    Math.round((completed / total) * 100);
+  const percent =
+    Math.round(
+      (count / lessons.length) * 100
+    );
 
-  document.getElementById("progressText").textContent =
-    `${completed} / ${total} completed`;
+  document.getElementById(
+    "progressText"
+  ).textContent =
+    `${count} / ${lessons.length} completed`;
 
-  document.getElementById("progressBar").style.width =
-    percentage + "%";
+  document.getElementById(
+    "progressFill"
+  ).style.width =
+    percent + "%";
 
-  renderLessons();
 }
 
-
-/* ---------- COMPLETE ---------- */
+/* =========================================================
+   COMPLETE / UNCOMPLETE
+   ========================================================= */
 
 function toggleComplete(id){
 
-  let progress = getProgress();
+  let completed =
+    getCompleted();
 
-  if(progress.includes(id)){
-    progress = progress.filter(x => x !== id);
+  if(completed.includes(id)){
+
+    completed =
+      completed.filter(
+        item => item !== id
+      );
+
   }else{
-    progress.push(id);
+
+    completed.push(id);
+
   }
 
-  saveProgress(progress);
-
-  /*
-    Dashboard reads tuxLearnProgress,
-    so progress is automatically available
-    to the Dashboard.
-  */
+  saveCompleted(completed);
 
   renderLessons();
+
 }
 
-
-/* ---------- MODAL ---------- */
+/* =========================================================
+   OPEN LESSON
+   ========================================================= */
 
 function openLesson(id){
 
   const lesson =
-    lessons.find(l => l.id === id);
+    lessons.find(
+      item => item.id === id
+    );
 
-  if(!lesson) return;
+  if(!lesson){
+    return;
+  }
 
-  currentLesson = id;
-
-  document.getElementById("modalTitle").textContent =
-    `Lesson ${lesson.id}: ${lesson.title}`;
-
-  document.getElementById("modalContent").innerHTML =
+  document.getElementById(
+    "modalContent"
+  ).innerHTML =
     lesson.content;
 
-  const button =
-    document.getElementById("modalComplete");
+  document.getElementById(
+    "modal"
+  ).style.display =
+    "flex";
 
-  if(isComplete(id)){
-    button.textContent = "✓ Lesson Completed";
-    button.style.background = "#07120d";
-    button.style.color = "#00ff88";
-  }else{
-    button.textContent = "Mark Lesson Complete";
-    button.style.background = "#00ff88";
-    button.style.color = "#021009";
-  }
-
-  document.getElementById("modal").classList.add("show");
 }
 
+/* =========================================================
+   CLOSE LESSON
+   ========================================================= */
 
-function closeModal(){
-  document.getElementById("modal").classList.remove("show");
-  currentLesson = null;
+function closeLesson(){
+
+  document.getElementById(
+    "modal"
+  ).style.display =
+    "none";
+
 }
 
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
-document.getElementById("modalComplete")
-.addEventListener("click",function(){
+document.getElementById(
+  "search"
+).addEventListener(
+  "input",
+  function(){
 
-  if(currentLesson === null) return;
+    searchTerm =
+      this.value
+        .trim()
+        .toLowerCase();
 
-  toggleComplete(currentLesson);
+    renderLessons();
 
-  if(isComplete(currentLesson)){
-    this.textContent = "✓ Lesson Completed";
-    this.style.background = "#07120d";
-    this.style.color = "#00ff88";
-  }else{
-    this.textContent = "Mark Lesson Complete";
-    this.style.background = "#00ff88";
-    this.style.color = "#021009";
   }
+);
+
+/* =========================================================
+   CATEGORY FILTERS
+   ========================================================= */
+
+document.querySelectorAll(
+  ".filter"
+).forEach(button => {
+
+  button.addEventListener(
+    "click",
+    function(){
+
+      document.querySelectorAll(
+        ".filter"
+      ).forEach(
+        btn =>
+          btn.classList.remove("active")
+      );
+
+      this.classList.add("active");
+
+      activeCategory =
+        this.dataset.category;
+
+      renderLessons();
+
+    }
+  );
+
 });
 
+/* =========================================================
+   CLOSE MODAL OUTSIDE
+   ========================================================= */
 
-/* ---------- SEARCH ---------- */
+document.getElementById(
+  "modal"
+).addEventListener(
+  "click",
+  function(event){
 
-search.addEventListener("input",renderLessons);
+    if(event.target === this){
+      closeLesson();
+    }
 
+  }
+);
 
-/* ---------- FILTERS ---------- */
+/* =========================================================
+   CROSS-TAB SYNC
+   ========================================================= */
 
-document.querySelectorAll(".filter")
-.forEach(button => {
+window.addEventListener(
+  "storage",
+  function(event){
 
-  button.addEventListener("click",function(){
+    if(event.key === STORAGE_KEY){
+      renderLessons();
+    }
 
-    document.querySelectorAll(".filter")
-      .forEach(b => b.classList.remove("active"));
+  }
+);
 
-    this.classList.add("active");
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
 
-  
+renderLessons();
+
+</script>
+
+</body>
+</html>
