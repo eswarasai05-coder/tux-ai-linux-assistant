@@ -337,3 +337,53 @@ https://eswarasai05-coder.github.io/tux-ai-linux-assistant/
 
 🐙 GitHub:
 https://github.com/eswarasai05-coder/tux-ai-linux-assistant
+
+📸 Screenshots
+
+🏠 TUX-AI
+
+![TUX-AI Screenshot](Screenshot_20261006-213448.png)
+
+🤖 TUX-AI Chat
+
+![TUX-AI Chat](Screenshot_20261006-213458.png)
+
+📚 Learning Center
+
+![Learning Center](Screenshot_20261006-213511.png)
+
+🧪 Security Labs
+
+### 🧪 Security Labs
+
+![Security Labs](Screenshot_20261006-213519.png)
+
+🛠️ Tools
+
+### 🛠️ Tools
+
+![Tools](Screenshot_20261006-213533.png)
+
+📊 Dashboard
+
+### 📊 Dashboard
+
+![Dashboard](Screenshot_20261006-213548.png)
+
+📄 PDF Study Guide
+
+### 📄 PDF Study Guide
+
+![PDF Study Guide](Screenshot_20261006-213601.png)
+
+🔎 Error Analyzer
+
+### 🔎 Error Analyzer
+
+![Error Analyzer](Screenshot_20261006-213611.png)
+
+🐧 TUX-AI Interface
+
+### 🐧 TUX-AI Interface
+
+![TUX-AI Interface](Screenshot_20261006-213625.png)
