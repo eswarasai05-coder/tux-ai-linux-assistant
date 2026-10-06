@@ -1,1599 +1,1085 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUX-AI | Learn Linux</title>
 
-  <title>TUX-AI | Linux Learning Center</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at top,#08291c 0%,#05070d 45%,#020304 100%);
+  color:#fff;
+  min-height:100vh;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #05070d;
-      color: white;
-    }
+a{text-decoration:none;color:inherit}
 
-    /* HEADER */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(5, 7, 13, 0.95);
-      border-bottom: 1px solid #17202b;
-      backdrop-filter: blur(12px);
-    }
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(3,8,6,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(0,255,136,.18);
+}
 
-    .nav {
-      max-width: 1200px;
-      margin: auto;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-    }
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #00ff88;
-    }
+.logo{
+  color:#00ff88;
+  font-size:21px;
+  font-weight:bold;
+}
 
-    .nav-links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+.navlinks{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  justify-content:flex-end;
+}
 
-    .nav-links a {
-      text-decoration: none;
-      color: #bbb;
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: 0.2s;
-    }
+.navlinks a{
+  color:#aebdb6;
+  padding:8px 11px;
+  border-radius:9px;
+  font-size:13px;
+}
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #00ff88;
-      background: #0b1512;
-    }
+.navlinks a:hover,
+.navlinks a.active{
+  color:#00ff88;
+  background:rgba(0,255,136,.1);
+}
 
-    /* HERO */
-    .hero {
-      max-width: 1200px;
-      margin: auto;
-      padding: 55px 20px 30px;
-      text-align: center;
-    }
+.hero{
+  max-width:1100px;
+  margin:auto;
+  text-align:center;
+  padding:65px 20px 35px;
+}
 
-    .hero-icon {
-      font-size: 55px;
-    }
+.badge{
+  display:inline-block;
+  padding:7px 13px;
+  border:1px solid rgba(0,255,136,.3);
+  border-radius:999px;
+  color:#00ff88;
+  background:rgba(0,255,136,.06);
+  font-size:13px;
+  margin-bottom:18px;
+}
 
-    .hero h1 {
-      margin: 10px 0;
-      font-size: 42px;
-    }
+h1{
+  font-size:clamp(38px,7vw,65px);
+  margin-bottom:15px;
+}
 
-    .hero h1 span {
-      color: #00ff88;
-    }
+h1 span{color:#00ff88}
 
-    .hero p {
-      max-width: 750px;
-      margin: auto;
-      color: #a9b0ba;
-      line-height: 1.7;
-      font-size: 17px;
-    }
+.hero p{
+  max-width:700px;
+  margin:auto;
+  color:#91a39a;
+  line-height:1.7;
+}
 
-    /* SEARCH */
-    .search-box {
-      max-width: 700px;
-      margin: 30px auto;
-      display: flex;
-      gap: 10px;
-    }
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:25px 20px 70px;
+}
 
-    .search-box input {
-      flex: 1;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #26313d;
-      background: #0b1017;
-      color: white;
-      outline: none;
-      font-size: 15px;
-    }
+.controls{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
+}
 
-    .search-box input:focus {
-      border-color: #00ff88;
-    }
+.search{
+  flex:1;
+  min-width:220px;
+  padding:14px 17px;
+  border-radius:12px;
+  border:1px solid rgba(0,255,136,.18);
+  background:#07100c;
+  color:#fff;
+  outline:none;
+}
 
-    /* CATEGORIES */
-    .categories {
-      max-width: 1200px;
-      margin: 10px auto 25px;
-      padding: 0 20px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+.search:focus{
+  border-color:#00ff88;
+  box-shadow:0 0 18px rgba(0,255,136,.08);
+}
 
-    .category-btn {
-      border: 1px solid #26313d;
-      background: #0b1017;
-      color: #aaa;
-      padding: 9px 14px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+.filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
 
-    .category-btn:hover,
-    .category-btn.active {
-      color: #00ff88;
-      border-color: #00ff88;
-      background: #09150f;
-    }
+.filter{
+  border:1px solid rgba(0,255,136,.18);
+  background:#08100c;
+  color:#9aaba3;
+  padding:10px 13px;
+  border-radius:10px;
+  cursor:pointer;
+}
 
-    /* LESSON GRID */
-    .lessons {
-      max-width: 1200px;
-      margin: auto;
-      padding: 10px 20px 60px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 18px;
-    }
+.filter.active,
+.filter:hover{
+  background:rgba(0,255,136,.12);
+  color:#00ff88;
+  border-color:rgba(0,255,136,.4);
+}
 
-    .lesson-card {
-      background: #0a0f16;
-      border: 1px solid #1b2632;
-      border-radius: 15px;
-      padding: 22px;
-      transition: 0.25s;
-      display: flex;
-      flex-direction: column;
-      min-height: 250px;
-    }
+.progress-panel{
+  margin-bottom:28px;
+  padding:20px;
+  border-radius:16px;
+  background:rgba(4,18,12,.9);
+  border:1px solid rgba(0,255,136,.18);
+}
 
-    .lesson-card:hover {
-      transform: translateY(-4px);
-      border-color: #00ff88;
-      box-shadow: 0 0 20px rgba(0, 255, 136, 0.08);
-    }
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+  color:#a9b9b1;
+  font-size:14px;
+}
 
-    .lesson-number {
-      color: #00ff88;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+.progress-top strong{
+  color:#00ff88;
+}
 
-    .lesson-icon {
-      font-size: 32px;
-      margin-bottom: 10px;
-    }
+.progress{
+  height:10px;
+  border-radius:99px;
+  background:#101914;
+  overflow:hidden;
+}
 
-    .lesson-card h3 {
-      margin: 0 0 10px;
-    }
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:#00ff88;
+  box-shadow:0 0 14px rgba(0,255,136,.5);
+  transition:.35s;
+}
 
-    .lesson-card p {
-      color: #9ca5b0;
-      line-height: 1.5;
-      flex: 1;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:17px;
+}
 
-    .lesson-tag {
-      display: inline-block;
-      width: fit-content;
-      font-size: 12px;
-      color: #00ff88;
-      background: #08150f;
-      border: 1px solid #123d29;
-      padding: 5px 9px;
-      border-radius: 20px;
-      margin-bottom: 15px;
-    }
+.lesson-card{
+  position:relative;
+  padding:21px;
+  min-height:230px;
+  border-radius:17px;
+  background:linear-gradient(145deg,rgba(10,27,20,.96),rgba(4,9,7,.96));
+  border:1px solid rgba(0,255,136,.13);
+  transition:.25s;
+}
 
-    .start-btn {
-      border: none;
-      background: #00ff88;
-      color: #031008;
-      font-weight: bold;
-      padding: 11px 15px;
-      border-radius: 9px;
-      cursor: pointer;
-      font-size: 14px;
-    }
+.lesson-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(0,255,136,.42);
+  box-shadow:0 12px 30px rgba(0,255,136,.07);
+}
 
-    .start-btn:hover {
-      background: #54ffaa;
-    }
+.lesson-card.completed{
+  border-color:rgba(0,255,136,.48);
+  box-shadow:inset 0 0 25px rgba(0,255,136,.035);
+}
 
-    /* NO RESULTS */
-    #noResults {
-      display: none;
-      text-align: center;
-      color: #888;
-      padding: 40px;
-      grid-column: 1 / -1;
-    }
+.lesson-number{
+  display:inline-block;
+  color:#00ff88;
+  background:rgba(0,255,136,.08);
+  border:1px solid rgba(0,255,136,.16);
+  padding:5px 9px;
+  border-radius:8px;
+  font-size:12px;
+  margin-bottom:14px;
+}
 
-    /* MODAL */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 2000;
-    }
+.lesson-card h3{
+  font-size:18px;
+  margin-bottom:9px;
+}
 
-    .modal.show {
-      display: flex;
-    }
+.lesson-card p{
+  color:#8fa29a;
+  font-size:14px;
+  line-height:1.55;
+  min-height:65px;
+}
 
-    .modal-content {
-      width: 100%;
-      max-width: 850px;
-      max-height: 90vh;
-      overflow-y: auto;
-      background: #090e15;
-      border: 1px solid #26323e;
-      border-radius: 16px;
-      padding: 28px;
-      position: relative;
-    }
+.category{
+  display:inline-block;
+  margin-top:12px;
+  font-size:11px;
+  color:#73a18d;
+}
 
-    .close {
-      position: absolute;
-      right: 20px;
-      top: 15px;
-      background: transparent;
-      border: none;
-      color: #aaa;
-      font-size: 28px;
-      cursor: pointer;
-    }
+.card-buttons{
+  display:flex;
+  gap:8px;
+  margin-top:17px;
+}
 
-    .close:hover {
-      color: #00ff88;
-    }
+.learn-btn,
+.complete-btn{
+  border:1px solid rgba(0,255,136,.2);
+  background:#07120d;
+  color:#00ff88;
+  border-radius:9px;
+  padding:9px 11px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:12px;
+}
 
-    .modal-content h2 {
-      color: #00ff88;
-      padding-right: 35px;
-    }
+.learn-btn:hover,
+.complete-btn:hover{
+  background:rgba(0,255,136,.12);
+}
 
-    .modal-content h3 {
-      margin-top: 25px;
-      color: #ddd;
-    }
+.complete-btn.done{
+  background:#00ff88;
+  color:#031009;
+}
 
-    .modal-content p {
-      color: #b4bbc4;
-      line-height: 1.7;
-    }
+.empty{
+  display:none;
+  text-align:center;
+  padding:50px;
+  color:#71827a;
+}
 
-    .command {
-      background: #030508;
-      border: 1px solid #1c2935;
-      border-left: 3px solid #00ff88;
-      padding: 14px;
-      border-radius: 8px;
-      margin: 12px 0;
-      overflow-x: auto;
-      font-family: Consolas, monospace;
-      color: #d5ffe8;
-      white-space: pre-wrap;
-    }
+/* MODAL */
 
-    .warning {
-      background: #151207;
-      border: 1px solid #5c4a16;
-      color: #e4d28c;
-      padding: 14px;
-      border-radius: 9px;
-      margin-top: 18px;
-      line-height: 1.6;
-    }
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.78);
+}
 
-    .tip {
-      background: #07150f;
-      border: 1px solid #17462e;
-      color: #a5eec5;
-      padding: 14px;
-      border-radius: 9px;
-      margin-top: 18px;
-      line-height: 1.6;
-    }
+.modal.show{display:flex}
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid #17202b;
-      text-align: center;
-      padding: 30px 20px;
-      color: #69727d;
-    }
+.modal-box{
+  width:min(850px,100%);
+  max-height:88vh;
+  overflow:auto;
+  background:#07100c;
+  border:1px solid rgba(0,255,136,.3);
+  border-radius:18px;
+  padding:25px;
+  box-shadow:0 0 45px rgba(0,255,136,.1);
+}
 
-    footer strong {
-      color: #00ff88;
-    }
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:flex-start;
+  margin-bottom:20px;
+}
 
-    @media (max-width: 700px) {
-      .nav {
-        flex-direction: column;
-      }
+.modal-head h2{
+  color:#00ff88;
+}
 
-      .hero h1 {
-        font-size: 32px;
-      }
+.close{
+  border:0;
+  background:transparent;
+  color:#aaa;
+  font-size:28px;
+  cursor:pointer;
+}
 
-      .search-box {
-        flex-direction: column;
-      }
-    }
-  </style>
+.modal-content{
+  color:#b6c5be;
+  line-height:1.7;
+}
+
+.modal-content h3{
+  color:#00ff88;
+  margin:22px 0 8px;
+}
+
+.modal-content pre{
+  background:#020604;
+  border:1px solid rgba(0,255,136,.13);
+  padding:15px;
+  border-radius:10px;
+  overflow:auto;
+  color:#b8ffd9;
+  margin:10px 0;
+}
+
+.modal-content code{
+  color:#8fffc1;
+}
+
+.modal-complete{
+  margin-top:20px;
+  width:100%;
+  padding:13px;
+  border:1px solid rgba(0,255,136,.25);
+  background:#00ff88;
+  color:#021009;
+  border-radius:11px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+footer{
+  border-top:1px solid rgba(0,255,136,.12);
+  padding:25px;
+  text-align:center;
+  color:#65766e;
+  font-size:13px;
+}
+
+footer strong{color:#00ff88}
+
+@media(max-width:750px){
+  .nav{
+    flex-direction:column;
+  }
+
+  .navlinks{
+    justify-content:center;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <nav class="nav">
+<nav class="nav">
 
-    <div class="logo">🐧 TUX-AI</div>
+<a href="index.html" class="logo">🐧 TUX-AI</a>
 
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="chat.html">Chat</a>
-      <a href="analyzer.html">Analyzer</a>
-      <a href="learn.html" class="active">Learn</a>
-    </div>
+<div class="navlinks">
+<a href="index.html">Home</a>
+<a href="chat.html">Chat</a>
+<a href="analyzer.html">Analyzer</a>
+<a href="learn.html" class="active">Learn</a>
+<a href="labs.html">Labs</a>
+<a href="tools.html">Tools</a>
+<a href="dashboard.html">Dashboard</a>
+</div>
 
-  </nav>
+</nav>
 </header>
 
 
 <section class="hero">
 
-  <div class="hero-icon">📚</div>
+<div class="badge">📚 TUX-AI Learning Center</div>
 
-  <h1>
-    TUX-AI <span>Learning Center</span>
-  </h1>
+<h1>Learn <span>Linux</span></h1>
 
-  <p>
-    Learn Linux, networking, cybersecurity and ethical-security fundamentals
-    through structured beginner-friendly lessons, commands and safe laboratory concepts.
-  </p>
-
-  <div class="search-box">
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="🔎 Search lessons... e.g. permissions, TCP, SSH"
-      oninput="searchLessons()"
-    >
-  </div>
+<p>
+Build your Linux, networking, cybersecurity, Python and
+system administration knowledge through structured lessons.
+</p>
 
 </section>
 
 
-<div class="categories">
+<main class="container">
 
-  <button class="category-btn active" onclick="filterLessons('all', this)">
-    All
-  </button>
+<div class="controls">
 
-  <button class="category-btn" onclick="filterLessons('linux', this)">
-    🐧 Linux
-  </button>
+<input
+  id="search"
+  class="search"
+  type="search"
+  placeholder="🔎 Search lessons..."
+>
 
-  <button class="category-btn" onclick="filterLessons('networking', this)">
-    🌐 Networking
-  </button>
-
-  <button class="category-btn" onclick="filterLessons('security', this)">
-    🛡️ Security
-  </button>
-
-  <button class="category-btn" onclick="filterLessons('python', this)">
-    🐍 Python
-  </button>
-
-  <button class="category-btn" onclick="filterLessons('tools', this)">
-    🧰 Tools
-  </button>
+<div class="filters">
+<button class="filter active" data-filter="All">All</button>
+<button class="filter" data-filter="Linux">Linux</button>
+<button class="filter" data-filter="Networking">Networking</button>
+<button class="filter" data-filter="Security">Security</button>
+<button class="filter" data-filter="Python">Python</button>
+<button class="filter" data-filter="Tools">Tools</button>
+</div>
 
 </div>
 
 
-<section class="lessons" id="lessonGrid">
-
-  <!-- 01 -->
-
-  <article class="lesson-card"
-    data-category="linux"
-    data-search="linux introduction basics terminal shell">
-
-    <div class="lesson-number">LESSON 01</div>
-    <div class="lesson-icon">🐧</div>
-
-    <span class="lesson-tag">Linux Basics</span>
-
-    <h3>Introduction to Linux</h3>
-
-    <p>
-      Understand Linux, distributions, the terminal and why Linux is important
-      in servers, development and cybersecurity.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(1)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 02 -->
-
-  <article class="lesson-card"
-    data-category="linux"
-    data-search="terminal commands pwd ls cd linux shell">
-
-    <div class="lesson-number">LESSON 02</div>
-    <div class="lesson-icon">⌨️</div>
-
-    <span class="lesson-tag">Linux</span>
-
-    <h3>Terminal & Essential Commands</h3>
-
-    <p>
-      Learn pwd, ls, cd, clear, history and basic terminal navigation.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(2)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 03 -->
-
-  <article class="lesson-card"
-    data-category="linux"
-    data-search="files directories mkdir touch cp mv rm find">
-
-    <div class="lesson-number">LESSON 03</div>
-    <div class="lesson-icon">📁</div>
-
-    <span class="lesson-tag">Linux</span>
-
-    <h3>Files & Directories</h3>
-
-    <p>
-      Create, copy, move, rename, inspect and safely remove files and folders.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(3)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 04 -->
-
-  <article class="lesson-card"
-    data-category="linux"
-    data-search="permissions chmod chown chgrp rwx ownership">
-
-    <div class="lesson-number">LESSON 04</div>
-    <div class="lesson-icon">🔐</div>
-
-    <span class="lesson-tag">Linux</span>
-
-    <h3>Permissions & Ownership</h3>
-
-    <p>
-      Understand users, groups, read/write/execute permissions, chmod and chown.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(4)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 05 -->
-
-  <article class="lesson-card"
-    data-category="linux"
-    data-search="process ps top kill jobs systemctl service">
-
-    <div class="lesson-number">LESSON 05</div>
-    <div class="lesson-icon">⚙️</div>
-
-    <span class="lesson-tag">Linux</span>
-
-    <h3>Processes & Services</h3>
-
-    <p>
-      Learn how Linux runs programs and how to inspect processes and services.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(5)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 06 -->
-
-  <article class="lesson-card"
-    data-category="linux"
-    data-search="apt package install update upgrade dpkg">
-
-    <div class="lesson-number">LESSON 06</div>
-    <div class="lesson-icon">📦</div>
-
-    <span class="lesson-tag">Linux</span>
-
-    <h3>APT & Package Management</h3>
-
-    <p>
-      Understand repositories, package installation, updates and common APT issues.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(6)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 07 -->
-
-  <article class="lesson-card"
-    data-category="networking"
-    data-search="ip address ip route network interface">
-
-    <div class="lesson-number">LESSON 07</div>
-    <div class="lesson-icon">🌐</div>
-
-    <span class="lesson-tag">Networking</span>
-
-    <h3>Linux Networking Basics</h3>
-
-    <p>
-      Learn interfaces, IP addresses, routes, gateways and basic network inspection.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(7)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 08 -->
-
-  <article class="lesson-card"
-    data-category="networking"
-    data-search="tcp udp protocol networking">
-
-    <div class="lesson-number">LESSON 08</div>
-    <div class="lesson-icon">🔄</div>
-
-    <span class="lesson-tag">Networking</span>
-
-    <h3>TCP & UDP</h3>
-
-    <p>
-      Understand connection-oriented and connectionless transport protocols.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(8)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 09 -->
-
-  <article class="lesson-card"
-    data-category="networking"
-    data-search="ports sockets ss netstat listening">
-
-    <div class="lesson-number">LESSON 09</div>
-    <div class="lesson-icon">🔌</div>
-
-    <span class="lesson-tag">Networking</span>
-
-    <h3>Ports & Sockets</h3>
-
-    <p>
-      Learn what ports are and how to inspect listening TCP and UDP sockets.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(9)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 10 -->
-
-  <article class="lesson-card"
-    data-category="networking"
-    data-search="dns domain hostname resolver dig nslookup">
-
-    <div class="lesson-number">LESSON 10</div>
-    <div class="lesson-icon">🌍</div>
-
-    <span class="lesson-tag">Networking</span>
-
-    <h3>DNS Fundamentals</h3>
-
-    <p>
-      Understand domain names, DNS resolution and useful diagnostic commands.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(10)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 11 -->
-
-  <article class="lesson-card"
-    data-category="networking"
-    data-search="ssh remote login ssh-keygen authorized keys">
-
-    <div class="lesson-number">LESSON 11</div>
-    <div class="lesson-icon">🔑</div>
-
-    <span class="lesson-tag">Networking</span>
-
-    <h3>SSH Basics</h3>
-
-    <p>
-      Learn secure remote administration concepts and SSH key authentication.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(11)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 12 -->
-
-  <article class="lesson-card"
-    data-category="python"
-    data-search="python linux python3 pip virtual environment">
-
-    <div class="lesson-number">LESSON 12</div>
-    <div class="lesson-icon">🐍</div>
-
-    <span class="lesson-tag">Python</span>
-
-    <h3>Python on Linux</h3>
-
-    <p>
-      Run Python programs, understand pip and use virtual environments safely.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(12)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 13 -->
-
-  <article class="lesson-card"
-    data-category="security"
-    data-search="cybersecurity fundamentals security CIA">
-
-    <div class="lesson-number">LESSON 13</div>
-    <div class="lesson-icon">🛡️</div>
-
-    <span class="lesson-tag">Security</span>
-
-    <h3>Cybersecurity Fundamentals</h3>
-
-    <p>
-      Learn confidentiality, integrity, availability and basic security thinking.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(13)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 14 -->
-
-  <article class="lesson-card"
-    data-category="security"
-    data-search="ethical hacking authorization scope rules">
-
-    <div class="lesson-number">LESSON 14</div>
-    <div class="lesson-icon">🎯</div>
-
-    <span class="lesson-tag">Security</span>
-
-    <h3>Ethical Security</h3>
-
-    <p>
-      Understand authorization, scope, responsible testing and safe security labs.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(14)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 15 -->
-
-  <article class="lesson-card"
-    data-category="security"
-    data-search="logs journalctl authentication linux security logs">
-
-    <div class="lesson-number">LESSON 15</div>
-    <div class="lesson-icon">📜</div>
-
-    <span class="lesson-tag">Security</span>
-
-    <h3>Linux Logs</h3>
-
-    <p>
-      Learn how logs help troubleshoot systems and investigate authorized lab activity.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(15)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 16 -->
-
-  <article class="lesson-card"
-    data-category="tools"
-    data-search="tcpdump packet capture pcap network">
-
-    <div class="lesson-number">LESSON 16</div>
-    <div class="lesson-icon">📡</div>
-
-    <span class="lesson-tag">Tools</span>
-
-    <h3>Packet Capture Basics</h3>
-
-    <p>
-      Learn PCAP concepts and basic packet inspection using traffic from your own lab.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(16)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 17 -->
-
-  <article class="lesson-card"
-    data-category="tools"
-    data-search="curl wget HTTP web requests">
-
-    <div class="lesson-number">LESSON 17</div>
-    <div class="lesson-icon">🌐</div>
-
-    <span class="lesson-tag">Tools</span>
-
-    <h3>curl & HTTP Basics</h3>
-
-    <p>
-      Understand HTTP requests, responses and basic web troubleshooting.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(17)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 18 -->
-
-  <article class="lesson-card"
-    data-category="tools"
-    data-search="git github repository commit branch">
-
-    <div class="lesson-number">LESSON 18</div>
-    <div class="lesson-icon">🔧</div>
-
-    <span class="lesson-tag">Tools</span>
-
-    <h3>Git Basics</h3>
-
-    <p>
-      Learn repositories, commits, branches and basic project version control.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(18)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 19 -->
-
-  <article class="lesson-card"
-    data-category="linux"
-    data-search="disk storage df du free memory">
-
-    <div class="lesson-number">LESSON 19</div>
-    <div class="lesson-icon">💾</div>
-
-    <span class="lesson-tag">Linux</span>
-
-    <h3>Storage & System Resources</h3>
-
-    <p>
-      Check disk usage, memory and system resource information.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(19)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <!-- 20 -->
-
-  <article class="lesson-card"
-    data-category="security"
-    data-search="security lab practice virtual machine cybersecurity">
-
-    <div class="lesson-number">LESSON 20</div>
-    <div class="lesson-icon">🧪</div>
-
-    <span class="lesson-tag">Safe Labs</span>
-
-    <h3>Build a Safe Security Lab</h3>
-
-    <p>
-      Learn how to practice cybersecurity concepts using systems you own or are authorized to test.
-    </p>
-
-    <button class="start-btn" onclick="openLesson(20)">
-      Start Lesson →
-    </button>
-
-  </article>
-
-
-  <div id="noResults">
-    <h3>No lessons found</h3>
-    <p>Try another search term.</p>
-  </div>
+<section class="progress-panel">
+
+<div class="progress-top">
+<span>Learning Progress</span>
+<strong id="progressText">0 / 20 completed</strong>
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
 
 </section>
 
 
-<!-- LESSON MODAL -->
+<div id="lessonGrid" class="grid"></div>
 
-<div class="modal" id="lessonModal">
+<div id="empty" class="empty">
+No lessons found.
+</div>
 
-  <div class="modal-content">
+</main>
 
-    <button class="close" onclick="closeLesson()">×</button>
 
-    <div id="lessonContent"></div>
+<div id="modal" class="modal">
 
-  </div>
+<div class="modal-box">
+
+<div class="modal-head">
+<h2 id="modalTitle"></h2>
+<button class="close" onclick="closeModal()">×</button>
+</div>
+
+<div id="modalContent" class="modal-content"></div>
+
+<button id="modalComplete" class="modal-complete">
+Mark Lesson Complete
+</button>
+
+</div>
 
 </div>
 
 
 <footer>
-  <strong>TUX-AI</strong> Linux Learning Center
-  <br>
-  Learn • Practice • Build • Secure
+<strong>TUX-AI Linux Assistant</strong>
+<br><br>
+Learn Linux • Practice Safely • Build Skills
 </footer>
 
 
 <script>
 
-  const lessons = {
+const lessons = [
 
-    1: {
-      title: "🐧 Introduction to Linux",
-      category: "Linux Basics",
-      content: `
-        <h3>What is Linux?</h3>
+{
+id:1,
+title:"Introduction to Linux",
+category:"Linux",
+description:"Understand Linux, distributions, the kernel and why Linux is widely used.",
+content:`
+<h3>What is Linux?</h3>
+<p>Linux is an open-source operating system kernel used by many operating systems called distributions.</p>
 
-        <p>
-          Linux is an open-source operating-system family widely used on servers,
-          desktops, cloud systems, embedded devices and cybersecurity labs.
-        </p>
+<h3>Common Distributions</h3>
+<p>Ubuntu, Debian, Fedora, Arch Linux and Kali Linux are examples of Linux distributions.</p>
 
-        <h3>Important concept</h3>
+<h3>Basic command</h3>
+<pre>uname -a</pre>
+<p>This displays kernel and system information.</p>
+`
+},
 
-        <p>
-          Linux is commonly interacted with through a shell such as Bash.
-          The shell receives commands and asks the operating system to perform them.
-        </p>
-
-        <div class="command">whoami
-pwd
-uname -a</div>
-
-        <div class="tip">
-          Tip: Start by understanding what every command does instead of memorizing commands blindly.
-        </div>
-      `
-    },
-
-
-    2: {
-      title: "⌨️ Terminal & Essential Commands",
-      category: "Linux",
-      content: `
-        <h3>Navigation commands</h3>
-
-        <div class="command">pwd
+{
+id:2,
+title:"Terminal & Essential Commands",
+category:"Linux",
+description:"Learn the most important terminal commands for everyday Linux work.",
+content:`
+<h3>Navigation</h3>
+<pre>pwd
 ls
-ls -la
-cd /tmp
-cd ..
+cd /tmp</pre>
+
+<h3>Useful commands</h3>
+<pre>whoami
 clear
-history</div>
+history
+date</pre>
 
-        <p>
-          <b>pwd</b> shows your current directory.
-          <b>ls</b> lists files.
-          <b>cd</b> changes directories.
-        </p>
+<p>Practice these commands inside your own Linux environment.</p>
+`
+},
 
-        <h3>Command structure</h3>
-
-        <div class="command">command [options] [arguments]</div>
-
-        <p>
-          Options modify command behavior while arguments specify what the command should operate on.
-        </p>
-      `
-    },
-
-
-    3: {
-      title: "📁 Files & Directories",
-      category: "Linux",
-      content: `
-        <h3>Create files and directories</h3>
-
-        <div class="command">mkdir lab
+{
+id:3,
+title:"Files & Directories",
+category:"Linux",
+description:"Create, copy, move, rename and inspect files and directories.",
+content:`
+<h3>Directories</h3>
+<pre>mkdir lab
 cd lab
-touch example.txt</div>
-
-        <h3>Copy and move</h3>
-
-        <div class="command">cp example.txt backup.txt
-mv backup.txt old_backup.txt</div>
-
-        <h3>Inspect</h3>
-
-        <div class="command">ls -lah
-file example.txt</div>
-
-        <h3>Remove</h3>
-
-        <div class="command">rm example.txt
-rmdir empty_folder</div>
-
-        <div class="warning">
-          Be careful with deletion commands. Always verify the path before removing files.
-        </div>
-      `
-    },
-
-
-    4: {
-      title: "🔐 Permissions & Ownership",
-      category: "Linux",
-      content: `
-        <h3>Read, write and execute</h3>
-
-        <p>
-          Linux permissions are commonly represented as:
-          <b>r</b> read, <b>w</b> write and <b>x</b> execute.
-        </p>
-
-        <div class="command">ls -l
-chmod 644 file.txt
-chmod 755 script.sh</div>
-
-        <h3>Ownership</h3>
-
-        <div class="command">ls -l
-id
-groups</div>
-
-        <p>
-          Ownership and permissions are important for system security because they control access to resources.
-        </p>
-      `
-    },
-
-
-    5: {
-      title: "⚙️ Processes & Services",
-      category: "Linux",
-      content: `
-        <h3>View processes</h3>
-
-        <div class="command">ps aux
-top
-pgrep bash</div>
-
-        <h3>Services</h3>
-
-        <div class="command">systemctl status
-systemctl list-units --type=service</div>
-
-        <p>
-          Processes are running instances of programs. Services are programs commonly managed by the system service manager.
-        </p>
-      `
-    },
-
-
-    6: {
-      title: "📦 APT & Package Management",
-      category: "Linux",
-      content: `
-        <h3>Update package information</h3>
-
-        <div class="command">sudo apt update</div>
-
-        <h3>Install a package</h3>
-
-        <div class="command">sudo apt install package-name</div>
-
-        <h3>Upgrade packages</h3>
-
-        <div class="command">sudo apt upgrade</div>
-
-        <h3>Common package repair</h3>
-
-        <div class="command">sudo dpkg --configure -a
-sudo apt --fix-broken install</div>
-
-        <div class="tip">
-          If a package installation fails, read the actual error message before trying random commands.
-        </div>
-      `
-    },
-
-
-    7: {
-      title: "🌐 Linux Networking Basics",
-      category: "Networking",
-      content: `
-        <h3>View interfaces</h3>
-
-        <div class="command">ip -br a</div>
-
-        <h3>View routing</h3>
-
-        <div class="command">ip route</div>
-
-        <h3>Test connectivity</h3>
-
-        <div class="command">ping -c 4 127.0.0.1</div>
-
-        <p>
-          An IP address identifies a network interface within an IP network.
-          A route determines where packets should be sent.
-        </p>
-      `
-    },
-
-
-    8: {
-      title: "🔄 TCP & UDP",
-      category: "Networking",
-      content: `
-        <h3>TCP</h3>
-
-        <p>
-          TCP provides reliable, ordered, connection-oriented communication.
-        </p>
-
-        <h3>UDP</h3>
-
-        <p>
-          UDP is connectionless and provides lower protocol overhead, but does not provide TCP's built-in reliability guarantees.
-        </p>
-
-        <div class="command">ss -ltn
-ss -lun</div>
-
-        <p>
-          The first command displays listening TCP sockets and the second displays UDP sockets.
-        </p>
-      `
-    },
-
-
-    9: {
-      title: "🔌 Ports & Sockets",
-      category: "Networking",
-      content: `
-        <h3>Inspect listening sockets</h3>
-
-        <div class="command">ss -ltnp
-ss -lunp</div>
-
-        <p>
-          A port helps identify a service endpoint. A socket represents a communication endpoint used by a network application.
-        </p>
-
-        <div class="tip">
-          In your own lab, use socket inspection to understand which services are listening and why.
-        </div>
-      `
-    },
-
-
-    10: {
-      title: "🌍 DNS Fundamentals",
-      category: "Networking",
-      content: `
-        <h3>What is DNS?</h3>
-
-        <p>
-          DNS translates names such as example.com into IP addresses and other DNS records.
-        </p>
-
-        <div class="command">getent hosts example.com
-dig example.com
-nslookup example.com</div>
-
-        <h3>Basic troubleshooting</h3>
-
-        <div class="command">ip -br a
-ip route</div>
-      `
-    },
-
-
-    11: {
-      title: "🔑 SSH Basics",
-      category: "Networking",
-      content: `
-        <h3>What is SSH?</h3>
-
-        <p>
-          SSH provides encrypted remote administration and other secure communication capabilities.
-        </p>
-
-        <div class="command">ssh user@host</div>
-
-        <h3>Key generation</h3>
-
-        <div class="command">ssh-keygen</div>
-
-        <p>
-          SSH keys can provide authentication without relying only on passwords.
-        </p>
-
-        <div class="warning">
-          Only connect to systems you own or are explicitly authorized to administer.
-        </div>
-      `
-    },
-
-
-    12: {
-      title: "🐍 Python on Linux",
-      category: "Python",
-      content: `
-        <h3>Check Python</h3>
-
-        <div class="command">python3 --version</div>
-
-        <h3>Run Python</h3>
-
-        <div class="command">python3</div>
-
-        <h3>Virtual environment</h3>
-
-        <div class="command">python3 -m venv .venv
-source .venv/bin/activate</div>
-
-        <h3>Packages</h3>
-
-        <div class="command">python -m pip install package-name</div>
-      `
-    },
-
-
-    13: {
-      title: "🛡️ Cybersecurity Fundamentals",
-      category: "Security",
-      content: `
-        <h3>The CIA Triad</h3>
-
-        <p>
-          <b>Confidentiality</b> protects information from unauthorized access.
-        </p>
-
-        <p>
-          <b>Integrity</b> protects information from unauthorized modification.
-        </p>
-
-        <p>
-          <b>Availability</b> keeps systems and information accessible when needed.
-        </p>
-
-        <h3>Security mindset</h3>
-
-        <p>
-          Security involves understanding assets, threats, vulnerabilities, controls and risk.
-        </p>
-      `
-    },
-
-
-    14: {
-      title: "🎯 Ethical Security",
-      category: "Security",
-      content: `
-        <h3>Authorization comes first</h3>
-
-        <p>
-          Ethical security testing must have clear permission and a defined scope.
-        </p>
-
-        <h3>Safe workflow</h3>
-
-        <div class="command">1. Define scope
-2. Build or use an authorized lab
+pwd</pre>
+
+<h3>Files</h3>
+<pre>touch notes.txt
+ls -l
+cat notes.txt</pre>
+
+<h3>Copy and move</h3>
+<pre>cp notes.txt backup.txt
+mv backup.txt copy.txt</pre>
+`
+},
+
+{
+id:4,
+title:"Permissions & Ownership",
+category:"Linux",
+description:"Understand read, write and execute permissions.",
+content:`
+<h3>Inspect permissions</h3>
+<pre>ls -l</pre>
+
+<h3>Permission model</h3>
+<p>Linux permissions are commonly represented as user, group and others.</p>
+
+<pre>chmod u+x script.sh</pre>
+
+<p>Only modify permissions on files you own or are authorized to administer.</p>
+`
+},
+
+{
+id:5,
+title:"Processes & Services",
+category:"Linux",
+description:"Learn how Linux processes work and how to inspect them.",
+content:`
+<h3>Process commands</h3>
+<pre>ps
+ps aux
+top</pre>
+
+<h3>Process information</h3>
+<pre>pgrep bash</pre>
+
+<p>These commands help you understand what programs are currently running.</p>
+`
+},
+
+{
+id:6,
+title:"APT & Package Management",
+category:"Tools",
+description:"Learn safe package management using APT on Debian-based systems.",
+content:`
+<h3>Update package information</h3>
+<pre>sudo apt update</pre>
+
+<h3>Install a package</h3>
+<pre>sudo apt install curl</pre>
+
+<h3>Search packages</h3>
+<pre>apt search python3</pre>
+
+<p>Use package management only on systems you are authorized to administer.</p>
+`
+},
+
+{
+id:7,
+title:"Linux Networking Basics",
+category:"Networking",
+description:"Understand interfaces, IP addresses, gateways and basic connectivity.",
+content:`
+<h3>View interfaces</h3>
+<pre>ip -br a</pre>
+
+<h3>View routes</h3>
+<pre>ip route</pre>
+
+<h3>Test connectivity</h3>
+<pre>ping 127.0.0.1</pre>
+
+<p>Loopback testing is a safe way to understand local networking.</p>
+`
+},
+
+{
+id:8,
+title:"TCP & UDP",
+category:"Networking",
+description:"Understand the differences between TCP and UDP.",
+content:`
+<h3>TCP</h3>
+<p>TCP provides connection-oriented, reliable delivery.</p>
+
+<h3>UDP</h3>
+<p>UDP is connectionless and has lower protocol overhead.</p>
+
+<h3>Useful reference</h3>
+<pre>ss -tuln</pre>
+
+<p>This can show listening TCP and UDP sockets.</p>
+`
+},
+
+{
+id:9,
+title:"Ports & Sockets",
+category:"Networking",
+description:"Learn how applications use ports and sockets to communicate.",
+content:`
+<h3>View listening ports</h3>
+<pre>ss -ltn</pre>
+
+<h3>More information</h3>
+<pre>ss -tulnp</pre>
+
+<p>A port identifies a communication endpoint associated with a service.</p>
+`
+},
+
+{
+id:10,
+title:"DNS Fundamentals",
+category:"Networking",
+description:"Understand domain names, DNS resolution and troubleshooting.",
+content:`
+<h3>DNS</h3>
+<p>DNS translates domain names into IP addresses and supports other record types.</p>
+
+<h3>Useful commands</h3>
+<pre>getent hosts example.com</pre>
+
+<p>Use domains you are authorized to troubleshoot.</p>
+`
+},
+
+{
+id:11,
+title:"SSH Basics",
+category:"Networking",
+description:"Learn the concepts behind secure remote administration with SSH.",
+content:`
+<h3>SSH</h3>
+<p>SSH provides encrypted remote login and administration.</p>
+
+<h3>Example</h3>
+<pre>ssh user@your-authorized-server</pre>
+
+<p>Only connect to systems where you have permission.</p>
+`
+},
+
+{
+id:12,
+title:"Python on Linux",
+category:"Python",
+description:"Run Python scripts and understand the Python environment.",
+content:`
+<h3>Check Python</h3>
+<pre>python3 --version</pre>
+
+<h3>Run a script</h3>
+<pre>python3 script.py</pre>
+
+<h3>Simple Python</h3>
+<pre>print("Hello from TUX-AI")</pre>
+`
+},
+
+{
+id:13,
+title:"Cybersecurity Fundamentals",
+category:"Security",
+description:"Learn core security concepts including confidentiality, integrity and availability.",
+content:`
+<h3>CIA Triad</h3>
+<p>Confidentiality protects information from unauthorized access.</p>
+<p>Integrity protects information from unauthorized modification.</p>
+<p>Availability keeps systems and information accessible when needed.</p>
+
+<h3>Security mindset</h3>
+<p>Start with authorization, scope and safe testing.</p>
+`
+},
+
+{
+id:14,
+title:"Ethical Security",
+category:"Security",
+description:"Understand authorization, scope, documentation and safe security testing.",
+content:`
+<h3>Authorization comes first</h3>
+<p>Security testing must have clear permission and a defined scope.</p>
+
+<h3>Safe workflow</h3>
+<pre>1. Define scope
+2. Use an authorized lab
 3. Identify the system
 4. Test safely
 5. Document observations
-6. Remediate
-7. Verify the fix</div>
+6. Report responsibly</pre>
+`
+},
 
-        <div class="warning">
-          Do not test accounts, devices, networks or websites without authorization.
-        </div>
-      `
-    },
+{
+id:15,
+title:"Linux Logs",
+category:"Tools",
+description:"Learn how logs help administrators understand system activity.",
+content:`
+<h3>Journal logs</h3>
+<pre>journalctl</pre>
 
+<h3>Recent logs</h3>
+<pre>journalctl -n 20</pre>
 
-    15: {
-      title: "📜 Linux Logs",
-      category: "Security",
-      content: `
-        <h3>Why logs matter</h3>
+<h3>Follow logs</h3>
+<pre>journalctl -f</pre>
 
-        <p>
-          Logs record system and application events and are useful for troubleshooting and authorized security investigations.
-        </p>
+<p>Use logs for defensive troubleshooting and system administration.</p>
+`
+},
 
-        <div class="command">journalctl
-journalctl -b
-journalctl -p warning</div>
+{
+id:16,
+title:"Packet Capture Basics",
+category:"Networking",
+description:"Understand packet capture using safe local or authorized traffic.",
+content:`
+<h3>Packet capture</h3>
+<pre>sudo tcpdump -i lo -nn</pre>
 
-        <p>
-          Log analysis can help identify service failures, authentication events and system problems.
-        </p>
-      `
-    },
+<h3>Write a capture file</h3>
+<pre>sudo tcpdump -i lo -w lab.pcap</pre>
 
+<p>Capture only traffic you own or have explicit authorization to analyze.</p>
+`
+},
 
-    16: {
-      title: "📡 Packet Capture Basics",
-      category: "Tools",
-      content: `
-        <h3>What is a packet capture?</h3>
+{
+id:17,
+title:"curl & HTTP Basics",
+category:"Tools",
+description:"Learn how command-line HTTP requests work.",
+content:`
+<h3>Basic request</h3>
+<pre>curl https://example.com</pre>
 
-        <p>
-          A PCAP file stores captured network packets for later analysis.
-        </p>
+<h3>Headers</h3>
+<pre>curl -I https://example.com</pre>
 
-        <div class="command">sudo tcpdump -i lo -nn</div>
+<p>HTTP tools are useful for learning how web clients and servers communicate.</p>
+`
+},
 
-        <h3>Save a capture</h3>
+{
+id:18,
+title:"Git Basics",
+category:"Tools",
+description:"Learn the fundamentals of Git repositories and version control.",
+content:`
+<h3>Start a repository</h3>
+<pre>git init</pre>
 
-        <div class="command">sudo tcpdump -i lo -nn -w lab.pcap</div>
+<h3>Check status</h3>
+<pre>git status</pre>
 
-        <div class="warning">
-          Capture only traffic you are authorized to inspect, such as traffic generated inside your own lab.
-        </div>
-      `
-    },
+<h3>Commit changes</h3>
+<pre>git add .
+git commit -m "Initial commit"</pre>
+`
+},
 
+{
+id:19,
+title:"Storage & System Resources",
+category:"Linux",
+description:"Inspect disk space, memory and system resources.",
+content:`
+<h3>Disk space</h3>
+<pre>df -h</pre>
 
-    17: {
-      title: "🌐 curl & HTTP Basics",
-      category: "Tools",
-      content: `
-        <h3>Make a basic HTTP request</h3>
+<h3>Directory size</h3>
+<pre>du -sh .</pre>
 
-        <div class="command">curl https://example.com</div>
+<h3>Memory</h3>
+<pre>free -h</pre>
+`
+},
 
-        <h3>Inspect response headers</h3>
+{
+id:20,
+title:"Build a Safe Security Lab",
+category:"Security",
+description:"Plan a controlled environment for cybersecurity learning.",
+content:`
+<h3>Safe lab design</h3>
+<p>A good security lab uses systems that you own or are explicitly authorized to test.</p>
 
-        <div class="command">curl -I https://example.com</div>
+<h3>Example structure</h3>
+<pre>Your PC
+ └── Virtual Machine
+      ├── Linux tools
+      ├── Test applications
+      └── Local test network</pre>
 
-        <p>
-          HTTP clients send requests and receive responses containing status codes, headers and optional content.
-        </p>
+<h3>Golden rule</h3>
+<p>Keep experiments inside your authorized lab and document what you learn.</p>
+`
+}
 
-        <div class="tip">
-          Example status codes include 200 for success, 404 for not found and 500 for a server-side error.
-        </div>
-      `
-    },
-
-
-    18: {
-      title: "🔧 Git Basics",
-      category: "Tools",
-      content: `
-        <h3>Start a repository</h3>
-
-        <div class="command">git init</div>
-
-        <h3>Check changes</h3>
-
-        <div class="command">git status</div>
-
-        <h3>Save a version</h3>
-
-        <div class="command">git add .
-git commit -m "Update project"</div>
-
-        <p>
-          Git records project history so you can track changes and collaborate safely.
-        </p>
-      `
-    },
-
-
-    19: {
-      title: "💾 Storage & System Resources",
-      category: "Linux",
-      content: `
-        <h3>Disk usage</h3>
-
-        <div class="command">df -h</div>
-
-        <h3>Directory size</h3>
-
-        <div class="command">du -sh .</div>
-
-        <h3>Memory</h3>
-
-        <div class="command">free -h</div>
-
-        <p>
-          Resource checks are useful when programs become slow, fail to start or report storage and memory errors.
-        </p>
-      `
-    },
+];
 
 
-    20: {
-      title: "🧪 Build a Safe Security Lab",
-      category: "Safe Labs",
-      content: `
-        <h3>What is a security lab?</h3>
+const grid = document.getElementById("lessonGrid");
+const search = document.getElementById("search");
+const empty = document.getElementById("empty");
 
-        <p>
-          A security lab is an isolated environment where you can learn security concepts without affecting systems you do not own.
-        </p>
-
-        <h3>Good lab components</h3>
-
-        <div class="command">Your computer
-      ↓
-Virtual Machine
-      ↓
-Linux environment
-      ↓
-Local practice services
-      ↓
-Logs + packet captures
-      ↓
-Analysis</div>
-
-        <h3>Lab rules</h3>
-
-        <p>
-          Keep experiments inside systems you own or have explicit permission to test.
-          Prefer intentionally vulnerable training environments and local services.
-        </p>
-
-        <div class="warning">
-          Never use a learning lab as permission to attack real websites, accounts or networks.
-        </div>
-      `
-    }
-
-  };
+let currentFilter = "All";
+let currentLesson = null;
 
 
-  /* OPEN LESSON */
+/* ---------- STORAGE ---------- */
 
-  function openLesson(id) {
+function getProgress(){
+  try{
+    return JSON.parse(localStorage.getItem("tuxLearnProgress") || "[]");
+  }catch{
+    return [];
+  }
+}
 
-    const lesson = lessons[id];
+function saveProgress(progress){
+  localStorage.setItem(
+    "tuxLearnProgress",
+    JSON.stringify(progress)
+  );
 
-    if (!lesson) {
-      return;
-    }
+  updateProgress();
+}
 
-    document.getElementById("lessonContent").innerHTML = `
-      <h2>${lesson.title}</h2>
-      <span class="lesson-tag">${lesson.category}</span>
-      ${lesson.content}
+function isComplete(id){
+  return getProgress().includes(id);
+}
+
+
+/* ---------- RENDER ---------- */
+
+function renderLessons(){
+
+  const query = search.value.toLowerCase().trim();
+
+  const filtered = lessons.filter(lesson => {
+
+    const matchesFilter =
+      currentFilter === "All" ||
+      lesson.category === currentFilter;
+
+    const matchesSearch =
+      lesson.title.toLowerCase().includes(query) ||
+      lesson.description.toLowerCase().includes(query) ||
+      lesson.category.toLowerCase().includes(query);
+
+    return matchesFilter && matchesSearch;
+  });
+
+  grid.innerHTML = "";
+
+  empty.style.display =
+    filtered.length ? "none" : "block";
+
+  filtered.forEach(lesson => {
+
+    const completed = isComplete(lesson.id);
+
+    const card = document.createElement("article");
+
+    card.className =
+      "lesson-card" +
+      (completed ? " completed" : "");
+
+    card.dataset.lesson = lesson.id;
+
+    card.innerHTML = `
+      <div class="lesson-number">
+        Lesson ${lesson.id}
+      </div>
+
+      <h3>${lesson.title}</h3>
+
+      <p>${lesson.description}</p>
+
+      <span class="category">
+        ${lesson.category}
+      </span>
+
+      <div class="card-buttons">
+
+        <button
+          class="learn-btn"
+          onclick="openLesson(${lesson.id})">
+          📖 Learn
+        </button>
+
+        <button
+          class="complete-btn ${completed ? "done" : ""}"
+          onclick="toggleComplete(${lesson.id})">
+          ${completed ? "✓ Completed" : "Mark Complete"}
+        </button>
+
+      </div>
     `;
 
-    document.getElementById("lessonModal").classList.add("show");
-
-    document.body.style.overflow = "hidden";
-  }
-
-
-  /* CLOSE LESSON */
-
-  function closeLesson() {
-
-    document.getElementById("lessonModal").classList.remove("show");
-
-    document.body.style.overflow = "auto";
-  }
-
-
-  /* CLOSE WHEN CLICKING OUTSIDE */
-
-  document.getElementById("lessonModal").addEventListener("click", function(event) {
-
-    if (event.target === this) {
-      closeLesson();
-    }
-
+    grid.appendChild(card);
   });
+}
 
 
-  /* ESCAPE KEY */
+/* ---------- PROGRESS ---------- */
 
-  document.addEventListener("keydown", function(event) {
+function updateProgress(){
 
-    if (event.key === "Escape") {
-      closeLesson();
-    }
+  const progress = getProgress();
 
-  });
+  const completed =
+    lessons.filter(l => progress.includes(l.id)).length;
+
+  const total = lessons.length;
+
+  const percentage =
+    Math.round((completed / total) * 100);
+
+  document.getElementById("progressText").textContent =
+    `${completed} / ${total} completed`;
+
+  document.getElementById("progressBar").style.width =
+    percentage + "%";
+
+  renderLessons();
+}
 
 
-  /* SEARCH */
+/* ---------- COMPLETE ---------- */
 
-  function searchLessons() {
+function toggleComplete(id){
 
-    const query =
-      document.getElementById("searchInput")
-      .value
-      .toLowerCase()
-      .trim();
+  let progress = getProgress();
 
-    const cards =
-      document.querySelectorAll(".lesson-card");
-
-    let visible = 0;
-
-    cards.forEach(card => {
-
-      const text =
-        (
-          card.innerText +
-          " " +
-          card.dataset.search
-        ).toLowerCase();
-
-      if (text.includes(query)) {
-
-        card.style.display = "flex";
-        visible++;
-
-      } else {
-
-        card.style.display = "none";
-
-      }
-
-    });
-
-    document.getElementById("noResults").style.display =
-      visible === 0 ? "block" : "none";
+  if(progress.includes(id)){
+    progress = progress.filter(x => x !== id);
+  }else{
+    progress.push(id);
   }
 
+  saveProgress(progress);
 
-  /* CATEGORY FILTER */
+  /*
+    Dashboard reads tuxLearnProgress,
+    so progress is automatically available
+    to the Dashboard.
+  */
 
-  function filterLessons(category, button) {
+  renderLessons();
+}
 
-    document
-      .querySelectorAll(".category-btn")
-      .forEach(btn => btn.classList.remove("active"));
 
-    button.classList.add("active");
+/* ---------- MODAL ---------- */
 
-    const cards =
-      document.querySelectorAll(".lesson-card");
+function openLesson(id){
 
-    let visible = 0;
+  const lesson =
+    lessons.find(l => l.id === id);
 
-    cards.forEach(card => {
+  if(!lesson) return;
 
-      if (
-        category === "all" ||
-        card.dataset.category === category
-      ) {
+  currentLesson = id;
 
-        card.style.display = "flex";
-        visible++;
+  document.getElementById("modalTitle").textContent =
+    `Lesson ${lesson.id}: ${lesson.title}`;
 
-      } else {
+  document.getElementById("modalContent").innerHTML =
+    lesson.content;
 
-        card.style.display = "none";
+  const button =
+    document.getElementById("modalComplete");
 
-      }
-
-    });
-
-    document.getElementById("noResults").style.display =
-      visible === 0 ? "block" : "none";
-
-    document.getElementById("searchInput").value = "";
+  if(isComplete(id)){
+    button.textContent = "✓ Lesson Completed";
+    button.style.background = "#07120d";
+    button.style.color = "#00ff88";
+  }else{
+    button.textContent = "Mark Lesson Complete";
+    button.style.background = "#00ff88";
+    button.style.color = "#021009";
   }
 
-</script>
+  document.getElementById("modal").classList.add("show");
+}
 
-</body>
-</html>
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("show");
+  currentLesson = null;
+}
+
+
+document.getElementById("modalComplete")
+.addEventListener("click",function(){
+
+  if(currentLesson === null) return;
+
+  toggleComplete(currentLesson);
+
+  if(isComplete(currentLesson)){
+    this.textContent = "✓ Lesson Completed";
+    this.style.background = "#07120d";
+    this.style.color = "#00ff88";
+  }else{
+    this.textContent = "Mark Lesson Complete";
+    this.style.background = "#00ff88";
+    this.style.color = "#021009";
+  }
+});
+
+
+/* ---------- SEARCH ---------- */
+
+search.addEventListener("input",renderLessons);
+
+
+/* ---------- FILTERS ---------- */
+
+document.querySelectorAll(".filter")
+.forEach(button => {
+
+  button.addEventListener("click",function(){
+
+    document.querySelectorAll(".filter")
+      .forEach(b => b.classList.remove("active"));
+
+    this.classList.add("active");
+
+  
