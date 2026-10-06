@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TUX-AI Error Analyzer</title>
+  <title>TUX-AI Smart Error Analyzer</title>
 
   <style>
 
@@ -21,20 +21,21 @@
     }
 
     header {
-      padding: 18px 25px;
+      padding: 18px 7%;
       background: #080c14;
-      border-bottom: 1px solid #1b3042;
+      border-bottom: 1px solid #172536;
     }
 
     .logo {
       color: #00e5ff;
       font-size: 25px;
       font-weight: bold;
+      letter-spacing: 1px;
     }
 
     .container {
       width: 92%;
-      max-width: 900px;
+      max-width: 950px;
       margin: 40px auto;
     }
 
@@ -47,6 +48,7 @@
     .subtitle {
       text-align: center;
       color: #9aa8b8;
+      line-height: 1.6;
       margin-bottom: 30px;
     }
 
@@ -59,9 +61,9 @@
 
     textarea {
       width: 100%;
-      height: 220px;
+      height: 230px;
       resize: vertical;
-      padding: 15px;
+      padding: 16px;
       background: #05070d;
       color: white;
       border: 1px solid #26384a;
@@ -69,6 +71,7 @@
       outline: none;
       font-family: monospace;
       font-size: 14px;
+      line-height: 1.5;
     }
 
     textarea:focus {
@@ -78,7 +81,7 @@
     button {
       width: 100%;
       margin-top: 15px;
-      padding: 15px;
+      padding: 16px;
       border: none;
       border-radius: 10px;
       background: #00e5ff;
@@ -89,18 +92,25 @@
     }
 
     button:hover {
-      background: #48e7ff;
+      background: #4ceaff;
+    }
+
+    .clear {
+      background: #101a27;
+      color: #00e5ff;
+      border: 1px solid #21465a;
     }
 
     #result {
       margin-top: 25px;
-      padding: 20px;
+      padding: 22px;
       background: #0d1723;
       border-left: 3px solid #00e5ff;
       border-radius: 10px;
       white-space: pre-wrap;
-      line-height: 1.6;
+      line-height: 1.65;
       display: none;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     .back {
@@ -111,6 +121,14 @@
       text-decoration: none;
     }
 
+    .topics {
+      margin-top: 25px;
+      color: #718092;
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
   </style>
 
 </head>
@@ -118,328 +136,1497 @@
 
 <body>
 
-  <header>
+<header>
 
-    <div class="logo">
-      TUX-AI
-    </div>
+  <div class="logo">
+    TUX-AI
+  </div>
 
-  </header>
-
-
-  <main class="container">
-
-    <h1>🔍 TUX-AI Error Analyzer</h1>
-
-    <p class="subtitle">
-      Paste a Linux error and TUX-AI will explain the likely cause.
-    </p>
+</header>
 
 
-    <div class="panel">
+<main class="container">
 
-      <textarea
-        id="errorInput"
-        placeholder="Paste your Linux error here...
+  <h1>🔍 Smart Error Analyzer</h1>
+
+  <p class="subtitle">
+    Linux • Networking • Cybersecurity • Ethical Security Labs
+    <br>
+    Paste an error and TUX-AI will explain what it means and what to check.
+  </p>
+
+
+  <div class="panel">
+
+    <textarea
+      id="errorInput"
+      placeholder="Paste the complete error here...
 
 Example:
-ping: unknown host example.com
+ping: example.com: Temporary failure in name resolution
 
 or:
 
-command not found
-">
-      </textarea>
+bash: nmap: command not found
+
+or:
+
+Permission denied
+"></textarea>
 
 
-      <button onclick="analyzeError()">
-        Analyze Error
-      </button>
+    <button onclick="analyzeError()">
+      🔍 ANALYZE ERROR
+    </button>
 
 
-      <div id="result"></div>
-
-    </div>
-
-
-    <a class="back" href="index.html">
-      ← Back to Home
-    </a>
-
-  </main>
+    <button class="clear" onclick="clearError()">
+      Clear
+    </button>
 
 
-  <script>
+    <div id="result"></div>
 
-    function analyzeError() {
-
-      const input =
-        document.getElementById("errorInput").value
-        .toLowerCase()
-        .trim();
-
-      const result =
-        document.getElementById("result");
+  </div>
 
 
-      if (input === "") {
-
-        result.style.display = "block";
-
-        result.textContent =
-          "⚠️ Please paste a Linux error first.";
-
-        return;
-
-      }
+  <div class="topics">
+    Covers Linux commands, files, permissions, APT, Python,
+    networking, DNS, TCP/UDP, SSH, services, processes,
+    storage, system errors and common cybersecurity-lab errors.
+  </div>
 
 
-      let answer = "";
+  <a class="back" href="index.html">
+    ← Back to TUX-AI Home
+  </a>
+
+</main>
 
 
-      if (
-        input.includes("command not found") ||
-        input.includes("command-not-found")
-      ) {
+<script>
 
-        answer =
-`🔍 ERROR DETECTED
+function showResult(text) {
+
+  const result = document.getElementById("result");
+
+  result.style.display = "block";
+
+  result.textContent = text;
+
+}
+
+
+function analyzeError() {
+
+  const original =
+    document.getElementById("errorInput").value.trim();
+
+  const input = original.toLowerCase();
+
+
+  if (!input) {
+
+    showResult(
+`⚠️ NO ERROR PROVIDED
+
+Please paste a Linux or cybersecurity-related error first.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     COMMAND / SHELL ERRORS
+     ========================================= */
+
+
+  if (
+    input.includes("command not found") ||
+    input.includes("command-not-found")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Linux / Shell
 
 Problem:
-The command could not be found.
+The shell cannot find the command.
 
 Likely causes:
 • The command is not installed.
-• The command name may contain a typo.
-• The program may not be in your PATH.
+• The command name contains a typo.
+• The executable is not in PATH.
+• The wrong environment is active.
 
-Suggested checks:
+Useful checks:
 
-1. Check the spelling.
-2. Try:
-   which <command>
+command -v <command>
 
-3. Check whether the package is installed.
+which <command>
+
+echo $PATH
 
 Example:
-which python3`;
 
-      }
+command -v python3
 
+Safe next step:
+Check the spelling and whether the required program is installed.`
+    );
 
-      else if (
-        input.includes("permission denied")
-      ) {
-
-        answer =
-`🔍 ERROR DETECTED
-
-Problem:
-Permission was denied.
-
-Likely causes:
-• Your user does not have permission.
-• The file is not executable.
-• The directory has restricted permissions.
-
-Suggested checks:
-
-1. Check permissions:
-   ls -l <file>
-
-2. Check your current user:
-   whoami
-
-3. For system administration tasks, use sudo only when appropriate and authorized.`;
-
-      }
+    return;
+  }
 
 
-      else if (
-        input.includes("connection refused")
-      ) {
+  if (
+    input.includes("syntax error") ||
+    input.includes("unexpected token") ||
+    input.includes("unexpected end")
+  ) {
 
-        answer =
-`🔍 ERROR DETECTED
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Shell / Programming Syntax
 
 Problem:
-The connection was refused.
+The interpreter found syntax it could not understand.
 
-Likely causes:
-• No service is listening on that port.
-• The service is stopped.
-• The host or port is incorrect.
-• A firewall may be blocking the connection.
+Common causes:
+• Missing quote
+• Missing bracket
+• Incorrect command structure
+• Incorrect indentation
+• Typographical error
 
-Useful check:
+Suggested approach:
+Read the line mentioned by the error and inspect the
+nearby command or code.
 
-ss -ltn
+For shell scripts, also check:
 
-For an authorized local lab, verify that the expected service is actually listening.`;
+bash -n script.sh`
+    );
 
-      }
+    return;
+  }
 
 
-      else if (
-        input.includes("unknown host") ||
-        input.includes("name or service not known") ||
-        input.includes("could not resolve")
-      ) {
+  if (
+    input.includes("too many arguments")
+  ) {
 
-        answer =
-`🔍 ERROR DETECTED
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Shell
 
 Problem:
-The hostname could not be resolved.
+The command received more arguments than expected.
 
 Likely causes:
-• DNS problem.
-• Incorrect hostname.
-• Network configuration problem.
+• Incorrect quoting
+• Spaces inside an argument
+• Incorrect command syntax
 
-Suggested checks:
+Check:
+• Quotation marks
+• Variable expansion
+• Command options
 
-1. Check your interface:
-   ip -br a
+Tip:
+Use:
 
-2. Check your route:
-   ip route
+echo "$VARIABLE"
 
-3. Test a known IP address if appropriate.
+when a variable should be treated as one argument.`
+    );
 
-4. Check DNS configuration.`;
+    return;
+  }
 
-      }
+
+  /* =========================================
+     FILE / DIRECTORY ERRORS
+     ========================================= */
 
 
-      else if (
-        input.includes("no such file") ||
-        input.includes("file not found")
-      ) {
+  if (
+    input.includes("no such file") ||
+    input.includes("file not found") ||
+    input.includes("cannot open")
+  ) {
 
-        answer =
-`🔍 ERROR DETECTED
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Files / Directories
 
 Problem:
 Linux could not find the specified file or directory.
 
 Likely causes:
-• Typo in the path.
-• File does not exist.
-• You are in the wrong directory.
+• Wrong path
+• Typo
+• File does not exist
+• Wrong current directory
 
-Suggested checks:
+Useful checks:
 
 pwd
 
 ls
 
+ls -la
+
 find . -name "filename"
 
-Check the spelling and path carefully.`;
+Check the exact spelling and path.`
+    );
 
-      }
-
-
-      else if (
-        input.includes("address already in use")
-      ) {
-
-        answer =
-`🔍 ERROR DETECTED
-
-Problem:
-The requested network address or port is already being used.
-
-Suggested check:
-
-ss -ltnp
-
-Look for the process listening on the relevant port.
-
-In your own lab, stop or reconfigure the appropriate service if necessary.`;
-
-      }
+    return;
+  }
 
 
-      else if (
-        input.includes("syntax error")
-      ) {
+  if (
+    input.includes("not a directory")
+  ) {
 
-        answer =
-`🔍 ERROR DETECTED
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Filesystem
 
 Problem:
-The shell or interpreter found invalid syntax.
+A path component was expected to be a directory,
+but it is another type of filesystem object.
 
-Likely causes:
-• Missing bracket.
-• Missing quote.
-• Incorrect command structure.
-• Typographical error.
+Useful check:
 
-Suggested approach:
+ls -l <path>
 
-Read the error line carefully and check the command immediately around that location.`;
+Also inspect the path one component at a time.`
+    );
 
-      }
+    return;
+  }
 
 
-      else if (
-        input.includes("network is unreachable") ||
-        input.includes("no route to host")
-      ) {
+  if (
+    input.includes("directory not empty")
+  ) {
 
-        answer =
-`🔍 ERROR DETECTED
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Directories
 
 Problem:
-Your system does not currently have a usable route to the destination.
+An operation expected an empty directory.
 
-Suggested checks:
+Useful check:
+
+ls -la <directory>
+
+Review the contents before deciding what should be removed
+or moved in your own files.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     PERMISSIONS
+     ========================================= */
+
+
+  if (
+    input.includes("permission denied") ||
+    input.includes("operation not permitted")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Permissions
+
+Problem:
+Linux denied the requested operation.
+
+Possible causes:
+• Insufficient permissions
+• File ownership
+• File mode
+• Directory permissions
+• Security restrictions
+
+Useful checks:
+
+whoami
+
+id
+
+ls -l <file>
+
+For authorized administration tasks, sudo may be required.
+
+Do not change permissions blindly; first understand
+which permission is missing.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("read-only file system")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Filesystem
+
+Problem:
+The filesystem is currently mounted read-only.
+
+Useful checks:
+
+mount
+
+df -h
+
+Possible causes include filesystem protection or a
+storage/filesystem issue.
+
+Avoid changing mount settings blindly.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     APT / PACKAGE MANAGEMENT
+     ========================================= */
+
+
+  if (
+    input.includes("unable to locate package")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+APT / Package Management
+
+Problem:
+APT could not find the requested package.
+
+Possible causes:
+• Package name is incorrect.
+• Package lists are outdated.
+• Repository configuration needs attention.
+
+Useful checks:
+
+apt search <package>
+
+sudo apt update
+
+Then search for the correct package name.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("dpkg was interrupted") ||
+    input.includes("dpkg --configure -a")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+APT / DPKG
+
+Problem:
+A previous package-management operation was interrupted.
+
+Meaning:
+DPKG may have packages that still need configuration.
+
+Common recovery check:
+
+sudo dpkg --configure -a
+
+Then review any reported errors before continuing
+with package installation or upgrades.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("unmet dependencies")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Package Dependencies
+
+Problem:
+A package requires other packages that are missing
+or incompatible.
+
+Useful checks:
+
+apt policy <package>
+
+sudo apt update
+
+Review the dependency message carefully.
+
+Avoid randomly deleting packages to fix dependencies.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     PYTHON
+     ========================================= */
+
+
+  if (
+    input.includes("modulenotfounderror") ||
+    input.includes("no module named")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Python
+
+Problem:
+Python could not find the requested module.
+
+Possible causes:
+• Package is not installed.
+• Wrong Python environment.
+• Virtual environment is inactive.
+• Module name is incorrect.
+
+Useful checks:
+
+python3 --version
+
+python3 -m pip --version
+
+python3 -m pip show <package>
+
+If using a virtual environment, make sure
+the intended environment is active.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("indentationerror")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Python
+
+Problem:
+Python detected incorrect indentation.
+
+Common causes:
+• Mixing tabs and spaces
+• Incorrect indentation level
+• Missing indentation
+
+Check the lines around the reported location.
+
+Keep indentation consistent throughout the block.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("nameerror")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Python
+
+Problem:
+Python encountered a name that has not been defined.
+
+Possible causes:
+• Variable typo
+• Function typo
+• Variable used before definition
+• Missing import
+
+Check the exact spelling and where the name is defined.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("syntaxerror")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Python Syntax
+
+Problem:
+Python cannot parse the code.
+
+Check:
+• Missing colon
+• Missing bracket
+• Missing quote
+• Incorrect indentation
+• Typographical mistakes
+
+Read the line number shown in the traceback.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     DNS / NETWORKING
+     ========================================= */
+
+
+  if (
+    input.includes("unknown host") ||
+    input.includes("name or service not known") ||
+    input.includes("could not resolve") ||
+    input.includes("temporary failure in name resolution")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Networking / DNS
+
+Problem:
+The hostname could not be resolved to an address.
+
+Possible causes:
+• DNS problem
+• Incorrect hostname
+• Network configuration issue
+• Temporary DNS failure
+
+Useful checks:
 
 ip -br a
 
 ip route
 
-Check whether your network interface is UP and whether a suitable route exists.`;
+Check DNS configuration.
 
-      }
+The key question is whether general connectivity
+works while name resolution fails.`
+    );
+
+    return;
+  }
 
 
-      else {
+  if (
+    input.includes("network is unreachable") ||
+    input.includes("no route to host")
+  ) {
 
-        answer =
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Networking / Routing
+
+Problem:
+The system does not currently have a usable route
+to the destination.
+
+Useful checks:
+
+ip -br a
+
+ip route
+
+Check whether the interface is UP and whether
+a suitable route exists.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("connection refused")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Networking / TCP
+
+Problem:
+The destination actively refused the connection.
+
+Common causes:
+• No service is listening.
+• Service is stopped.
+• Wrong port.
+• Wrong destination.
+
+Useful local check:
+
+ss -ltn
+
+For an authorized lab, verify the expected service
+and port.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("connection timed out") ||
+    input.includes("connection timeout") ||
+    input.includes("timed out")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Networking
+
+Problem:
+A response was not received within the expected time.
+
+Possible causes:
+• Destination unavailable
+• Network problem
+• Incorrect address
+• Incorrect port
+• Filtering or firewall rules
+
+Useful checks:
+
+ip -br a
+
+ip route
+
+Verify the destination and port in your own
+authorized environment.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("address already in use")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Networking / Ports
+
+Problem:
+Another process may already be using the requested
+network address or port.
+
+Useful check:
+
+ss -ltnp
+
+Look for the relevant listening port.
+
+For your own lab, reconfigure the application or
+stop the appropriate service if necessary.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("cannot assign requested address") ||
+    input.includes("failed to bind") ||
+    input.includes("cannot bind")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Networking / Socket
+
+Problem:
+The application could not bind to the requested address.
+
+Possible causes:
+• Address does not belong to the machine.
+• Port/address configuration is incorrect.
+• Another networking issue exists.
+
+Useful checks:
+
+ip -br a
+
+ss -ltnp
+
+Verify that the address belongs to your own system
+or authorized lab.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     SSH
+     ========================================= */
+
+
+  if (
+    input.includes("connection closed by") ||
+    input.includes("ssh_exchange_identification")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+SSH
+
+Problem:
+The SSH connection was closed during connection setup.
+
+Possible causes:
+• SSH service problem
+• Network interruption
+• Authentication/access policy
+• Server configuration issue
+
+Useful checks on a system you administer:
+
+systemctl status ssh
+
+ss -ltn
+
+Review the SSH service logs if you have authorization.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("could not resolve hostname")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+SSH / DNS
+
+Problem:
+SSH could not resolve the supplied hostname.
+
+Useful checks:
+
+ip -br a
+
+ip route
+
+Check the hostname and DNS configuration.
+
+You can also test whether the host resolves correctly
+before troubleshooting SSH itself.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("permission denied") &&
+    input.includes("publickey")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+SSH Authentication
+
+Problem:
+SSH authentication using the offered key was rejected.
+
+Possible causes:
+• Wrong key
+• Incorrect username
+• Server does not have the expected public key
+• Key permissions/configuration problem
+
+For systems you own or administer, verify the username,
+key configuration and SSH server settings.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     PROCESSES / SERVICES
+     ========================================= */
+
+
+  if (
+    input.includes("process not found") ||
+    input.includes("no such process")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Processes
+
+Problem:
+The specified process does not exist.
+
+Useful checks:
+
+ps aux
+
+pgrep <name>
+
+The process may have already exited.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("failed to start") ||
+    input.includes("service failed")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Linux Services
+
+Problem:
+A service failed to start.
+
+Useful checks:
+
+systemctl status <service>
+
+journalctl -u <service>
+
+Read the specific error reported by the service
+before changing configuration.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     DISK / STORAGE
+     ========================================= */
+
+
+  if (
+    input.includes("no space left on device") ||
+    input.includes("disk full")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Storage
+
+Problem:
+A filesystem may have run out of available space.
+
+Useful checks:
+
+df -h
+
+df -i
+
+Check which filesystem is full.
+
+Do not delete unknown system files just to free space.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("input/output error") ||
+    input.includes("i/o error")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Storage / I/O
+
+Problem:
+The system encountered an input/output problem.
+
+Possible causes:
+• Storage problem
+• Filesystem problem
+• Hardware/virtual-disk issue
+• Device communication problem
+
+Check:
+
+dmesg
+
+df -h
+
+mount
+
+If this involves important data, avoid destructive actions
+until the cause is understood.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     MEMORY
+     ========================================= */
+
+
+  if (
+    input.includes("out of memory") ||
+    input.includes("cannot allocate memory")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+System Memory
+
+Problem:
+The system could not allocate enough memory.
+
+Useful checks:
+
+free -h
+
+top
+
+ps aux
+
+Possible causes:
+• Memory-intensive process
+• Too many running applications
+• Insufficient available memory
+
+Investigate the process using resources before stopping it.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     TCP / UDP
+     ========================================= */
+
+
+  if (
+    input.includes("tcp") &&
+    input.includes("udp") &&
+    (
+      input.includes("difference") ||
+      input.includes("compare") ||
+      input.includes("vs")
+    )
+  ) {
+
+    showResult(
+`🔍 TUX-AI NETWORKING ANALYSIS
+
+TCP:
+• Connection-oriented
+• Reliable delivery
+• Ordered data
+• Uses acknowledgments
+• Retransmits missing data
+
+UDP:
+• Connectionless
+• Lower protocol overhead
+• No TCP-style delivery guarantee
+• Useful where low overhead is important
+
+Simple idea:
+
+TCP = reliability and ordered delivery
+
+UDP = lower overhead without TCP's delivery guarantees`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     PORT / SOCKET ERRORS
+     ========================================= */
+
+
+  if (
+    input.includes("port") &&
+    (
+      input.includes("refused") ||
+      input.includes("closed") ||
+      input.includes("unreachable")
+    )
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Ports / Sockets
+
+Problem:
+The requested network port could not be used successfully.
+
+Useful local checks:
+
+ss -ltn
+
+ss -tuln
+
+For your own lab, verify:
+• Correct IP address
+• Correct port
+• Expected service running
+• Network route`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     PACKET ANALYSIS / PCAP
+     ========================================= */
+
+
+  if (
+    input.includes("pcap") ||
+    input.includes("tcpdump") ||
+    input.includes("permission denied") &&
+    input.includes("capture")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Packet Capture / Network Analysis
+
+Problem:
+The packet-capture tool may not have the required
+permissions or the selected interface/file may be incorrect.
+
+Useful checks:
+
+ip -br a
+
+ip link
+
+tcpdump --version
+
+For authorized packet-analysis labs, make sure the
+capture interface and output file are accessible.
+
+Only capture traffic you are authorized to analyze.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     LINUX NETWORK INTERFACE
+     ========================================= */
+
+
+  if (
+    input.includes("cannot find device") ||
+    input.includes("no such device")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Network Interface
+
+Problem:
+Linux could not find the specified network device.
+
+Useful checks:
+
+ip -br a
+
+ip link
+
+Check the exact interface name.
+
+Modern Linux systems may use names such as:
+
+eth0
+ens33
+enp0s3
+wlan0
+
+The actual name depends on the system.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     NMAP / SECURITY LAB TOOLS
+     ========================================= */
+
+
+  if (
+    input.includes("nmap: command not found") ||
+    (
+      input.includes("nmap") &&
+      input.includes("command not found")
+    )
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Cybersecurity Learning Tool
+
+Problem:
+Nmap is not available through the current command PATH.
+
+Useful checks:
+
+command -v nmap
+
+nmap --version
+
+If you are working in your own authorized lab,
+verify that the required package is installed.
+
+Use network-scanning tools only against systems
+you own or have explicit permission to test.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     GIT
+     ========================================= */
+
+
+  if (
+    input.includes("not a git repository")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Git
+
+Problem:
+The current directory is not recognized as a Git repository.
+
+Useful checks:
+
+pwd
+
+ls -la
+
+git status
+
+Move into the correct project directory or initialize
+a repository when appropriate.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("merge conflict") ||
+    input.includes("conflict")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+Git
+
+Problem:
+Git found conflicting changes that need to be resolved.
+
+Useful check:
+
+git status
+
+Review the conflicting files carefully and resolve
+the differences before continuing.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     CURL / HTTP
+     ========================================= */
+
+
+  if (
+    input.includes("curl") &&
+    (
+      input.includes("could not resolve host") ||
+      input.includes("failed to connect")
+    )
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+HTTP / Networking
+
+Problem:
+The connection or hostname resolution failed.
+
+Useful checks:
+
+ip -br a
+
+ip route
+
+Check DNS and verify the destination.
+
+For authorized testing, confirm that the destination
+service is actually available.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     GENERIC HTTP
+     ========================================= */
+
+
+  if (
+    input.includes("404") ||
+    input.includes("not found")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+HTTP / Web
+
+Problem:
+The requested web resource could not be found.
+
+Possible causes:
+• Incorrect URL/path
+• Resource removed
+• Incorrect route
+• Deployment problem
+
+Check the exact URL and application routing.`
+    );
+
+    return;
+  }
+
+
+  if (
+    input.includes("403 forbidden")
+  ) {
+
+    showResult(
+`🔍 ERROR ANALYSIS
+
+Category:
+HTTP / Web
+
+Problem:
+The server understood the request but refused access.
+
+Possible causes:
+• Access permissions
+• Authentication requirements
+• Server configuration
+
+Check the application or server configuration
+you are authorized to administer.`
+    );
+
+    return;
+  }
+
+
+  /* =========================================
+     GENERIC FALLBACK
+     ========================================= */
+
+
+  showResult(
 `🔍 TUX-AI ANALYSIS
 
-I couldn't match this error to one of my built-in patterns yet.
+I don't have an exact built-in match for this error yet.
 
-Try checking:
+That does NOT mean the error cannot be diagnosed.
 
-1. The exact error message.
-2. The command that produced it.
-3. Your current directory:
-   pwd
+Start with these safe checks:
 
-4. Network configuration:
-   ip -br a
-   ip route
+SYSTEM
+------
+whoami
+id
+pwd
+uname -a
 
-5. Permissions:
-   ls -l
+FILES
+-----
+ls -la
+df -h
 
-You can also paste the complete error message for a more useful analysis.`;
+NETWORK
+-------
+ip -br a
+ip route
+ss -ltn
 
-      }
+PROCESSES
+---------
+ps aux
+top
+
+SERVICES
+--------
+systemctl status <service>
+
+PYTHON
+------
+python3 --version
+python3 -m pip --version
+
+NEXT STEP
+---------
+Paste the COMPLETE error message, including the
+command that produced it.
+
+TUX-AI will use the available information to
+identify the closest category and explain it.`
+  );
+
+}
 
 
-      result.style.display = "block";
+function clearError() {
 
-      result.textContent = answer;
+  document.getElementById("errorInput").value = "";
 
-    }
+  const result = document.getElementById("result");
 
-  </script>
+  result.style.display = "none";
+
+  result.textContent = "";
+
+}
+
+</script>
 
 
 </body>
