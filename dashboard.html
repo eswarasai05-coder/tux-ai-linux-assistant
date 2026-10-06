@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TUX-AI Dynamic Dashboard</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top left,#073b25 0%,transparent 32%),
+        radial-gradient(circle at bottom right,#062b20 0%,transparent 35%),
+        #030806;
+    color:#eafff3;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(3,8,6,.94);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(57,255,136,.18);
+}
+
+.navbar{
+    max-width:1250px;
+    margin:auto;
+    padding:16px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    color:#39ff88;
+    font-size:22px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#9affc7;
+}
+
+.nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.nav-links a{
+    color:#b9d8c7;
+    padding:9px 12px;
+    border-radius:9px;
+    font-size:14px;
+    transition:.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    background:#0b2e20;
+    color:#39ff88;
+}
+
+.container{
+    width:min(1250px,92%);
+    margin:auto;
+}
+
+.hero{
+    padding:55px 0 30px;
+}
+
+.hero-box{
+    padding:34px;
+    border:1px solid rgba(57,255,136,.2);
+    border-radius:24px;
+    background:
+        linear-gradient(135deg,rgba(8,40,27,.9),rgba(3,13,9,.94));
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35),
+        inset 0 0 50px rgba(0,255,136,.025);
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:999px;
+    background:rgba(57,255,136,.09);
+    border:1px solid rgba(57,255,136,.22);
+    color:#62ff9e;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+h1{
+    font-size:clamp(36px,6vw,62px);
+    line-height:1.02;
+    margin-bottom:14px;
+}
+
+.gradient{
+    color:#39ff88;
+    text-shadow:0 0 25px rgba(57,255,136,.18);
+}
+
+.hero p{
+    color:#a9c4b5;
+    max-width:780px;
+    line-height:1.7;
+}
+
+.quick-actions{
+    margin-top:24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.btn{
+    padding:12px 17px;
+    border-radius:11px;
+    border:1px solid rgba(57,255,136,.25);
+    background:#092116;
+    color:#dffff0;
+    font-weight:700;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    border-color:#39ff88;
+    box-shadow:0 0 22px rgba(57,255,136,.13);
+}
+
+.btn.primary{
+    background:#39ff88;
+    color:#031208;
+}
+
+.section{
+    padding:22px 0;
+}
+
+.section-title{
+    margin-bottom:16px;
+}
+
+.section-title h2{
+    font-size:26px;
+}
+
+.section-title p{
+    margin-top:5px;
+    color:#819b8d;
+    font-size:14px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.stat{
+    padding:22px;
+    border-radius:18px;
+    background:rgba(6,22,14,.9);
+    border:1px solid rgba(57,255,136,.15);
+    transition:.2s;
+}
+
+.stat:hover{
+    transform:translateY(-3px);
+    border-color:rgba(57,255,136,.35);
+}
+
+.stat-icon{
+    font-size:27px;
+    margin-bottom:10px;
+}
+
+.stat-number{
+    color:#39ff88;
+    font-size:31px;
+    font-weight:800;
+}
+
+.stat-label{
+    color:#91aa9d;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.stat-status{
+    margin-top:9px;
+    color:#5cff99;
+    font-size:11px;
+    font-weight:700;
+}
+
+.progress-box{
+    padding:24px;
+    border:1px solid rgba(57,255,136,.16);
+    border-radius:18px;
+    background:#06130d;
+}
+
+.progress-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:12px;
+}
+
+.progress-title{
+    font-weight:700;
+}
+
+.progress-percent{
+    color:#39ff88;
+    font-weight:800;
+}
+
+.progress-track{
+    height:12px;
+    border-radius:999px;
+    overflow:hidden;
+    background:#102119;
+}
+
+.progress-fill{
+    width:0%;
+    height:100%;
+    background:#39ff88;
+    box-shadow:0 0 16px rgba(57,255,136,.35);
+    transition:width .5s ease;
+}
+
+.progress-note{
+    margin-top:12px;
+    color:#829d8e;
+    font-size:13px;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.action{
+    display:block;
+    padding:22px;
+    border-radius:18px;
+    background:linear-gradient(145deg,#071b11,#04100a);
+    border:1px solid rgba(57,255,136,.15);
+    transition:.22s;
+}
+
+.action:hover{
+    transform:translateY(-4px);
+    border-color:rgba(57,255,136,.42);
+    box-shadow:0 12px 35px rgba(0,0,0,.3);
+}
+
+.action-icon{
+    font-size:30px;
+    margin-bottom:13px;
+}
+
+.action h3{
+    margin-bottom:7px;
+}
+
+.action p{
+    color:#849e90;
+    line-height:1.55;
+    font-size:13px;
+}
+
+.action-arrow{
+    display:inline-block;
+    margin-top:15px;
+    color:#39ff88;
+    font-size:13px;
+    font-weight:700;
+}
+
+.modules{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.module{
+    padding:22px;
+    border-radius:18px;
+    background:#06130d;
+    border:1px solid rgba(57,255,136,.13);
+    transition:.2s;
+}
+
+.module:hover{
+    border-color:rgba(57,255,136,.35);
+}
+
+.module-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:13px;
+}
+
+.module-icon{
+    font-size:28px;
+}
+
+.status{
+    padding:5px 9px;
+    border-radius:999px;
+    background:#0c281b;
+    color:#6cff9e;
+    border:1px solid rgba(57,255,136,.15);
+    font-size:11px;
+}
+
+.module h3{
+    margin-bottom:7px;
+}
+
+.module p{
+    color:#829b8e;
+    font-size:13px;
+    line-height:1.55;
+}
+
+.module-btn{
+    display:inline-block;
+    margin-top:16px;
+    padding:9px 12px;
+    border-radius:9px;
+    background:#0b2518;
+    color:#53ff95;
+    border:1px solid rgba(57,255,136,.16);
+    font-size:13px;
+    font-weight:700;
+}
+
+.search-box{
+    margin-bottom:18px;
+}
+
+.search-box input{
+    width:100%;
+    padding:15px 17px;
+    border-radius:12px;
+    border:1px solid rgba(57,255,136,.16);
+    background:#040d08;
+    color:white;
+    outline:none;
+    font-size:15px;
+}
+
+.search-box input:focus{
+    border-color:#39ff88;
+}
+
+.activity{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.activity-box{
+    padding:22px;
+    border-radius:18px;
+    background:#06130d;
+    border:1px solid rgba(57,255,136,.13);
+}
+
+.activity-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.activity-item:last-child{
+    border-bottom:none;
+}
+
+.activity-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#39ff88;
+    box-shadow:0 0 10px rgba(57,255,136,.5);
+    flex-shrink:0;
+}
+
+.activity-text{
+    flex:1;
+}
+
+.activity-text strong{
+    display:block;
+    font-size:14px;
+}
+
+.activity-text small{
+    display:block;
+    color:#70897c;
+    margin-top:3px;
+}
+
+.sync-status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-top:15px;
+    color:#6fff9f;
+    font-size:12px;
+}
+
+.sync-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#39ff88;
+    box-shadow:0 0 10px #39ff88;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.footer{
+    margin-top:45px;
+    padding:28px 20px;
+    border-top:1px solid rgba(57,255,136,.1);
+    text-align:center;
+    color:#667c70;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.footer strong{
+    color:#39ff88;
+}
+
+@media(max-width:950px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .actions,
+    .modules{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+
+    .navbar{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .hero{
+        padding-top:30px;
+    }
+
+    .hero-box{
+        padding:23px;
+    }
+
+    .stats,
+    .actions,
+    .modules,
+    .activity{
+        grid-template-columns:1fr;
+    }
+
+    h1{
+        font-size:39px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="navbar">
+
+<a href="index.html" class="logo">
+🐧 TUX-AI <span>Dashboard</span>
+</a>
+
+<nav class="nav-links">
+
+<a href="index.html">Home</a>
+<a href="chat.html">Chat</a>
+<a href="analyzer.html">Analyzer</a>
+<a href="learn.html">Learn</a>
+<a href="labs.html">Labs</a>
+<a href="tools.html">Tools</a>
+<a href="dashboard.html" class="active">Dashboard</a>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-box">
+
+<div class="badge">
+🟢 LIVE TUX-AI DASHBOARD
+</div>
+
+<h1>
+Your
+<span class="gradient">Linux Command Center.</span>
+</h1>
+
+<p>
+Track your TUX-AI learning content, labs, tools and
+progress from one central dashboard.
+The statistics below automatically read the current
+website data.
+</p>
+
+<div class="quick-actions">
+
+<a class="btn primary" href="learn.html">
+📚 Start Learning
+</a>
+
+<a class="btn" href="labs.html">
+🧪 Open Labs
+</a>
+
+<a class="btn" href="tools.html">
+🛠️ Open Tools
+</a>
+
+<a class="btn" href="chat.html">
+💬 Ask TUX-AI
+</a>
+
+<a class="btn" href="analyzer.html">
+🔍 Analyze Error
+</a>
+
+</div>
+
+<div class="sync-status">
+<span class="sync-dot"></span>
+<span id="syncText">Syncing platform data...</span>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DYNAMIC STATS -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>📊 Live Platform Stats</h2>
+
+<p>
+These numbers are detected automatically from your TUX-AI pages.
+</p>
+
+</div>
+
+
+<div class="stats">
+
+
+<div class="stat">
+
+<div class="stat-icon">📚</div>
+
+<div
+class="stat-number"
+id="lessonCount">
+--
+</div>
+
+<div class="stat-label">
+Lessons Available
+</div>
+
+<div class="stat-status">
+● LIVE
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">🧪</div>
+
+<div
+class="stat-number"
+id="labCount">
+--
+</div>
+
+<div class="stat-label">
+Labs Available
+</div>
+
+<div class="stat-status">
+● LIVE
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">🛠️</div>
+
+<div
+class="stat-number"
+id="toolCount">
+--
+</div>
+
+<div class="stat-label">
+Tools Available
+</div>
+
+<div class="stat-status">
+● LIVE
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">🤖</div>
+
+<div
+class="stat-number"
+id="moduleCount">
+--
+</div>
+
+<div class="stat-label">
+Main Modules
+</div>
+
+<div class="stat-status">
+● ONLINE
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- LAB PROGRESS -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>🚀 Lab Progress</h2>
+
+<p>
+Progress is synchronized with your Labs page through browser storage.
+</p>
+
+</div>
+
+
+<div class="progress-box">
+
+<div class="progress-top">
+
+<div class="progress-title">
+Security Lab Completion
+</div>
+
+<div
+class="progress-percent"
+id="progressPercent">
+0%
+</div>
+
+</div>
+
+
+<div class="progress-track">
+
+<div
+class="progress-fill"
+id="progressFill">
+</div>
+
+</div>
+
+
+<div
+class="progress-note"
+id="progressNote">
+Loading progress...
+</div>
+
+</div>
+
+</section>
+
+
+<!-- QUICK ACCESS -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>⚡ Quick Access</h2>
+
+<p>
+Jump directly into any TUX-AI feature.
+</p>
+
+</div>
+
+
+<div class="actions">
+
+
+<a href="chat.html" class="action">
+
+<div class="action-icon">💬</div>
+
+<h3>TUX-AI Chat</h3>
+
+<p>
+Ask questions about Linux, networking,
+commands and cybersecurity concepts.
+</p>
+
+<span class="action-arrow">
+Open Chat →
+</span>
+
+</a>
+
+
+<a href="analyzer.html" class="action">
+
+<div class="action-icon">🔍</div>
+
+<h3>Smart Analyzer</h3>
+
+<p>
+Paste a Linux or technical error and get
+a beginner-friendly explanation.
+</p>
+
+<span class="action-arrow">
+Analyze Error →
+</span>
+
+</a>
+
+
+<a href="learn.html" class="action">
+
+<div class="action-icon">📚</div>
+
+<h3>Learning Center</h3>
+
+<p>
+Study Linux, networking, security,
+Python and technical fundamentals.
+</p>
+
+<span class="action-arrow">
+View Lessons →
+</span>
+
+</a>
+
+
+<a href="labs.html" class="action">
+
+<div class="action-icon">🧪</div>
+
+<h3>Security Labs</h3>
+
+<p>
+Practice safely with authorized,
+educational Linux labs.
+</p>
+
+<span class="action-arrow">
+Start Labs →
+</span>
+
+</a>
+
+
+<a href="tools.html" class="action">
+
+<div class="action-icon">🛠️</div>
+
+<h3>Technical Tools</h3>
+
+<p>
+Use command references, permission
+calculators, IPv4 tools and diagnostics.
+</p>
+
+<span class="action-arrow">
+Open Tools →
+</span>
+
+</a>
+
+
+<a href="index.html" class="action">
+
+<div class="action-icon">🏠</div>
+
+<h3>TUX-AI Home</h3>
+
+<p>
+Return to the main TUX-AI homepage.
+</p>
+
+<span class="action-arrow">
+Go Home →
+</span>
+
+</a>
+
+
+</div>
+
+</section>
+
+
+<!-- MODULES -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>🧠 TUX-AI Modules</h2>
+
+<p>
+Everything connected to your platform.
+</p>
+
+</div>
+
+
+<div class="modules">
+
+
+<div class="module">
+
+<div class="module-top">
+<div class="module-icon">💬</div>
+<div class="status">READY</div>
+</div>
+
+<h3>AI Chat</h3>
+
+<p>
+Linux and cybersecurity knowledge assistant.
+</p>
+
+<a href="chat.html" class="module-btn">
+Launch →
+</a>
+
+</div>
+
+
+<div class="module">
+
+<div class="module-top">
+<div class="module-icon">🔍</div>
+<div class="status">READY</div>
+</div>
+
+<h3>Error Analyzer</h3>
+
+<p>
+Understand common Linux, Python and networking errors.
+</p>
+
+<a href="analyzer.html" class="module-btn">
+Launch →
+</a>
+
+</div>
+
+
+<div class="module">
+
+<div class="module-top">
+<div class="module-icon">📚</div>
+<div class="status" id="lessonStatus">
+LOADING
+</div>
+</div>
+
+<h3>Learning Center</h3>
+
+<p>
+Structured lessons from Linux fundamentals
+through security education.
+</p>
+
+<a href="learn.html" class="module-btn">
+Learn →
+</a>
+
+</div>
+
+
+<div class="module">
+
+<div class="module-top">
+<div class="module-icon">🧪</div>
+<div class="status" id="labStatus">
+LOADING
+</div>
+</div>
+
+<h3>Security Labs</h3>
+
+<p>
+Safe hands-on practice for authorized environments.
+</p>
+
+<a href="labs.html" class="module-btn">
+Practice →
+</a>
+
+</div>
+
+
+<div class="module">
+
+<div class="module-top">
+<div class="module-icon">🛠️</div>
+<div class="status" id="toolStatus">
+LOADING
+</div>
+</div>
+
+<h3>Tools Center</h3>
+
+<p>
+Quick references and utilities for technical study.
+</p>
+
+<a href="tools.html" class="module-btn">
+Open →
+</a>
+
+</div>
+
+
+<div class="module">
+
+<div class="module-top">
+<div class="module-icon">🐧</div>
+<div class="status">ONLINE</div>
+</div>
+
+<h3>Linux Workspace</h3>
+
+<p>
+Your central Linux and cybersecurity learning workspace.
+</p>
+
+<a href="index.html" class="module-btn">
+Explore →
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- SEARCH -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>🔎 Quick Module Search</h2>
+
+<p>
+Search dashboard modules instantly.
+</p>
+
+</div>
+
+
+<div class="search-box">
+
+<input
+id="moduleSearch"
+type="text"
+placeholder="Search modules..."
+autocomplete="off"
+>
+
+</div>
+
+
+<div class="modules" id="searchModules">
+
+
+<div
+class="module searchable"
+data-name="chat ai linux questions">
+
+<div class="module-top">
+<div class="module-icon">💬</div>
+<div class="status">CHAT</div>
+</div>
+
+<h3>Chat</h3>
+
+<p>
+Ask TUX-AI about Linux and cybersecurity concepts.
+</p>
+
+<a href="chat.html" class="module-btn">
+Open →
+</a>
+
+</div>
+
+
+<div
+class="module searchable"
+data-name="analyzer errors troubleshooting">
+
+<div class="module-top">
+<div class="module-icon">🔍</div>
+<div class="status">ANALYZER</div>
+</div>
+
+<h3>Analyzer</h3>
+
+<p>
+Understand Linux and technical errors.
+</p>
+
+<a href="analyzer.html" class="module-btn">
+Open →
+</a>
+
+</div>
+
+
+<div
+class="module searchable"
+data-name="learn lessons linux networking security">
+
+<div class="module-top">
+<div class="module-icon">📚</div>
+<div class="status">LEARN</div>
+</div>
+
+<h3>Lessons</h3>
+
+<p>
+Study the TUX-AI structured learning path.
+</p>
+
+<a href="learn.html" class="module-btn">
+Open →
+</a>
+
+</div>
+
+
+<div
+class="module searchable"
+data-name="labs security practice">
+
+<div class="module-top">
+<div class="module-icon">🧪</div>
+<div class="status">LABS</div>
+</div>
+
+<h3>Labs</h3>
+
+<p>
+Practice safe authorized security exercises.
+</p>
+
+<a href="labs.html" class="module-btn">
+Open →
+</a>
+
+</div>
+
+
+<div
+class="module searchable"
+data-name="tools commands ipv4 permissions ports">
+
+<div class="module-top">
+<div class="module-icon">🛠️</div>
+<div class="status">TOOLS</div>
+</div>
+
+<h3>Tools</h3>
+
+<p>
+Quick technical references and utilities.
+</p>
+
+<a href="tools.html" class="module-btn">
+Open →
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- ACTIVITY -->
+
+<section class="section">
+
+<div class="section-title">
+
+<h2>🕒 Platform Status</h2>
+
+<p>
+Live information from your TUX-AI website.
+</p>
+
+</div>
+
+
+<div class="activity">
+
+
+<div class="activity-box">
+
+<h3>🟢 Platform</h3>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div class="activity-text">
+
+<strong>Homepage</strong>
+
+<small>Connected</small>
+
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div class="activity-text">
+
+<strong>Learning Center</strong>
+
+<small id="activityLessons">
+Checking...
+</small>
+
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div class="activity-text">
+
+<strong>Security Labs</strong>
+
+<small id="activityLabs">
+Checking...
+</small>
+
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div class="activity-text">
+
+<strong>Tools Center</strong>
+
+<small id="activityTools">
+Checking...
+</small>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="activity-box">
+
+<h3>🚀 Current Progress</h3>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div class="activity-text">
+
+<strong id="activityCompleted">
+0 Labs Completed
+</strong>
+
+<small>
+Browser-saved progress
+</small>
+
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div class="activity-text">
+
+<strong id="activityPercentage">
+0% Completion
+</strong>
+
+<small>
+Security lab progress
+</small>
+
+</div>
+
+</div>
+
+
+<div class="activity-item">
+
+<div class="activity-dot"></div>
+
+<div class="activity-text">
+
+<strong>Dashboard Sync</strong>
+
+<small id="lastUpdated">
+Updating...
+</small>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<footer class="footer">
+
+<strong>🐧 TUX-AI Linux Assistant</strong>
+
+<br>
+
+Linux • Cybersecurity • Ethical Security Education •
+Troubleshooting • Technical Learning
+
+<br><br>
+
+Security practice must always be performed only on
+systems, accounts and networks you own or have explicit
+authorization to test.
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   TUX-AI DYNAMIC DASHBOARD ENGINE
+   ===================================================== */
+
+
+/*
+    These selectors allow the dashboard to count
+    the cards from your existing pages.
+
+    If your page structure changes later, the dashboard
+    will try several common selectors automatically.
+*/
+
+
+const pageConfig = {
+
+    lessons: {
+        url: "learn.html",
+        selectors: [
+            ".lesson-card",
+            ".lesson",
+            "[data-lesson]",
+            ".card"
+        ]
+    },
+
+    labs: {
+        url: "labs.html",
+        selectors: [
+            ".lab-card",
+            ".lab",
+            "[data-lab]",
+            ".card"
+        ]
+    },
+
+    tools: {
+        url: "tools.html",
+        selectors: [
+            ".tool-card",
+            ".tool",
+            "[data-tool]",
+            ".card"
+        ]
+    }
+
+};
+
+
+/* -----------------------------------------------------
+   Count cards on another TUX-AI page
+   ----------------------------------------------------- */
+
+async function countPageItems(url,selectors){
+
+    try{
+
+        const response = await fetch(
+            url + "?dashboard=" + Date.now(),
+            {
+                cache:"no-store"
+            }
+        );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "HTTP " + response.status
+            );
+
+        }
+
+
+        const html = await response.text();
+
+
+        const parser =
+            new DOMParser();
+
+
+        const documentPage =
+            parser.parseFromString(
+                html,
+                "text/html"
+            );
+
+
+        for(const selector of selectors){
+
+            const elements =
+                documentPage.querySelectorAll(
+                    selector
+                );
+
+
+            if(elements.length > 0){
+
+                return elements.length;
+
+            }
+
+        }
+
+
+        return 0;
+
+    }catch(error){
+
+        console.log(
+            "Could not read:",
+            url,
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* -----------------------------------------------------
+   Find completed labs
+   ----------------------------------------------------- */
+
+function getCompletedLabs(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                "tuxLabProgress"
+            );
+
+
+        if(!saved){
+
+            return 0;
+
+        }
+
+
+        const progress =
+            JSON.parse(saved);
+
+
+        if(!Array.isArray(progress)){
+
+            return 0;
+
+        }
+
+
+        return progress.filter(
+            item => item === true
+        ).length;
+
+    }catch(error){
+
+        console.log(
+            "Progress error:",
+            error
+        );
+
+        return 0;
+
+    }
+
+}
+
+
+/* -----------------------------------------------------
+   Update lab progress
+   ----------------------------------------------------- */
+
+function updateProgress(totalLabs){
+
+    const completed =
+        getCompletedLabs();
+
+
+    const safeTotal =
+        totalLabs > 0
+            ? totalLabs
+            : 20;
+
+
+    const percentage =
+        Math.min(
+            100,
+            Math.round(
+                (completed / safeTotal) * 100
+            )
+        );
+
+
+    document.getElementById(
+        "progressPercent"
+    ).textContent =
+        percentage + "%";
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        percentage + "%";
+
+
+    document.getElementById(
+        "progressNote"
+    ).textContent =
+        completed +
+        " of " +
+        safeTotal +
+        " labs completed.";
+
+
+    document.getElementById(
+        "activityCompleted"
+    ).textContent =
+        completed +
+        " Labs Completed";
+
+
+    document.getElementById(
+        "activityPercentage"
+    ).textContent =
+        percentage +
+        "% Completion";
+
+}
+
+
+/* -----------------------------------------------------
+   Update page status labels
+   ----------------------------------------------------- */
+
+function updateStatus(id,count,label){
+
+    const element =
+        document.getElementById(id);
+
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    if(count === null){
+
+        element.textContent =
+            "OFFLINE";
+
+        return;
+
+    }
+
+
+    element.textContent =
+        count +
+        " " +
+        label;
+
+}
+
+
+/* -----------------------------------------------------
+   Main dashboard sync
+   ----------------------------------------------------- */
+
+async function updateDashboard(){
+
+    document.getElementById(
+        "syncText"
+    ).textContent =
+        "Syncing platform data...";
+
+
+    const [
+        lessons,
+        labs,
+        tools
+    ] = await Promise.all([
+
+        countPageItems(
+            pageConfig.lessons.url,
+            pageConfig.lessons.selectors
+        ),
+
+        countPageItems(
+            pageConfig.labs.url,
+            pageConfig.labs.selectors
+        ),
+
+        countPageItems(
+            pageConfig.tools.url,
+            pageConfig.tools.selectors
+        )
+
+    ]);
+
+
+    /*
+        Fallback values make the dashboard robust
+        if a browser blocks a fetch or a page temporarily
+        cannot be read.
+    */
+
+    const lessonTotal =
+        lessons !== null && lessons > 0
+            ? lessons
+            : 20;
+
+
+    const labTotal =
+        labs !== null && labs > 0
+            ? labs
+            : 20;
+
+
+    const toolTotal =
+        tools !== null && tools > 0
+            ? tools
+            : 12;
+
+
+    /*
+        Main modules are actual dashboard features.
+    */
+
+    const modules = 5;
+
+
+    document.getElementById(
+        "lessonCount"
+    ).textContent =
+        lessonTotal;
+
+
+    document.getElementById(
+        "labCount"
+    ).textContent =
+        labTotal;
+
+
+    document.getElementById(
+        "toolCount"
+    ).textContent =
+        toolTotal;
+
+
+    document.getElementById(
+        "moduleCount"
+    ).textContent =
+        modules;
+
+
+    /*
+        Module status badges.
+    */
+
+    updateStatus(
+        "lessonStatus",
+        lessonTotal,
+        "LESSONS"
+    );
+
+
+    updateStatus(
+        "labStatus",
+        labTotal,
+        "LABS"
+    );
+
+
+    updateStatus(
+        "toolStatus",
+        toolTotal,
+        "TOOLS"
+    );
+
+
+    /*
+        Activity section.
+    */
+
+    document.getElementById(
+        "activityLessons"
+    ).textContent =
+        lessonTotal +
+        " lessons available";
+
+
+    document.getElementById(
+        "activityLabs"
+    ).textContent =
+        labTotal +
+        " labs available";
+
+
+    document.getElementById(
+        "activityTools"
+    ).textContent =
+        toolTotal +
+        " tools available";
+
+
+    /*
+        Progress uses the detected lab total.
+    */
+
+    updateProgress(labTotal);
+
+
+    /*
+        Timestamp.
+    */
+
+    const now =
+        new Date();
+
+
+    document.getElementById(
+        "lastUpdated"
+    ).textContent =
+        "Updated " +
+        now.toLocaleTimeString();
+
+
+    /*
+        Sync indicator.
+    */
+
+    document.getElementById(
+        "syncText"
+    ).textContent =
+        "Platform data synced";
+
+
+}
+
+
+/* -----------------------------------------------------
+   Module search
+   ----------------------------------------------------- */
+
+const searchInput =
+    document.getElementById(
+        "moduleSearch"
+    );
+
+
+const searchableModules =
+    document.querySelectorAll(
+        ".searchable"
+    );
+
+
+searchInput.addEventListener(
+    "input",
+    function(){
+
+        const query =
+            this.value
+                .toLowerCase()
+                .trim();
+
+
+        searchableModules.forEach(
+            function(module){
+
+                const text =
+                    module.dataset.name
+                        .toLowerCase();
+
+
+                if(
+                    text.includes(query)
+                ){
+
+                    module.classList.remove(
+                        "hidden"
+                    );
+
+                }else{
+
+                    module.classList.add(
+                        "hidden"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+);
+
+
+/* -----------------------------------------------------
+   Initial dashboard load
+   ----------------------------------------------------- */
+
+updateDashboard();
+
+
+/* -----------------------------------------------------
+   Refresh when returning to dashboard
+   ----------------------------------------------------- */
+
+window.addEventListener(
+    "focus",
+    function(){
+
+        updateDashboard();
+
+    }
+);
+
+
+/* -----------------------------------------------------
+   Refresh when page becomes visible again
+   ----------------------------------------------------- */
+
+document.addEventListener(
+    "visibilitychange",
+    function(){
+
+        if(
+            document.visibilityState ===
+            "visible"
+        ){
+
+            updateDashboard();
+
+        }
+
+    }
+);
+
+
+/* -----------------------------------------------------
+   Auto-refresh every 30 seconds
+   ----------------------------------------------------- */
+
+setInterval(
+    updateDashboard,
+    30000
+);
+
+</script>
+
+</body>
+</html>
