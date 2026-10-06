@@ -1,1696 +1,1112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TUX-AI | Security Labs</title>
 
-  <title>TUX-AI | Security Labs</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#08291c 0%,#05070d 45%,#020304 100%);
+  color:#fff;
+  min-height:100vh;
+}
 
-    body {
-      margin: 0;
-      background: #05070d;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+a{text-decoration:none;color:inherit}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(5, 7, 13, 0.96);
-      border-bottom: 1px solid #17202b;
-      backdrop-filter: blur(12px);
-    }
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(3,8,6,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(0,255,136,.18);
+}
 
-    .nav {
-      max-width: 1250px;
-      margin: auto;
-      padding: 15px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
 
-    .logo {
-      color: #00ff88;
-      font-size: 22px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
+.logo{
+  color:#00ff88;
+  font-size:21px;
+  font-weight:bold;
+}
 
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      justify-content: center;
-    }
+.navlinks{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  justify-content:flex-end;
+}
 
-    .nav-links a {
-      color: #aeb6c0;
-      text-decoration: none;
-      padding: 8px 11px;
-      border-radius: 8px;
-    }
+.navlinks a{
+  color:#aebdb6;
+  padding:8px 11px;
+  border-radius:9px;
+  font-size:13px;
+}
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: #00ff88;
-      background: #09150f;
-    }
+.navlinks a:hover,
+.navlinks a.active{
+  color:#00ff88;
+  background:rgba(0,255,136,.1);
+}
 
-    .hero {
-      max-width: 1150px;
-      margin: auto;
-      padding: 55px 20px 30px;
-      text-align: center;
-    }
+.hero{
+  max-width:1100px;
+  margin:auto;
+  text-align:center;
+  padding:65px 20px 35px;
+}
 
-    .hero-icon {
-      font-size: 58px;
-    }
+.badge{
+  display:inline-block;
+  padding:7px 13px;
+  border:1px solid rgba(0,255,136,.3);
+  border-radius:999px;
+  color:#00ff88;
+  background:rgba(0,255,136,.06);
+  font-size:13px;
+  margin-bottom:18px;
+}
 
-    .hero h1 {
-      font-size: 42px;
-      margin: 10px 0;
-    }
+h1{
+  font-size:clamp(38px,7vw,65px);
+  margin-bottom:15px;
+}
 
-    .hero h1 span {
-      color: #00ff88;
-    }
+h1 span{color:#00ff88}
 
-    .hero p {
-      max-width: 800px;
-      margin: auto;
-      color: #a7afb9;
-      line-height: 1.7;
-      font-size: 16px;
-    }
+.hero p{
+  max-width:720px;
+  margin:auto;
+  color:#91a39a;
+  line-height:1.7;
+}
 
-    .safe-banner {
-      max-width: 900px;
-      margin: 25px auto 0;
-      padding: 15px 18px;
-      border: 1px solid #155c38;
-      border-radius: 10px;
-      background: #07150e;
-      color: #a7f5c8;
-      line-height: 1.6;
-    }
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:25px 20px 70px;
+}
 
-    .progress-area {
-      max-width: 800px;
-      margin: 25px auto 0;
-      padding: 18px;
-      border: 1px solid #1c2935;
-      background: #0a0f16;
-      border-radius: 12px;
-    }
+.notice{
+  margin-bottom:25px;
+  padding:15px 18px;
+  border-radius:13px;
+  border:1px solid rgba(0,255,136,.18);
+  background:rgba(0,255,136,.045);
+  color:#9fb1a8;
+  line-height:1.6;
+  font-size:13px;
+}
 
-    .progress-text {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 9px;
-      color: #b9c1ca;
-    }
+.notice strong{color:#00ff88}
 
-    .progress-bar {
-      height: 10px;
-      background: #141c25;
-      border-radius: 20px;
-      overflow: hidden;
-    }
+.controls{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
+}
 
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: #00ff88;
-      transition: width 0.3s;
-    }
+.search{
+  flex:1;
+  min-width:220px;
+  padding:14px 17px;
+  border-radius:12px;
+  border:1px solid rgba(0,255,136,.18);
+  background:#07100c;
+  color:#fff;
+  outline:none;
+}
 
-    .reset-btn {
-      margin-top: 14px;
-      border: 1px solid #33404d;
-      background: #0b1017;
-      color: #aaa;
-      padding: 8px 13px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+.search:focus{
+  border-color:#00ff88;
+  box-shadow:0 0 18px rgba(0,255,136,.08);
+}
 
-    .reset-btn:hover {
-      color: #ff7777;
-      border-color: #ff7777;
-    }
+.filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
 
-    .search {
-      max-width: 700px;
-      margin: 30px auto 15px;
-      padding: 0 20px;
-    }
+.filter{
+  border:1px solid rgba(0,255,136,.18);
+  background:#08100c;
+  color:#9aaba3;
+  padding:10px 13px;
+  border-radius:10px;
+  cursor:pointer;
+}
 
-    .search input {
-      width: 100%;
-      padding: 15px;
-      background: #0b1017;
-      color: white;
-      border: 1px solid #26313d;
-      border-radius: 10px;
-      outline: none;
-      font-size: 15px;
-    }
+.filter.active,
+.filter:hover{
+  background:rgba(0,255,136,.12);
+  color:#00ff88;
+  border-color:rgba(0,255,136,.4);
+}
 
-    .search input:focus {
-      border-color: #00ff88;
-    }
+.progress-panel{
+  margin-bottom:28px;
+  padding:20px;
+  border-radius:16px;
+  background:rgba(4,18,12,.9);
+  border:1px solid rgba(0,255,136,.18);
+}
 
-    .categories {
-      max-width: 1150px;
-      margin: 15px auto 30px;
-      padding: 0 20px;
-      display: flex;
-      justify-content: center;
-      gap: 9px;
-      flex-wrap: wrap;
-    }
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+  color:#a9b9b1;
+  font-size:14px;
+}
 
-    .category {
-      padding: 9px 14px;
-      border: 1px solid #26313d;
-      background: #0b1017;
-      color: #aaa;
-      border-radius: 20px;
-      cursor: pointer;
-    }
+.progress-top strong{color:#00ff88}
 
-    .category:hover,
-    .category.active {
-      color: #00ff88;
-      border-color: #00ff88;
-      background: #09150f;
-    }
+.progress{
+  height:10px;
+  border-radius:99px;
+  background:#101914;
+  overflow:hidden;
+}
 
-    .labs {
-      max-width: 1250px;
-      margin: auto;
-      padding: 10px 20px 70px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
-      gap: 18px;
-    }
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:#00ff88;
+  box-shadow:0 0 14px rgba(0,255,136,.5);
+  transition:.35s;
+}
 
-    .lab-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      min-height: 300px;
-      padding: 22px;
-      background: #0a0f16;
-      border: 1px solid #1b2632;
-      border-radius: 15px;
-      transition: 0.25s;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:17px;
+}
 
-    .lab-card:hover {
-      transform: translateY(-4px);
-      border-color: #00ff88;
-      box-shadow: 0 0 20px rgba(0, 255, 136, 0.08);
-    }
+.lab-card{
+  position:relative;
+  padding:21px;
+  min-height:245px;
+  border-radius:17px;
+  background:linear-gradient(145deg,rgba(10,27,20,.96),rgba(4,9,7,.96));
+  border:1px solid rgba(0,255,136,.13);
+  transition:.25s;
+}
 
-    .lab-card.completed {
-      border-color: #16824d;
-    }
+.lab-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(0,255,136,.42);
+  box-shadow:0 12px 30px rgba(0,255,136,.07);
+}
 
-    .completed-badge {
-      display: none;
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      color: #00ff88;
-      font-size: 12px;
-      font-weight: bold;
-    }
+.lab-card.completed{
+  border-color:rgba(0,255,136,.48);
+  box-shadow:inset 0 0 25px rgba(0,255,136,.035);
+}
 
-    .lab-card.completed .completed-badge {
-      display: block;
-    }
+.lab-number{
+  display:inline-block;
+  color:#00ff88;
+  background:rgba(0,255,136,.08);
+  border:1px solid rgba(0,255,136,.16);
+  padding:5px 9px;
+  border-radius:8px;
+  font-size:12px;
+  margin-bottom:14px;
+}
 
-    .lab-number {
-      color: #00ff88;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+.lab-card h3{
+  font-size:18px;
+  margin-bottom:9px;
+}
 
-    .lab-icon {
-      font-size: 34px;
-      margin-bottom: 10px;
-    }
+.lab-card p{
+  color:#8fa29a;
+  font-size:14px;
+  line-height:1.55;
+  min-height:65px;
+}
 
-    .tag {
-      width: fit-content;
-      color: #00ff88;
-      background: #08150f;
-      border: 1px solid #17452e;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
+.category{
+  display:inline-block;
+  margin-top:12px;
+  font-size:11px;
+  color:#73a18d;
+}
 
-    .lab-card h3 {
-      margin: 0 0 10px;
-    }
+.card-buttons{
+  display:flex;
+  gap:8px;
+  margin-top:17px;
+}
 
-    .lab-card p {
-      color: #9ca5b0;
-      line-height: 1.55;
-      flex: 1;
-    }
+.lab-btn,
+.complete-btn{
+  border:1px solid rgba(0,255,136,.2);
+  background:#07120d;
+  color:#00ff88;
+  border-radius:9px;
+  padding:9px 11px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:12px;
+}
 
-    .lab-btn {
-      border: none;
-      background: #00ff88;
-      color: #031008;
-      font-weight: bold;
-      padding: 11px;
-      border-radius: 9px;
-      cursor: pointer;
-    }
+.lab-btn:hover,
+.complete-btn:hover{
+  background:rgba(0,255,136,.12);
+}
 
-    .lab-btn:hover {
-      background: #55ffaa;
-    }
+.complete-btn.done{
+  background:#00ff88;
+  color:#031009;
+}
 
-    #noResults {
-      display: none;
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 45px;
-      color: #888;
-    }
+.empty{
+  display:none;
+  text-align:center;
+  padding:50px;
+  color:#71827a;
+}
 
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 3000;
-      background: rgba(0, 0, 0, 0.82);
-      padding: 20px;
-      align-items: center;
-      justify-content: center;
-    }
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.78);
+}
 
-    .modal.show {
-      display: flex;
-    }
+.modal.show{display:flex}
 
-    .modal-box {
-      position: relative;
-      width: 100%;
-      max-width: 900px;
-      max-height: 92vh;
-      overflow-y: auto;
-      background: #090e15;
-      border: 1px solid #293744;
-      border-radius: 17px;
-      padding: 28px;
-    }
+.modal-box{
+  width:min(850px,100%);
+  max-height:88vh;
+  overflow:auto;
+  background:#07100c;
+  border:1px solid rgba(0,255,136,.3);
+  border-radius:18px;
+  padding:25px;
+  box-shadow:0 0 45px rgba(0,255,136,.1);
+}
 
-    .close {
-      position: absolute;
-      top: 12px;
-      right: 18px;
-      background: transparent;
-      border: none;
-      color: #aaa;
-      font-size: 30px;
-      cursor: pointer;
-    }
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:flex-start;
+  margin-bottom:20px;
+}
 
-    .close:hover {
-      color: #00ff88;
-    }
+.modal-head h2{color:#00ff88}
 
-    .modal-box h2 {
-      color: #00ff88;
-      padding-right: 35px;
-    }
+.close{
+  border:0;
+  background:transparent;
+  color:#aaa;
+  font-size:28px;
+  cursor:pointer;
+}
 
-    .modal-box h3 {
-      margin-top: 25px;
-      color: #e5e8eb;
-    }
+.modal-content{
+  color:#b6c5be;
+  line-height:1.7;
+}
 
-    .modal-box p,
-    .modal-box li {
-      color: #b3bbc4;
-      line-height: 1.7;
-    }
+.modal-content h3{
+  color:#00ff88;
+  margin:22px 0 8px;
+}
 
-    .command {
-      margin: 12px 0;
-      padding: 15px;
-      background: #030508;
-      border: 1px solid #1d2a35;
-      border-left: 3px solid #00ff88;
-      border-radius: 8px;
-      color: #d7ffe8;
-      font-family: Consolas, monospace;
-      white-space: pre-wrap;
-      overflow-x: auto;
-    }
+.modal-content pre{
+  background:#020604;
+  border:1px solid rgba(0,255,136,.13);
+  padding:15px;
+  border-radius:10px;
+  overflow:auto;
+  color:#b8ffd9;
+  margin:10px 0;
+}
 
-    .expected {
-      background: #08121a;
-      border: 1px solid #203747;
-      padding: 15px;
-      border-radius: 9px;
-      color: #b9d9e8;
-      line-height: 1.6;
-    }
+.modal-content .safe{
+  padding:12px;
+  border-left:3px solid #00ff88;
+  background:rgba(0,255,136,.05);
+  border-radius:8px;
+  margin-top:15px;
+}
 
-    .hint {
-      background: #111007;
-      border: 1px solid #5a4b17;
-      color: #e3d18b;
-      padding: 15px;
-      border-radius: 9px;
-      line-height: 1.6;
-    }
+.modal-complete{
+  margin-top:20px;
+  width:100%;
+  padding:13px;
+  border:1px solid rgba(0,255,136,.25);
+  background:#00ff88;
+  color:#021009;
+  border-radius:11px;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    .safe {
-      background: #07150e;
-      border: 1px solid #155c38;
-      color: #a7f5c8;
-      padding: 15px;
-      border-radius: 9px;
-      line-height: 1.6;
-    }
+footer{
+  border-top:1px solid rgba(0,255,136,.12);
+  padding:25px;
+  text-align:center;
+  color:#65766e;
+  font-size:13px;
+}
 
-    .complete-btn {
-      width: 100%;
-      margin-top: 25px;
-      padding: 13px;
-      border: none;
-      border-radius: 9px;
-      background: #00ff88;
-      color: #031008;
-      font-weight: bold;
-      cursor: pointer;
-    }
+footer strong{color:#00ff88}
 
-    .complete-btn:hover {
-      background: #55ffaa;
-    }
-
-    footer {
-      border-top: 1px solid #17202b;
-      text-align: center;
-      padding: 30px 20px;
-      color: #69727d;
-      line-height: 1.8;
-    }
-
-    footer strong {
-      color: #00ff88;
-    }
-
-    @media (max-width: 700px) {
-      .nav {
-        flex-direction: column;
-      }
-
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .modal-box {
-        padding: 22px;
-      }
-    }
-  </style>
+@media(max-width:750px){
+  .nav{flex-direction:column}
+  .navlinks{justify-content:center}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <nav class="nav">
+<nav class="nav">
 
-    <div class="logo">🐧 TUX-AI</div>
+<a href="index.html" class="logo">🐧 TUX-AI</a>
 
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="chat.html">Chat</a>
-      <a href="analyzer.html">Analyzer</a>
-      <a href="learn.html">Learn</a>
-      <a href="labs.html" class="active">Labs</a>
-    </div>
+<div class="navlinks">
+<a href="index.html">Home</a>
+<a href="chat.html">Chat</a>
+<a href="analyzer.html">Analyzer</a>
+<a href="learn.html">Learn</a>
+<a href="labs.html" class="active">Labs</a>
+<a href="tools.html">Tools</a>
+<a href="dashboard.html">Dashboard</a>
+</div>
 
-  </nav>
+</nav>
 </header>
 
 
 <section class="hero">
 
-  <div class="hero-icon">🧪</div>
+<div class="badge">🧪 TUX-AI Security Labs</div>
 
-  <h1>
-    TUX-AI <span>Security Labs</span>
-  </h1>
+<h1>Practice <span>Safely</span></h1>
 
-  <p>
-    Practice Linux, networking and cybersecurity concepts through
-    safe, beginner-friendly laboratory exercises.
-  </p>
-
-  <div class="safe-banner">
-    🛡️ <strong>Safe Lab Rule:</strong>
-    Practice only on systems, virtual machines, services and networks
-    that you own or are explicitly authorized to test.
-  </div>
-
-  <div class="progress-area">
-
-    <div class="progress-text">
-      <span>Lab Progress</span>
-      <strong id="progressText">0 / 20</strong>
-    </div>
-
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-
-    <button class="reset-btn" onclick="resetProgress()">
-      Reset Progress
-    </button>
-
-  </div>
+<p>
+Hands-on Linux and cybersecurity learning activities
+designed for your own computer, virtual machines and
+authorized practice environments.
+</p>
 
 </section>
 
 
-<div class="search">
-  <input
-    id="searchInput"
-    type="text"
-    placeholder="🔎 Search labs... e.g. permissions, TCP, DNS"
-    oninput="searchLabs()"
-  >
+<main class="container">
+
+<div class="notice">
+<strong>🛡️ Safety rule:</strong>
+Use these labs only on systems you own or have explicit
+permission to test. Keep security experiments inside
+your authorized learning environment.
 </div>
 
 
-<div class="categories">
+<div class="controls">
 
-  <button class="category active" onclick="filterLabs('all', this)">
-    All
-  </button>
+<input
+  id="search"
+  class="search"
+  type="search"
+  placeholder="🔎 Search labs..."
+>
 
-  <button class="category" onclick="filterLabs('linux', this)">
-    🐧 Linux
-  </button>
-
-  <button class="category" onclick="filterLabs('networking', this)">
-    🌐 Networking
-  </button>
-
-  <button class="category" onclick="filterLabs('security', this)">
-    🛡️ Security
-  </button>
-
-  <button class="category" onclick="filterLabs('python', this)">
-    🐍 Python
-  </button>
-
-  <button class="category" onclick="filterLabs('tools', this)">
-    🧰 Tools
-  </button>
+<div class="filters">
+<button class="filter active" data-filter="All">All</button>
+<button class="filter" data-filter="Linux">Linux</button>
+<button class="filter" data-filter="Networking">Networking</button>
+<button class="filter" data-filter="Security">Security</button>
+<button class="filter" data-filter="Python">Python</button>
+<button class="filter" data-filter="Tools">Tools</button>
+</div>
 
 </div>
 
 
-<section class="labs" id="labsGrid">
-
-
-  <!-- LAB 01 -->
-
-  <article class="lab-card"
-    data-id="1"
-    data-category="linux"
-    data-search="linux terminal pwd ls navigation">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 01</div>
-    <div class="lab-icon">⌨️</div>
-
-    <span class="tag">Linux</span>
-
-    <h3>Terminal Navigation</h3>
-
-    <p>
-      Practice identifying your current directory and navigating the Linux filesystem.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(1)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 02 -->
-
-  <article class="lab-card"
-    data-id="2"
-    data-category="linux"
-    data-search="files directories mkdir touch ls file">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 02</div>
-    <div class="lab-icon">📁</div>
-
-    <span class="tag">Linux</span>
-
-    <h3>File & Directory Lab</h3>
-
-    <p>
-      Create a small practice directory and inspect the files inside it.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(2)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 03 -->
-
-  <article class="lab-card"
-    data-id="3"
-    data-category="linux"
-    data-search="permissions chmod rwx ls -l">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 03</div>
-    <div class="lab-icon">🔐</div>
-
-    <span class="tag">Linux</span>
-
-    <h3>Permission Lab</h3>
-
-    <p>
-      Explore Linux read, write and execute permissions in a safe practice folder.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(3)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 04 -->
-
-  <article class="lab-card"
-    data-id="4"
-    data-category="linux"
-    data-search="process ps top pgrep process lab">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 04</div>
-    <div class="lab-icon">⚙️</div>
-
-    <span class="tag">Linux</span>
-
-    <h3>Process Inspection</h3>
-
-    <p>
-      Learn how to inspect running processes and understand basic process information.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(4)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 05 -->
-
-  <article class="lab-card"
-    data-id="5"
-    data-category="linux"
-    data-search="disk df du storage linux">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 05</div>
-    <div class="lab-icon">💾</div>
-
-    <span class="tag">Linux</span>
-
-    <h3>Storage Investigation</h3>
-
-    <p>
-      Check filesystem capacity and understand directory disk usage.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(5)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 06 -->
-
-  <article class="lab-card"
-    data-id="6"
-    data-category="linux"
-    data-search="apt package management update package">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 06</div>
-    <div class="lab-icon">📦</div>
-
-    <span class="tag">Linux</span>
-
-    <h3>APT Package Lab</h3>
-
-    <p>
-      Learn how Linux package management works and inspect package information.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(6)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 07 -->
-
-  <article class="lab-card"
-    data-id="7"
-    data-category="networking"
-    data-search="ip address interface ip -br a">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 07</div>
-    <div class="lab-icon">🌐</div>
-
-    <span class="tag">Networking</span>
-
-    <h3>Network Interface Lab</h3>
-
-    <p>
-      Identify network interfaces and their assigned IP addresses.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(7)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 08 -->
-
-  <article class="lab-card"
-    data-id="8"
-    data-category="networking"
-    data-search="routing ip route gateway network">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 08</div>
-    <div class="lab-icon">🛣️</div>
-
-    <span class="tag">Networking</span>
-
-    <h3>Routing Lab</h3>
-
-    <p>
-      Inspect the routing table and understand the default route.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(8)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 09 -->
-
-  <article class="lab-card"
-    data-id="9"
-    data-category="networking"
-    data-search="ports sockets ss listening tcp udp">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 09</div>
-    <div class="lab-icon">🔌</div>
-
-    <span class="tag">Networking</span>
-
-    <h3>Ports & Sockets Lab</h3>
-
-    <p>
-      Inspect listening TCP and UDP sockets on your own Linux system.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(9)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 10 -->
-
-  <article class="lab-card"
-    data-id="10"
-    data-category="networking"
-    data-search="tcp udp protocol localhost networking">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 10</div>
-    <div class="lab-icon">🔄</div>
-
-    <span class="tag">Networking</span>
-
-    <h3>TCP & UDP Concepts</h3>
-
-    <p>
-      Compare TCP and UDP and inspect local sockets.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(10)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 11 -->
-
-  <article class="lab-card"
-    data-id="11"
-    data-category="networking"
-    data-search="dns domain getent dig resolver">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 11</div>
-    <div class="lab-icon">🌍</div>
-
-    <span class="tag">Networking</span>
-
-    <h3>DNS Troubleshooting</h3>
-
-    <p>
-      Practice checking whether your Linux system can resolve domain names.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(11)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 12 -->
-
-  <article class="lab-card"
-    data-id="12"
-    data-category="networking"
-    data-search="ssh local ssh authorized lab">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 12</div>
-    <div class="lab-icon">🔑</div>
-
-    <span class="tag">Networking</span>
-
-    <h3>SSH Concepts Lab</h3>
-
-    <p>
-      Learn SSH configuration and authentication concepts using an authorized lab.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(12)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 13 -->
-
-  <article class="lab-card"
-    data-id="13"
-    data-category="security"
-    data-search="linux logs journalctl security events">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 13</div>
-    <div class="lab-icon">📜</div>
-
-    <span class="tag">Security</span>
-
-    <h3>Log Analysis Lab</h3>
-
-    <p>
-      Inspect system logs and identify useful troubleshooting information.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(13)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 14 -->
-
-  <article class="lab-card"
-    data-id="14"
-    data-category="security"
-    data-search="ethical security authorization scope lab">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 14</div>
-    <div class="lab-icon">🎯</div>
-
-    <span class="tag">Security</span>
-
-    <h3>Ethical Security Planning</h3>
-
-    <p>
-      Practice defining authorization, scope, goals and documentation for a lab.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(14)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 15 -->
-
-  <article class="lab-card"
-    data-id="15"
-    data-category="tools"
-    data-search="tcpdump pcap packet capture localhost">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 15</div>
-    <div class="lab-icon">📡</div>
-
-    <span class="tag">Tools</span>
-
-    <h3>PCAP Capture Lab</h3>
-
-    <p>
-      Capture traffic generated by your own local lab and understand basic packet fields.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(15)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 16 -->
-
-  <article class="lab-card"
-    data-id="16"
-    data-category="tools"
-    data-search="curl http headers status codes web">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 16</div>
-    <div class="lab-icon">🌐</div>
-
-    <span class="tag">Tools</span>
-
-    <h3>HTTP Inspection Lab</h3>
-
-    <p>
-      Learn how HTTP clients inspect response status codes and headers.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(16)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 17 -->
-
-  <article class="lab-card"
-    data-id="17"
-    data-category="python"
-    data-search="python script terminal python3 lab">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 17</div>
-    <div class="lab-icon">🐍</div>
-
-    <span class="tag">Python</span>
-
-    <h3>Python Linux Lab</h3>
-
-    <p>
-      Create a small Python program and run it from the Linux terminal.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(17)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 18 -->
-
-  <article class="lab-card"
-    data-id="18"
-    data-category="tools"
-    data-search="git github repository commit status">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 18</div>
-    <div class="lab-icon">🔧</div>
-
-    <span class="tag">Tools</span>
-
-    <h3>Git Repository Lab</h3>
-
-    <p>
-      Create a local Git repository and record your first safe practice commit.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(18)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 19 -->
-
-  <article class="lab-card"
-    data-id="19"
-    data-category="security"
-    data-search="security checklist hardening linux audit">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 19</div>
-    <div class="lab-icon">🛡️</div>
-
-    <span class="tag">Security</span>
-
-    <h3>Linux Security Checklist</h3>
-
-    <p>
-      Build a beginner-friendly security checklist for your own Linux VM.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(19)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <!-- LAB 20 -->
-
-  <article class="lab-card"
-    data-id="20"
-    data-category="security"
-    data-search="final cybersecurity lab safe authorized review">
-
-    <div class="completed-badge">✓ COMPLETED</div>
-
-    <div class="lab-number">LAB 20</div>
-    <div class="lab-icon">🏆</div>
-
-    <span class="tag">Final Lab</span>
-
-    <h3>Linux Security Review</h3>
-
-    <p>
-      Combine your Linux, networking and security knowledge in one authorized lab review.
-    </p>
-
-    <button class="lab-btn" onclick="openLab(20)">
-      Start Lab →
-    </button>
-
-  </article>
-
-
-  <div id="noResults">
-    <h3>No labs found</h3>
-    <p>Try another search term.</p>
-  </div>
+<section class="progress-panel">
+
+<div class="progress-top">
+<span>Lab Progress</span>
+<strong id="progressText">0 / 20 completed</strong>
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
 
 </section>
 
 
-<!-- MODAL -->
+<div id="labGrid" class="grid"></div>
 
-<div class="modal" id="labModal">
+<div id="empty" class="empty">
+No labs found.
+</div>
 
-  <div class="modal-box">
+</main>
 
-    <button class="close" onclick="closeLab()">×</button>
 
-    <div id="labContent"></div>
+<div id="modal" class="modal">
 
-  </div>
+<div class="modal-box">
+
+<div class="modal-head">
+<h2 id="modalTitle"></h2>
+<button class="close" onclick="closeModal()">×</button>
+</div>
+
+<div id="modalContent" class="modal-content"></div>
+
+<button id="modalComplete" class="modal-complete">
+Mark Lab Complete
+</button>
+
+</div>
 
 </div>
 
 
 <footer>
-
-  <strong>TUX-AI</strong> Security Labs
-
-  <br>
-
-  Learn • Practice • Analyze • Secure
-
-  <br>
-
-  All exercises are designed for authorized educational environments.
-
+<strong>TUX-AI Linux Assistant</strong>
+<br><br>
+Safe Labs • Ethical Security • Linux Learning
 </footer>
 
 
 <script>
 
-  const labs = {
+const labs = [
 
-    1: {
-      title: "⌨️ Terminal Navigation",
-      category: "Linux",
-      description: "Learn how to identify your location and move through the Linux filesystem.",
-      objective: "Understand your current directory and basic navigation.",
-      commands: `pwd
+{
+id:1,
+title:"Terminal Navigation",
+category:"Linux",
+description:"Practice pwd, ls, cd and basic terminal navigation.",
+content:`
+<h3>Objective</h3>
+<p>Learn how to move around a Linux filesystem safely.</p>
+
+<h3>Commands</h3>
+<pre>pwd
 ls
 cd /tmp
 pwd
-cd ..`,
-      expected: "You should see your current working directory and then move into /tmp and back to its parent directory.",
-      hint: "pwd means print working directory. cd means change directory.",
-      explanation: "Linux organizes files in a hierarchical filesystem. The terminal lets you navigate this structure using commands.",
-      safety: "These commands are safe for a normal Linux practice environment."
-    },
+cd ~</pre>
 
-    2: {
-      title: "📁 File & Directory Lab",
-      category: "Linux",
-      description: "Create and inspect files inside a dedicated practice directory.",
-      objective: "Practice mkdir, touch and ls without modifying important system files.",
-      commands: `mkdir -p ~/tux-lab/files
-cd ~/tux-lab/files
-touch note.txt
-ls -la
-file note.txt`,
-      expected: "A file named note.txt should appear in the directory listing.",
-      hint: "The -p option allows mkdir to create missing parent directories.",
-      explanation: "A dedicated lab directory is a good habit because it keeps experiments separate from important system files.",
-      safety: "Use your home directory for practice instead of system directories."
-    },
+<h3>Challenge</h3>
+<p>Navigate to a directory you create yourself and return to your home directory.</p>
 
-    3: {
-      title: "🔐 Permission Lab",
-      category: "Linux",
-      description: "Understand Linux read, write and execute permissions.",
-      objective: "Observe how chmod changes a file's permission bits.",
-      commands: `mkdir -p ~/tux-lab/permissions
-cd ~/tux-lab/permissions
-touch practice.txt
-ls -l practice.txt
-chmod 600 practice.txt
-ls -l practice.txt
-chmod 644 practice.txt
-ls -l practice.txt`,
-      expected: "The permission string should change after each chmod command.",
-      hint: "6 means read + write for the owner. 4 means read only.",
-      explanation: "Linux permissions help control who can read, modify or execute files.",
-      safety: "Practice on files created specifically for this lab."
-    },
+<div class="safe"><strong>Safe practice:</strong> Work inside your own Linux VM or computer.</div>
+`
+},
 
-    4: {
-      title: "⚙️ Process Inspection",
-      category: "Linux",
-      description: "Inspect processes running on your own Linux machine.",
-      objective: "Learn how to identify running processes.",
-      commands: `ps
+{
+id:2,
+title:"File & Directory Lab",
+category:"Linux",
+description:"Create, inspect, copy and move files inside a practice directory.",
+content:`
+<h3>Objective</h3>
+<p>Create a small filesystem practice area.</p>
+
+<pre>mkdir -p ~/tux_lab/files
+cd ~/tux_lab/files
+touch notes.txt
+echo "TUX-AI Lab" > notes.txt
+cat notes.txt
+cp notes.txt backup.txt
+mv backup.txt copy.txt
+ls -l</pre>
+
+<p>Everything here happens inside your own practice directory.</p>
+`
+},
+
+{
+id:3,
+title:"Permission Lab",
+category:"Linux",
+description:"Understand Linux read, write and execute permissions.",
+content:`
+<h3>Objective</h3>
+<pre>mkdir -p ~/tux_lab/permissions
+cd ~/tux_lab/permissions
+touch script.sh
+ls -l script.sh
+chmod u+x script.sh
+ls -l script.sh</pre>
+
+<p>Observe how the execute permission changes.</p>
+
+<div class="safe"><strong>Safety:</strong> Change permissions only on files you own or are authorized to administer.</div>
+`
+},
+
+{
+id:4,
+title:"Process Inspection",
+category:"Linux",
+description:"Inspect processes running on your own Linux system.",
+content:`
+<h3>Commands</h3>
+<pre>ps
 ps aux
-pgrep bash`,
-      expected: "You should see running processes and, if Bash is running, its process ID.",
-      hint: "A PID is a process identifier.",
-      explanation: "Every running program has a process. Linux tools such as ps and pgrep help administrators understand what is running.",
-      safety: "Inspection commands do not require you to stop or modify processes."
-    },
+top
+pgrep bash</pre>
 
-    5: {
-      title: "💾 Storage Investigation",
-      category: "Linux",
-      description: "Inspect filesystem capacity and directory usage.",
-      objective: "Understand the difference between filesystem usage and directory size.",
-      commands: `df -h
-du -sh ~`,
-      expected: "df reports filesystem capacity while du reports the size used by the specified directory.",
-      hint: "The -h option makes sizes easier for humans to read.",
-      explanation: "Storage problems are common causes of failed installations and applications.",
-      safety: "These commands only inspect storage."
-    },
+<h3>Goal</h3>
+<p>Identify your own shell and understand basic process information.</p>
+`
+},
 
-    6: {
-      title: "📦 APT Package Lab",
-      category: "Linux",
-      description: "Understand basic package-management operations.",
-      objective: "Learn how APT obtains package information.",
-      commands: `apt --version
-apt list --installed 2>/dev/null | head
-apt policy bash`,
-      expected: "You should see APT information and package information for Bash.",
-      hint: "apt policy shows package versions and repository information.",
-      explanation: "APT manages software packages on Debian-based distributions such as Kali and Debian.",
-      safety: "This lab focuses on inspection rather than changing installed packages."
-    },
+{
+id:5,
+title:"Storage Investigation",
+category:"Linux",
+description:"Inspect disk usage and available storage.",
+content:`
+<h3>Commands</h3>
+<pre>df -h
+du -sh ~
+free -h</pre>
 
-    7: {
-      title: "🌐 Network Interface Lab",
-      category: "Networking",
-      description: "Inspect interfaces and IP addresses on your own Linux VM.",
-      objective: "Identify active network interfaces.",
-      commands: `ip -br a
-ip link`,
-      expected: "You should see interfaces such as lo and possibly eth0, ens33 or another interface name.",
-      hint: "lo is the loopback interface.",
-      explanation: "Network interfaces connect the Linux system to networks. IP addresses are assigned to interfaces.",
-      safety: "These commands only inspect your local system."
-    },
+<p>Compare filesystem capacity with the size of your home directory.</p>
+`
+},
 
-    8: {
-      title: "🛣️ Routing Lab",
-      category: "Networking",
-      description: "Inspect the routing table of your own Linux system.",
-      objective: "Understand how Linux decides where packets should go.",
-      commands: `ip route
-ip route get 1.1.1.1`,
-      expected: "The output should show routing information and the interface/gateway Linux would use for the destination.",
-      hint: "Look for a line beginning with default.",
-      explanation: "A routing table contains rules that determine where network traffic should be sent.",
-      safety: "This is local network inspection."
-    },
+{
+id:6,
+title:"APT Package Lab",
+category:"Tools",
+description:"Practice safe package searches and package information.",
+content:`
+<h3>Commands</h3>
+<pre>apt search curl
+apt show curl</pre>
 
-    9: {
-      title: "🔌 Ports & Sockets Lab",
-      category: "Networking",
-      description: "Inspect listening sockets on your own Linux system.",
-      objective: "Understand the relationship between services and ports.",
-      commands: `ss -ltn
-ss -lun
-ss -ltnp 2>/dev/null`,
-      expected: "You may see listening TCP/UDP sockets depending on the services running on your machine.",
-      hint: "l means listening. t means TCP. u means UDP.",
-      explanation: "Applications can listen on ports for network communication. ss is a modern Linux socket-inspection tool.",
-      safety: "Only inspect services on systems you own or administer."
-    },
+<p>On Debian-based systems you can update package metadata with:</p>
 
-    10: {
-      title: "🔄 TCP & UDP Concepts",
-      category: "Networking",
-      description: "Compare TCP and UDP using local observations.",
-      objective: "Understand the basic difference between TCP and UDP.",
-      commands: `ss -ltn
-ss -lun`,
-      expected: "The first command displays TCP listening sockets and the second displays UDP listening sockets.",
-      hint: "TCP provides connection-oriented reliable transport; UDP does not provide the same built-in reliability.",
-      explanation: "TCP and UDP are transport-layer protocols with different characteristics and use cases.",
-      safety: "This lab does not require interacting with external systems."
-    },
+<pre>sudo apt update</pre>
 
-    11: {
-      title: "🌍 DNS Troubleshooting",
-      category: "Networking",
-      description: "Check DNS resolution from your own Linux environment.",
-      objective: "Determine whether a hostname can be resolved.",
-      commands: `getent hosts example.com
-command -v dig && dig example.com`,
-      expected: "A successful lookup should return an IP address or DNS records.",
-      hint: "If getent works but dig is unavailable, your DNS may still be working.",
-      explanation: "DNS translates human-readable domain names into IP addresses and other records.",
-      safety: "Use normal public DNS lookups only for educational diagnostics."
-    },
+<div class="safe"><strong>Safety:</strong> Use APT only on systems you administer.</div>
+`
+},
 
-    12: {
-      title: "🔑 SSH Concepts Lab",
-      category: "Networking",
-      description: "Understand SSH configuration and authentication in an authorized environment.",
-      objective: "Learn how SSH keys and configuration fit together.",
-      commands: `ssh -V
-ls -la ~/.ssh 2>/dev/null
-ssh-keygen -lf ~/.ssh/id_ed25519.pub 2>/dev/null`,
-      expected: "You may see your SSH version and existing SSH files if keys have already been created.",
-      hint: "Not every system will already have an SSH key.",
-      explanation: "SSH provides encrypted remote administration. Key-based authentication is commonly used for secure access.",
-      safety: "Only connect to hosts you own or have explicit authorization to administer."
-    },
+{
+id:7,
+title:"Network Interface Lab",
+category:"Networking",
+description:"Inspect your own network interfaces and addresses.",
+content:`
+<h3>Commands</h3>
+<pre>ip -br a
+ip addr
+ip link</pre>
 
-    13: {
-      title: "📜 Log Analysis Lab",
-      category: "Security",
-      description: "Inspect system logs for troubleshooting information.",
-      objective: "Learn how journalctl can filter and inspect events.",
-      commands: `journalctl -b --no-pager | tail -n 20
-journalctl -p warning -b --no-pager | tail -n 20`,
-      expected: "You should see recent journal entries from the current boot.",
-      hint: "The -p option filters by priority.",
-      explanation: "Logs provide a timeline of system and application events and are important for troubleshooting.",
-      safety: "Analyze logs from systems you own or are authorized to administer."
-    },
+<h3>Goal</h3>
+<p>Identify loopback and your active network interface.</p>
+`
+},
 
-    14: {
-      title: "🎯 Ethical Security Planning",
-      category: "Security",
-      description: "Create a basic security-testing plan for an authorized lab.",
-      objective: "Learn why authorization and scope come before testing.",
-      commands: `LAB OWNER: Your own VM
-SCOPE: Local lab only
-GOAL: Identify configuration issues
-EVIDENCE: Screenshots/logs
-STOP CONDITION: Unexpected impact`,
-      expected: "A good plan clearly identifies ownership, scope, objective, evidence and stop conditions.",
-      hint: "If you cannot clearly define permission and scope, do not perform the test.",
-      explanation: "Ethical security work requires authorization, limited scope, careful testing and responsible reporting.",
-      safety: "Never test accounts, devices, networks or websites without permission."
-    },
+{
+id:8,
+title:"Routing Lab",
+category:"Networking",
+description:"Understand the routing table on your own Linux system.",
+content:`
+<h3>Commands</h3>
+<pre>ip route
+ip -6 route</pre>
 
-    15: {
-      title: "📡 PCAP Capture Lab",
-      category: "Tools",
-      description: "Capture traffic generated by your own local lab.",
-      objective: "Understand the basic idea of packet capture and PCAP files.",
-      commands: `sudo tcpdump -i lo -nn -c 10
-sudo tcpdump -i lo -nn -w ~/tux-lab.pcap -c 20`,
-      expected: "tcpdump should display or save packets observed on the loopback interface, depending on local activity.",
-      hint: "The loopback interface is commonly named lo.",
-      explanation: "Packet captures can be used to study protocols, addresses, ports and packet metadata.",
-      safety: "Capture only traffic you are authorized to inspect. Using your own loopback traffic is a safe practice environment."
-    },
+<p>Look for the default route and understand which interface is used.</p>
+`
+},
 
-    16: {
-      title: "🌐 HTTP Inspection Lab",
-      category: "Tools",
-      description: "Inspect HTTP response headers using curl.",
-      objective: "Understand basic HTTP response information.",
-      commands: `curl -I https://example.com
-curl -s -o /dev/null -w "%{http_code}\\n" https://example.com`,
-      expected: "You should receive HTTP headers and a status code such as 200, depending on the site and current conditions.",
-      hint: "The status code is a three-digit HTTP response code.",
-      explanation: "HTTP clients communicate with web servers using requests and responses. Headers provide metadata about the response.",
-      safety: "These are ordinary requests to a public example domain; do not perform disruptive testing."
-    },
+{
+id:9,
+title:"Ports & Sockets Lab",
+category:"Networking",
+description:"Inspect listening sockets on your own computer.",
+content:`
+<h3>Commands</h3>
+<pre>ss -tuln
+ss -ltn
+ss -lun</pre>
 
-    17: {
-      title: "🐍 Python Linux Lab",
-      category: "Python",
-      description: "Create and run a tiny Python program from your Linux terminal.",
-      objective: "Practice the Linux-to-Python workflow.",
-      commands: `mkdir -p ~/tux-lab/python
-cd ~/tux-lab/python
-printf 'print("TUX-AI Linux Lab")\\n' > hello.py
-python3 hello.py`,
-      expected: "The terminal should print: TUX-AI Linux Lab",
-      hint: "python3 executes the Python program.",
-      explanation: "Python is useful for automation, data processing and many defensive security tasks.",
-      safety: "The example only creates and runs a harmless local program."
-    },
+<p>Learn the difference between TCP and UDP listening sockets.</p>
+`
+},
 
-    18: {
-      title: "🔧 Git Repository Lab",
-      category: "Tools",
-      description: "Create a local Git repository and record a practice commit.",
-      objective: "Learn basic project version control.",
-      commands: `mkdir -p ~/tux-lab/git-demo
-cd ~/tux-lab/git-demo
+{
+id:10,
+title:"TCP & UDP Concepts",
+category:"Networking",
+description:"Compare TCP and UDP using safe local examples.",
+content:`
+<h3>TCP</h3>
+<p>TCP is connection-oriented and provides reliable ordered delivery.</p>
+
+<h3>UDP</h3>
+<p>UDP is connectionless and has lower protocol overhead.</p>
+
+<h3>Inspect sockets</h3>
+<pre>ss -tuln</pre>
+`
+},
+
+{
+id:11,
+title:"DNS Troubleshooting",
+category:"Networking",
+description:"Practice basic DNS resolution on a normal public domain.",
+content:`
+<h3>Commands</h3>
+<pre>getent hosts example.com
+ping -c 2 example.com</pre>
+
+<p>Compare successful name resolution with a local loopback test.</p>
+
+<div class="safe"><strong>Safety:</strong> This lab is for learning DNS concepts, not scanning or attacking domains.</div>
+`
+},
+
+{
+id:12,
+title:"SSH Concepts Lab",
+category:"Networking",
+description:"Understand SSH configuration and authorized remote administration.",
+content:`
+<h3>Check SSH client</h3>
+<pre>ssh -V</pre>
+
+<h3>Local configuration</h3>
+<pre>ls ~/.ssh</pre>
+
+<p>For practical testing, use only a VM or server you own or are explicitly authorized to administer.</p>
+`
+},
+
+{
+id:13,
+title:"Log Analysis Lab",
+category:"Tools",
+description:"Read your own Linux logs for defensive troubleshooting.",
+content:`
+<h3>Commands</h3>
+<pre>journalctl -n 20
+journalctl --since "10 minutes ago"</pre>
+
+<h3>Goal</h3>
+<p>Find timestamps, services and messages in your own system logs.</p>
+`
+},
+
+{
+id:14,
+title:"Ethical Security Planning",
+category:"Security",
+description:"Create a safe scope and authorization plan before testing.",
+content:`
+<h3>Workflow</h3>
+
+<pre>1. Get authorization
+2. Define scope
+3. Choose a controlled lab
+4. Record observations
+5. Stop if scope changes
+6. Document results</pre>
+
+<div class="safe">
+<strong>Golden rule:</strong>
+Authorization comes before security testing.
+</div>
+`
+},
+
+{
+id:15,
+title:"PCAP Capture Lab",
+category:"Networking",
+description:"Capture loopback traffic generated by your own test activity.",
+content:`
+<h3>Safe capture</h3>
+
+<pre>sudo tcpdump -i lo -nn -w tux_lab.pcap</pre>
+
+<p>Stop the capture after your authorized local test is complete.</p>
+
+<h3>Inspect file</h3>
+<pre>ls -lh tux_lab.pcap</pre>
+
+<div class="safe">
+<strong>Important:</strong>
+Capture only traffic you own or have explicit authorization to analyze.
+</div>
+`
+},
+
+{
+id:16,
+title:"HTTP Inspection Lab",
+category:"Tools",
+description:"Inspect a normal HTTP response using curl.",
+content:`
+<h3>Request</h3>
+<pre>curl -I https://example.com</pre>
+
+<h3>View content</h3>
+<pre>curl https://example.com</pre>
+
+<p>Learn about HTTP status codes and response headers.</p>
+`
+},
+
+{
+id:17,
+title:"Python Linux Lab",
+category:"Python",
+description:"Create and execute a small Python program on Linux.",
+content:`
+<h3>Create a file</h3>
+<pre>nano hello.py</pre>
+
+<p>Example program:</p>
+
+<pre>print("Hello from TUX-AI")</pre>
+
+<h3>Run it</h3>
+<pre>python3 hello.py</pre>
+`
+},
+
+{
+id:18,
+title:"Git Repository Lab",
+category:"Tools",
+description:"Create a local Git repository and record your first commit.",
+content:`
+<h3>Commands</h3>
+<pre>mkdir tux-git-lab
+cd tux-git-lab
 git init
-printf "TUX-AI Lab\\n" > README.txt
+echo "# TUX-AI Lab" > README.md
 git status
-git add README.txt
-git commit -m "Create lab file"`,
-      expected: "Git should show the new file and create a local commit.",
-      hint: "git status is useful before and after staging changes.",
-      explanation: "Git records project history and makes it easier to understand and recover changes.",
-      safety: "This repository is local and does not modify your GitHub repositories."
-    },
+git add README.md
+git commit -m "Initial lab commit"</pre>
+`
+},
 
-    19: {
-      title: "🛡️ Linux Security Checklist",
-      category: "Security",
-      description: "Perform a beginner-friendly security review of your own Linux VM.",
-      objective: "Practice defensive system inspection.",
-      commands: `whoami
-id
-ip -br a
-ss -ltn
-systemctl --failed
-df -h
-free -h`,
-      expected: "You should receive information about your user, interfaces, listening TCP sockets, failed services and system resources.",
-      hint: "Look for unexpected services, failed services and resource problems.",
-      explanation: "A security review begins with understanding the system, its users, services, network exposure and resources.",
-      safety: "Run this checklist only on systems you own or are authorized to administer."
-    },
+{
+id:19,
+title:"Linux Security Checklist",
+category:"Security",
+description:"Review basic defensive security practices on your own Linux system.",
+content:`
+<h3>Checklist</h3>
 
-    20: {
-      title: "🏆 Linux Security Review",
-      category: "Final Lab",
-      description: "Combine your Linux, networking and defensive-security knowledge.",
-      objective: "Perform a structured review of your own Linux lab VM.",
-      commands: `echo "=== USER ==="
-whoami
+<pre>✓ Keep software updated
+✓ Use strong account passwords
+✓ Review unnecessary services
+✓ Check file permissions
+✓ Review important logs
+✓ Back up important data
+✓ Use least privilege
+✓ Keep experiments authorized</pre>
+`
+},
 
-echo "=== NETWORK ==="
-ip -br a
+{
+id:20,
+title:"Linux Security Review",
+category:"Security",
+description:"Combine the concepts learned across the TUX-AI security labs.",
+content:`
+<h3>Review</h3>
 
-echo "=== ROUTES ==="
-ip route
+<pre>Linux
+  ↓
+Processes
+  ↓
+Files & Permissions
+  ↓
+Networking
+  ↓
+Logs
+  ↓
+Safe Security Testing</pre>
 
-echo "=== LISTENING TCP ==="
-ss -ltn
+<h3>Final goal</h3>
+<p>Build a strong defensive Linux foundation and practice cybersecurity responsibly inside authorized environments.</p>
 
-echo "=== DISK ==="
-df -h
+<div class="safe">
+<strong>Remember:</strong>
+Learn, test safely, document and respect authorization boundaries.
+</div>
+`
+}
 
-echo "=== MEMORY ==="
-free -h
-
-echo "=== FAILED SERVICES ==="
-systemctl --failed`,
-      expected: "You should receive a compact overview of your user, network, routes, listening TCP sockets, storage, memory and failed services.",
-      hint: "Do not try to fix everything immediately. First document what you observe.",
-      explanation: "Good security work begins with visibility. Understand the system before deciding whether a configuration needs to change.",
-      safety: "This final review is intended for your own Linux VM or another explicitly authorized system."
-    }
-
-  };
+];
 
 
-  let currentLab = null;
+const grid=document.getElementById("labGrid");
+const search=document.getElementById("search");
+const empty=document.getElementById("empty");
+
+let currentFilter="All";
+let currentLab=null;
 
 
-  function openLab(id) {
+/* ---------- STORAGE ---------- */
 
-    const lab = labs[id];
-
-    if (!lab) {
-      return;
-    }
-
-    currentLab = id;
-
-    document.getElementById("labContent").innerHTML = `
-
-      <h2>${lab.title}</h2>
-
-      <span class="tag">${lab.category}</span>
-
-      <h3>🎯 Objective</h3>
-
-      <p>${lab.objective}</p>
-
-      <h3>📋 Task</h3>
-
-      <p>${lab.description}</p>
-
-      <h3>💻 Commands</h3>
-
-      <div class="command">${escapeHtml(lab.commands)}</div>
-
-      <h3>✅ Expected Result</h3>
-
-      <div class="expected">
-        ${lab.expected}
-      </div>
-
-      <h3>💡 Hint</h3>
-
-      <div class="hint">
-        ${lab.hint}
-      </div>
-
-      <h3>🧠 Explanation</h3>
-
-      <p>
-        ${lab.explanation}
-      </p>
-
-      <h3>🛡️ Safety</h3>
-
-      <div class="safe">
-        ${lab.safety}
-      </div>
-
-      <button class="complete-btn" onclick="completeCurrentLab()">
-        ✓ Mark Lab as Completed
-      </button>
-
-    `;
-
-    document.getElementById("labModal").classList.add("show");
-
-    document.body.style.overflow = "hidden";
-  }
-
-
-  function closeLab() {
-
-    document.getElementById("labModal").classList.remove("show");
-
-    document.body.style.overflow = "auto";
-
-    currentLab = null;
-  }
-
-
-  function completeCurrentLab() {
-
-    if (!currentLab) {
-      return;
-    }
-
-    let completed =
-      JSON.parse(localStorage.getItem("tuxLabsCompleted") || "[]");
-
-    if (!completed.includes(currentLab)) {
-      completed.push(currentLab);
-    }
-
-    localStorage.setItem(
-      "tuxLabsCompleted",
-      JSON.stringify(completed)
+function getProgress(){
+  try{
+    return JSON.parse(
+      localStorage.getItem("tuxLabProgress") || "[]"
     );
-
-    updateProgress();
-
-    closeLab();
+  }catch{
+    return [];
   }
+}
 
+function saveProgress(progress){
 
-  function updateProgress() {
-
-    const completed =
-      JSON.parse(localStorage.getItem("tuxLabsCompleted") || "[]");
-
-    const total = 20;
-
-    const count = completed.length;
-
-    const percentage = (count / total) * 100;
-
-    document.getElementById("progressText").textContent =
-      count + " / " + total;
-
-    document.getElementById("progressFill").style.width =
-      percentage + "%";
-
-    document.querySelectorAll(".lab-card").forEach(card => {
-
-      const id = Number(card.dataset.id);
-
-      if (completed.includes(id)) {
-        card.classList.add("completed");
-      } else {
-        card.classList.remove("completed");
-      }
-
-    });
-
-  }
-
-
-  function resetProgress() {
-
-    const confirmed =
-      confirm("Reset all TUX-AI lab progress?");
-
-    if (!confirmed) {
-      return;
-    }
-
-    localStorage.removeItem("tuxLabsCompleted");
-
-    updateProgress();
-  }
-
-
-  function searchLabs() {
-
-    const query =
-      document
-        .getElementById("searchInput")
-        .value
-        .toLowerCase()
-        .trim();
-
-    const cards =
-      document.querySelectorAll(".lab-card");
-
-    let visible = 0;
-
-    cards.forEach(card => {
-
-      const searchable =
-        (
-          card.innerText +
-          " " +
-          card.dataset.search
-        ).toLowerCase();
-
-      if (searchable.includes(query)) {
-
-        card.style.display = "flex";
-        visible++;
-
-      } else {
-
-        card.style.display = "none";
-
-      }
-
-    });
-
-    document.getElementById("noResults").style.display =
-      visible === 0 ? "block" : "none";
-  }
-
-
-  function filterLabs(category, button) {
-
-    document
-      .querySelectorAll(".category")
-      .forEach(btn => btn.classList.remove("active"));
-
-    button.classList.add("active");
-
-    document.getElementById("searchInput").value = "";
-
-    const cards =
-      document.querySelectorAll(".lab-card");
-
-    let visible = 0;
-
-    cards.forEach(card => {
-
-      if (
-        category === "all" ||
-        card.dataset.category === category
-      ) {
-
-        card.style.display = "flex";
-        visible++;
-
-      } else {
-
-        card.style.display = "none";
-
-      }
-
-    });
-
-    document.getElementById("noResults").style.display =
-      visible === 0 ? "block" : "none";
-  }
-
-
-  document
-    .getElementById("labModal")
-    .addEventListener("click", function(event) {
-
-      if (event.target === this) {
-        closeLab();
-      }
-
-    });
-
-
-  document.addEventListener("keydown", function(event) {
-
-    if (event.key === "Escape") {
-      closeLab();
-    }
-
-  });
-
-
-  function escapeHtml(text) {
-
-    const div = document.createElement("div");
-
-    div.textContent = text;
-
-    return div.innerHTML;
-  }
-
+  localStorage.setItem(
+    "tuxLabProgress",
+    JSON.stringify(progress)
+  );
 
   updateProgress();
 
-</script>
+  /*
+    Dashboard reads tuxLabProgress.
+    Therefore lab progress is automatically
+    available to the Dashboard.
+  */
+}
 
-</body>
-</html>
+function isComplete(id){
+  return getProgress().includes(id);
+}
+
+
+/* ---------- RENDER ---------- */
+
+function renderLabs(){
+
+  const query=search.value.toLowerCase().trim();
+
+  const filtered=labs.filter(lab=>{
+
+    const matchesFilter=
+      currentFilter==="All" ||
+      lab.category===currentFilter;
+
+    const matchesSearch=
+      lab.title.toLowerCase().includes(query) ||
+      lab.description.toLowerCase().includes(query) ||
+      lab.category.toLowerCase().includes(query);
+
+    return matchesFilter && matchesSearch;
+  });
+
+  grid.innerHTML="";
+
+  empty.style.display=
+    filtered.length ? "none" : "block";
+
+  filtered.forEach(lab=>{
+
+    const completed=isComplete(lab.id);
+
+    const card=document.createElement("article");
+
+    card.className=
+      "lab-card" +
+      (completed ? " completed" : "");
+
+    card.dataset.lab=lab.id;
+
+    card.innerHTML=`
+
+      <div class="lab-number">
+        Lab ${lab.id}
+      </div>
+
+      <h3>${lab.title}</h3>
+
+      <p>${lab.description}</p>
+
+      <span class="category">
+        ${lab.category}
+      </span>
+
+      <div class="card-buttons">
+
+        <button
+          class="lab-btn"
+          onclick="openLab(${lab.id})">
+          🧪 Open Lab
+        </button>
+
+        <button
+          class="complete-btn ${completed ? "done" : ""}"
+          onclick="toggleComplete(${lab.id})">
+          ${completed ? "✓ Completed" : "Mark Complete"}
+        </button>
+
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+
+/* ---------- PROGRESS ---------- */
+
+function updateProgress(){
+
+  const progress=getProgress();
+
+  const completed=
+    labs.filter(l=>progress.includes(l.id)).length;
+
+  const total=labs.length;
+
+  const percentage=
+    Math.round((completed/total)*100);
+
+  document.getElementById("progressText").textContent=
+    `${completed} / ${total} completed`;
+
+  document.getElementById("progressBar").style.width=
+    percentage+"%";
+
+  renderLabs();
+}
+
+
+/* ---------- COMPLETE ---------- */
+
+function toggleComplete(id){
+
+  let progress=getProgress();
+
+  if(progress.includes(id)){
+    progress=progress.filter(x=>x!==id);
+  }else{
+    progress.push(id);
+  }
+
+  saveProgress(progress);
+
+  renderLabs();
+}
+
+
+/* ---------- MODAL ---------- */
+
+function openLab(id){
+
+  const lab=labs.find(l=>l.id===id);
+
+  if(!lab)return;
+
+  currentLab=id;
+
+  document.getElementById("modalTitle").textContent=
+    `Lab ${lab.id}: ${lab.title}`;
+
+  document.getElementById("modalContent").innerHTML=
+    lab.content;
+
+  const button=
+    document.getElementById("modalComplete");
+
+  if(isComplete(id)){
+    button.textContent="✓ Lab Completed";
+    button.style.background="#07120d";
+    button.style.color="#00ff88";
+  }else{
+    button.textContent="Mark Lab Complete";
+    button.style.background="#00ff88";
+    button.style.color="#021009";
+  }
+
+  document.getElementById("modal").classList.add("show");
+}
+
+
+function closeModal(){
+
+  document.getElementById("modal")
+    .classList.remove("show");
+
+  currentLab=null;
+}
+
+
+document.getElementById("modalComplete")
+.addEventListener("click",function(){
+
+  if(currentLab===null)return;
+
+  toggleComplete(currentLab);
+
+  if(isComplete(currentLab)){
+    this.textContent="✓ Lab Completed";
+    this.style.background="#07120d";
+    this.style.color="#00ff88";
+  }else{
+    this.textContent="Mark Lab Complete";
+    this.style.background="#00ff88";
+    this.style.color="#021009";
+  }
+
+});
+
+
+/* ---------- SEARCH ---------- */
+
+search.addEventListener(
+  "input",
+  renderLabs
+);
+
+
+/* ---------- FILTERS ---------- */
+
+document.querySelectorAll(".filter")
+.forEach(button=>{
+
+  button.addEventListener("click",function(){
+
+    document.querySelectorAll(".filter")
+      .forEach(b=>b.
