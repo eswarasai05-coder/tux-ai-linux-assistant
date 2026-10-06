@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TUX-AI Error Analyzer</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #05070d;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      padding: 18px 25px;
+      background: #080c14;
+      border-bottom: 1px solid #1b3042;
+    }
+
+    .logo {
+      color: #00e5ff;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00e5ff;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #9aa8b8;
+      margin-bottom: 30px;
+    }
+
+    .panel {
+      background: #080d16;
+      border: 1px solid #1b3042;
+      border-radius: 15px;
+      padding: 22px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 220px;
+      resize: vertical;
+      padding: 15px;
+      background: #05070d;
+      color: white;
+      border: 1px solid #26384a;
+      border-radius: 10px;
+      outline: none;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    textarea:focus {
+      border-color: #00e5ff;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #00e5ff;
+      color: #031018;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #48e7ff;
+    }
+
+    #result {
+      margin-top: 25px;
+      padding: 20px;
+      background: #0d1723;
+      border-left: 3px solid #00e5ff;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .back {
+      display: block;
+      width: fit-content;
+      margin: 25px auto;
+      color: #00e5ff;
+      text-decoration: none;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header>
+
+    <div class="logo">
+      TUX-AI
+    </div>
+
+  </header>
+
+
+  <main class="container">
+
+    <h1>🔍 TUX-AI Error Analyzer</h1>
+
+    <p class="subtitle">
+      Paste a Linux error and TUX-AI will explain the likely cause.
+    </p>
+
+
+    <div class="panel">
+
+      <textarea
+        id="errorInput"
+        placeholder="Paste your Linux error here...
+
+Example:
+ping: unknown host example.com
+
+or:
+
+command not found
+">
+      </textarea>
+
+
+      <button onclick="analyzeError()">
+        Analyze Error
+      </button>
+
+
+      <div id="result"></div>
+
+    </div>
+
+
+    <a class="back" href="index.html">
+      ← Back to Home
+    </a>
+
+  </main>
+
+
+  <script>
+
+    function analyzeError() {
+
+      const input =
+        document.getElementById("errorInput").value
+        .toLowerCase()
+        .trim();
+
+      const result =
+        document.getElementById("result");
+
+
+      if (input === "") {
+
+        result.style.display = "block";
+
+        result.textContent =
+          "⚠️ Please paste a Linux error first.";
+
+        return;
+
+      }
+
+
+      let answer = "";
+
+
+      if (
+        input.includes("command not found") ||
+        input.includes("command-not-found")
+      ) {
+
+        answer =
+`🔍 ERROR DETECTED
+
+Problem:
+The command could not be found.
+
+Likely causes:
+• The command is not installed.
+• The command name may contain a typo.
+• The program may not be in your PATH.
+
+Suggested checks:
+
+1. Check the spelling.
+2. Try:
+   which <command>
+
+3. Check whether the package is installed.
+
+Example:
+which python3`;
+
+      }
+
+
+      else if (
+        input.includes("permission denied")
+      ) {
+
+        answer =
+`🔍 ERROR DETECTED
+
+Problem:
+Permission was denied.
+
+Likely causes:
+• Your user does not have permission.
+• The file is not executable.
+• The directory has restricted permissions.
+
+Suggested checks:
+
+1. Check permissions:
+   ls -l <file>
+
+2. Check your current user:
+   whoami
+
+3. For system administration tasks, use sudo only when appropriate and authorized.`;
+
+      }
+
+
+      else if (
+        input.includes("connection refused")
+      ) {
+
+        answer =
+`🔍 ERROR DETECTED
+
+Problem:
+The connection was refused.
+
+Likely causes:
+• No service is listening on that port.
+• The service is stopped.
+• The host or port is incorrect.
+• A firewall may be blocking the connection.
+
+Useful check:
+
+ss -ltn
+
+For an authorized local lab, verify that the expected service is actually listening.`;
+
+      }
+
+
+      else if (
+        input.includes("unknown host") ||
+        input.includes("name or service not known") ||
+        input.includes("could not resolve")
+      ) {
+
+        answer =
+`🔍 ERROR DETECTED
+
+Problem:
+The hostname could not be resolved.
+
+Likely causes:
+• DNS problem.
+• Incorrect hostname.
+• Network configuration problem.
+
+Suggested checks:
+
+1. Check your interface:
+   ip -br a
+
+2. Check your route:
+   ip route
+
+3. Test a known IP address if appropriate.
+
+4. Check DNS configuration.`;
+
+      }
+
+
+      else if (
+        input.includes("no such file") ||
+        input.includes("file not found")
+      ) {
+
+        answer =
+`🔍 ERROR DETECTED
+
+Problem:
+Linux could not find the specified file or directory.
+
+Likely causes:
+• Typo in the path.
+• File does not exist.
+• You are in the wrong directory.
+
+Suggested checks:
+
+pwd
+
+ls
+
+find . -name "filename"
+
+Check the spelling and path carefully.`;
+
+      }
+
+
+      else if (
+        input.includes("address already in use")
+      ) {
+
+        answer =
+`🔍 ERROR DETECTED
+
+Problem:
+The requested network address or port is already being used.
+
+Suggested check:
+
+ss -ltnp
+
+Look for the process listening on the relevant port.
+
+In your own lab, stop or reconfigure the appropriate service if necessary.`;
+
+      }
+
+
+      else if (
+        input.includes("syntax error")
+      ) {
+
+        answer =
+`🔍 ERROR DETECTED
+
+Problem:
+The shell or interpreter found invalid syntax.
+
+Likely causes:
+• Missing bracket.
+• Missing quote.
+• Incorrect command structure.
+• Typographical error.
+
+Suggested approach:
+
+Read the error line carefully and check the command immediately around that location.`;
+
+      }
+
+
+      else if (
+        input.includes("network is unreachable") ||
+        input.includes("no route to host")
+      ) {
+
+        answer =
+`🔍 ERROR DETECTED
+
+Problem:
+Your system does not currently have a usable route to the destination.
+
+Suggested checks:
+
+ip -br a
+
+ip route
+
+Check whether your network interface is UP and whether a suitable route exists.`;
+
+      }
+
+
+      else {
+
+        answer =
+`🔍 TUX-AI ANALYSIS
+
+I couldn't match this error to one of my built-in patterns yet.
+
+Try checking:
+
+1. The exact error message.
+2. The command that produced it.
+3. Your current directory:
+   pwd
+
+4. Network configuration:
+   ip -br a
+   ip route
+
+5. Permissions:
+   ls -l
+
+You can also paste the complete error message for a more useful analysis.`;
+
+      }
+
+
+      result.style.display = "block";
+
+      result.textContent = answer;
+
+    }
+
+  </script>
+
+
+</body>
+
+</html>
