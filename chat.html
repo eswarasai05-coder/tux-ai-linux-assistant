@@ -1,883 +1,1616 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="UTF-8">
+<title>TUX-AI Chat</title>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{
+  box-sizing:border-box;
+}
 
-  <title>TUX-AI Chat</title>
+body{
+  margin:0;
+  background:#050807;
+  color:#eafff0;
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-  <style>
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(5,8,7,.96);
+  border-bottom:1px solid #123b22;
+  padding:16px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+.logo{
+  color:#39ff88;
+  font-size:22px;
+  font-weight:bold;
+}
 
-    body {
-      margin: 0;
-      background: #05070d;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+nav{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
 
-    header {
-      padding: 18px 25px;
-      background: #080c14;
-      border-bottom: 1px solid #1b3042;
-    }
+nav a{
+  color:#b7d9c3;
+  text-decoration:none;
+  padding:8px 11px;
+  border-radius:8px;
+}
 
-    .logo {
-      color: #00e5ff;
-      font-size: 25px;
-      font-weight: bold;
-    }
+nav a:hover{
+  background:#0c2114;
+  color:#39ff88;
+}
 
-    .container {
-      width: 92%;
-      max-width: 900px;
-      margin: 35px auto;
-    }
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:45px 20px;
+}
 
-    h1 {
-      text-align: center;
-      color: #00e5ff;
-      margin-bottom: 8px;
-    }
+.hero{
+  text-align:center;
+  margin-bottom:30px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #9aa8b8;
-      margin-bottom: 25px;
-    }
+.hero h1{
+  font-size:42px;
+  margin:0 0 10px;
+  color:#39ff88;
+}
 
-    .chat-box {
-      height: 430px;
-      overflow-y: auto;
-      background: #080d16;
-      border: 1px solid #1b3042;
-      border-radius: 15px;
-      padding: 20px;
-    }
+.hero p{
+  color:#9ab8a4;
+}
 
-    .message {
-      padding: 14px;
-      margin-bottom: 15px;
-      border-radius: 12px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
+.chat-box{
+  background:#08100b;
+  border:1px solid #174b29;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 0 35px rgba(57,255,136,.06);
+}
 
-    .ai {
-      background: #0d1723;
-      border-left: 3px solid #00e5ff;
-    }
+.messages{
+  min-height:430px;
+  max-height:600px;
+  overflow-y:auto;
+  padding:20px;
+}
 
-    .user {
-      background: #10202a;
-      border-right: 3px solid #00e5ff;
-    }
+.message{
+  margin-bottom:18px;
+  display:flex;
+}
 
-    .label {
-      color: #00e5ff;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
+.message.user{
+  justify-content:flex-end;
+}
 
-    .input-area {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-    }
+.bubble{
+  max-width:85%;
+  padding:14px 16px;
+  border-radius:14px;
+  line-height:1.6;
+  white-space:pre-wrap;
+}
 
-    #userInput {
-      flex: 1;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #26384a;
-      background: #080d16;
-      color: white;
-      font-size: 15px;
-      outline: none;
-    }
+.user .bubble{
+  background:#123b22;
+  color:#eafff0;
+}
 
-    #userInput:focus {
-      border-color: #00e5ff;
-    }
+.bot .bubble{
+  background:#0b1710;
+  border:1px solid #174b29;
+  color:#d8f5df;
+}
 
-    #sendButton {
-      padding: 15px 25px;
-      border: none;
-      border-radius: 10px;
-      background: #00e5ff;
-      color: #031018;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.input-area{
+  border-top:1px solid #174b29;
+  padding:14px;
+  display:flex;
+  gap:10px;
+}
 
-    #sendButton:hover {
-      background: #48e7ff;
-    }
+input{
+  flex:1;
+  min-width:0;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid #245b35;
+  background:#050807;
+  color:white;
+  outline:none;
+  font-size:16px;
+}
 
-    .back {
-      display: block;
-      width: fit-content;
-      margin: 25px auto;
-      color: #00e5ff;
-      text-decoration: none;
-    }
+input:focus{
+  border-color:#39ff88;
+}
 
-    @media (max-width: 600px) {
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 18px;
+  background:#39ff88;
+  color:#031008;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-      .input-area {
-        flex-direction: column;
-      }
+button:hover{
+  opacity:.9;
+}
 
-      #sendButton {
-        width: 100%;
-      }
+.quick{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:15px;
+  border-top:1px solid #123b22;
+}
 
-      .chat-box {
-        height: 400px;
-      }
+.quick button{
+  background:#0b2114;
+  color:#7dffa9;
+  border:1px solid #1d6135;
+}
 
-    }
+.warning{
+  margin-top:20px;
+  padding:15px;
+  border:1px solid #315b3c;
+  background:#09130c;
+  border-radius:12px;
+  color:#a9cdb2;
+  line-height:1.6;
+}
 
-  </style>
-
+footer{
+  text-align:center;
+  color:#64816c;
+  padding:30px;
+}
+</style>
 </head>
-
 
 <body>
 
-  <header>
+<header>
+  <div class="logo">🐧 TUX-AI</div>
 
-    <div class="logo">
-      TUX-AI
-    </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="chat.html">Chat</a>
+    <a href="analyzer.html">Analyzer</a>
+    <a href="learn.html">Learn</a>
+    <a href="labs.html">Labs</a>
+    <a href="tools.html">Tools</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="pdf.html">PDF Guide</a>
+  </nav>
+</header>
 
-  </header>
+<main>
 
+<section class="hero">
+  <h1>🤖 TUX-AI Chat</h1>
+  <p>Linux • Networking • Cybersecurity • Ethical Security • Python • System Administration</p>
+</section>
 
-  <main class="container">
+<section class="chat-box">
 
-    <h1>
-      🤖 TUX-AI Chat
-    </h1>
-
-    <p class="subtitle">
-      Your Linux & Cybersecurity Learning Assistant
-    </p>
-
-
-    <div class="chat-box" id="chatBox">
-
-      <div class="message ai">
-
-        <div class="label">
-          TUX-AI
-        </div>
-
-        Hello! 👋
-
-        I'm TUX-AI, your Linux and cybersecurity learning assistant.
-
-        Try asking:
-
-        What is Linux?
-        Explain pwd
-        What does ls do?
-        What is TCP?
-        What is UDP?
-        What is the difference between TCP and UDP?
-        What is an IP address?
-        What is DNS?
-        What is a port?
-
+  <div id="messages" class="messages">
+    <div class="message bot">
+      <div class="bubble">
+        🐧 <strong>TUX-AI:</strong> Hello! Ask me about Linux, networking, cybersecurity, security tools, Python, system administration or authorized security labs.
       </div>
-
     </div>
+  </div>
 
+  <div class="quick">
+    <button onclick="quickAsk('Explain Nmap')">Nmap</button>
+    <button onclick="quickAsk('Explain Wireshark')">Wireshark</button>
+    <button onclick="quickAsk('Explain CMatrix')">CMatrix</button>
+    <button onclick="quickAsk('Explain Zphisher')">Zphisher</button>
+    <button onclick="quickAsk('Explain PhoneExtract')">PhoneExtract</button>
+    <button onclick="quickAsk('Explain Linux permissions')">Permissions</button>
+    <button onclick="quickAsk('Explain TCP vs UDP')">TCP vs UDP</button>
+    <button onclick="quickAsk('Explain DNS')">DNS</button>
+  </div>
 
-    <div class="input-area">
+  <div class="input-area">
+    <input
+      id="userInput"
+      type="text"
+      placeholder="Ask TUX-AI anything about Linux or cybersecurity..."
+      autocomplete="off"
+    >
+    <button onclick="sendMessage()">Send</button>
+  </div>
 
-      <input
-        type="text"
-        id="userInput"
-        placeholder="Ask TUX-AI something..."
-        autocomplete="off"
-      >
+</section>
 
-      <button id="sendButton">
-        Send
-      </button>
+<div class="warning">
+  🛡️ <strong>Ethical-security notice:</strong>
+  TUX-AI is designed for learning, defensive security and authorized labs.
+  Only test systems, accounts, devices and networks that you own or have explicit permission to test.
+  Some security tools can be misused, so TUX-AI intentionally provides awareness and defensive explanations rather than instructions for credential theft, unauthorized access, phishing deployment or bypassing security.
+</div>
 
-    </div>
+</main>
 
+<footer>
+  TUX-AI Linux Assistant • Learn responsibly • Practice only in authorized environments
+</footer>
 
-    <a class="back" href="index.html">
-      ← Back to Home
-    </a>
+<script>
 
-  </main>
+/* =========================================================
+   TUX-AI KNOWLEDGE BASE
+   ========================================================= */
 
+const knowledge = [
 
-  <!-- TUX-AI JAVASCRIPT -->
+/* ---------- LINUX ---------- */
 
-  <script>
+{
+ keys:["linux","what is linux"],
+ answer:
+`🐧 Linux
 
-    const input = document.getElementById("userInput");
+Linux is an open-source operating-system kernel used by distributions such as Kali Linux, Ubuntu, Debian, Fedora and Arch.
 
-    const chatBox = document.getElementById("chatBox");
+Common areas:
+• File management
+• Users and permissions
+• Processes
+• Networking
+• Package management
+• System administration
+• Security
 
-    const sendButton = document.getElementById("sendButton");
+Useful commands:
+pwd
+ls
+cd
+mkdir
+cp
+mv
+rm
+cat
+less
+grep
+find
+chmod
+chown
+ps
+top
+systemctl
+journalctl
+df
+du
+free
+ip
+ss`
+},
 
+{
+ keys:["ls","linux ls"],
+ answer:
+`📁 ls
 
-    function addMessage(type, name, text) {
+ls lists files and directories.
 
-      const message = document.createElement("div");
+Examples:
+ls
+ls -l
+ls -a
+ls -lah
 
-      message.className = "message " + type;
+Useful flags:
+-l  detailed listing
+-a  hidden files
+-h  human-readable sizes
 
+Use it to inspect a directory safely.`
+},
 
-      const label = document.createElement("div");
+{
+ keys:["pwd"],
+ answer:
+`📍 pwd
 
-      label.className = "label";
+pwd means "print working directory".
 
-      label.textContent = name;
+It displays the directory you are currently inside.
 
+Example:
+pwd
 
-      const content = document.createElement("div");
+Typical output:
+ /home/kali`
+},
 
-      content.textContent = text;
+{
+ keys:["cd"],
+ answer:
+`📂 cd
 
+cd changes your current directory.
 
-      message.appendChild(label);
+Examples:
+cd Documents
+cd ..
+cd ~
+cd /tmp
 
-      message.appendChild(content);
+.. means the parent directory.
+~ represents your home directory.`
+},
 
-      chatBox.appendChild(message);
+{
+ keys:["grep"],
+ answer:
+`🔎 grep
 
+grep searches text for a pattern.
 
-      chatBox.scrollTop = chatBox.scrollHeight;
+Example:
+grep "error" logfile.txt
 
-    }
+Useful options:
+-i  ignore case
+-n  show line numbers
+-r  search directories recursively
 
+It is very useful for Linux logs and troubleshooting.`
+},
 
-    function getResponse(question) {
+{
+ keys:["find"],
+ answer:
+`🔍 find
 
-      const q = question.toLowerCase().trim();
+find searches for files and directories.
 
+Example:
+find . -name "*.log"
 
-      /* =========================
-         GREETINGS
-         ========================= */
+Another example:
+find /tmp -type f
 
-      if (
-        q.includes("hello") ||
-        q === "hi" ||
-        q.includes("hey")
-      ) {
+Be careful when searching large system directories because results can be very large.`
+},
 
-        return "Hello! 👋\n\nI'm TUX-AI. I'm ready to help you learn Linux, networking and cybersecurity.";
+{
+ keys:["chmod","linux permissions","permissions"],
+ answer:
+`🔐 Linux Permissions
 
+Linux permissions control who can read, write or execute a file.
+
+Three main permission groups:
+• Owner
+• Group
+• Others
+
+Three common permissions:
+r = read
+w = write
+x = execute
+
+Example:
+chmod +x script.sh
+
+Numeric permissions:
+4 = read
+2 = write
+1 = execute
+
+Example:
+chmod 755 script.sh
+
+Always understand the permission change before applying it.`
+},
+
+{
+ keys:["chown"],
+ answer:
+`👤 chown
+
+chown changes file ownership.
+
+General form:
+chown USER:GROUP FILE
+
+Example:
+sudo chown kali:kali example.txt
+
+Use ownership changes carefully because incorrect ownership can break applications or system services.`
+},
+
+{
+ keys:["apt","package management"],
+ answer:
+`📦 APT
+
+APT is the package-management system commonly used by Debian-based Linux distributions.
+
+Common commands:
+sudo apt update
+sudo apt upgrade
+apt search PACKAGE
+sudo apt install PACKAGE
+sudo apt remove PACKAGE
+
+Use official repositories and understand what a package does before installing it.`
+},
+
+{
+ keys:["systemctl"],
+ answer:
+`⚙️ systemctl
+
+systemctl manages systemd services.
+
+Useful read-only commands:
+systemctl status SERVICE
+systemctl list-units --type=service
+
+Example:
+systemctl status ssh
+
+It can help diagnose whether a service is running.`
+},
+
+{
+ keys:["journalctl"],
+ answer:
+`📜 journalctl
+
+journalctl reads logs collected by systemd.
+
+Examples:
+journalctl
+journalctl -b
+journalctl -u SERVICE
+journalctl -p warning
+
+Logs are extremely useful for troubleshooting and incident analysis.`
+},
+
+{
+ keys:["ps","processes"],
+ answer:
+`⚙️ Processes
+
+ps displays running processes.
+
+Examples:
+ps
+ps aux
+
+Other useful tools:
+top
+htop
+
+Use process information to troubleshoot CPU, memory and application problems.`
+},
+
+{
+ keys:["df","disk space"],
+ answer:
+`💾 df
+
+df reports filesystem disk usage.
+
+Example:
+df -h
+
+-h makes sizes easier to read.
+
+For directory usage:
+du -sh DIRECTORY`
+},
+
+{
+ keys:["free","memory"],
+ answer:
+`🧠 free
+
+free displays memory and swap information.
+
+Example:
+free -h
+
+It is useful when diagnosing memory pressure.`
+},
+
+/* ---------- NETWORKING ---------- */
+
+{
+ keys:["networking","network basics"],
+ answer:
+`🌐 Networking Basics
+
+Important concepts:
+• IP address
+• Subnet
+• Default gateway
+• DNS
+• MAC address
+• TCP
+• UDP
+• Ports
+• Routing
+
+Useful Linux commands:
+ip addr
+ip route
+ping
+ss
+traceroute
+dig
+
+Use these commands primarily for systems and networks you are authorized to administer or troubleshoot.`
+},
+
+{
+ keys:["nmap"],
+ answer:
+`🔎 Nmap
+
+Nmap is a network discovery and security-auditing tool.
+
+It can help administrators understand:
+• Hosts
+• Services
+• Ports
+• Service versions
+• Network exposure
+
+Safe learning approach:
+Use Nmap only against your own computer, localhost, a personal VM or an explicitly authorized lab.
+
+Example concept:
+Nmap asks a target what network services are available and reports what it observes.
+
+For TUX-AI labs, practice with localhost or your own virtual machines.`
+},
+
+{
+ keys:["wireshark"],
+ answer:
+`🦈 Wireshark
+
+Wireshark is a graphical network-protocol analyzer.
+
+It can inspect authorized packet captures and help you understand:
+• TCP
+• UDP
+• DNS
+• HTTP
+• TLS metadata
+• Protocol behavior
+• Network troubleshooting
+
+A PCAP is a recorded collection of network packets.
+
+Only capture or analyze traffic you are authorized to inspect.`
+},
+
+{
+ keys:["tcpdump"],
+ answer:
+`📡 tcpdump
+
+tcpdump is a command-line packet-capture and analysis tool.
+
+It is useful for:
+• Network troubleshooting
+• Protocol analysis
+• Authorized lab exercises
+• Incident investigation
+
+A basic defensive workflow is:
+1. Capture traffic from an interface you control.
+2. Save the capture.
+3. Analyze the PCAP.
+4. Document observations.
+
+Only capture traffic you have permission to inspect.`
+},
+
+{
+ keys:["tcp","tcp protocol"],
+ answer:
+`🔗 TCP
+
+TCP is connection-oriented.
+
+Important characteristics:
+• Reliable delivery
+• Sequence numbers
+• Acknowledgments
+• Retransmission
+• Ordered data
+
+TCP is commonly used for applications where reliable delivery matters.`
+},
+
+{
+ keys:["udp","udp protocol"],
+ answer:
+`📨 UDP
+
+UDP is connectionless.
+
+Characteristics:
+• Low protocol overhead
+• No built-in delivery guarantee
+• No built-in ordering
+• Fast/simple transport
+
+Common examples include DNS queries, streaming and real-time applications.`
+},
+
+{
+ keys:["tcp vs udp","tcp udp"],
+ answer:
+`⚖️ TCP vs UDP
+
+TCP:
+• Connection-oriented
+• Reliable
+• Ordered
+• Retransmission
+
+UDP:
+• Connectionless
+• Lower overhead
+• No delivery guarantee
+• No ordering guarantee
+
+The correct choice depends on the application.`
+},
+
+{
+ keys:["ports","port"],
+ answer:
+`🚪 Network Ports
+
+A port identifies a network service endpoint.
+
+Common examples:
+22  SSH
+53  DNS
+80  HTTP
+443 HTTPS
+
+Linux commands:
+ss -tuln
+ss -ltn
+
+Only expose services that are actually needed.`
+},
+
+{
+ keys:["dns"],
+ answer:
+`🌍 DNS
+
+DNS translates names into network information.
+
+Example:
+example.com → IP address
+
+Useful commands:
+dig example.com
+nslookup example.com
+
+DNS troubleshooting often involves checking:
+• DNS server
+• Resolver configuration
+• Connectivity
+• Records
+• Caching`
+},
+
+{
+ keys:["ip command","ip addr","ip route"],
+ answer:
+`🌐 ip command
+
+The ip command is a modern Linux networking utility.
+
+Examples:
+ip addr
+ip route
+ip link
+
+ip addr → interfaces and addresses
+ip route → routing table
+ip link → interface state
+
+These are excellent first commands for diagnosing Linux networking.`
+},
+
+{
+ keys:["ping"],
+ answer:
+`📶 ping
+
+ping tests IP-level reachability using ICMP.
+
+Example:
+ping 127.0.0.1
+
+127.0.0.1 is localhost.
+
+A successful ping does not prove that every application service is working; it mainly tests a particular form of network reachability.`
+},
+
+{
+ keys:["curl"],
+ answer:
+`🌐 curl
+
+curl transfers data using network protocols such as HTTP and HTTPS.
+
+Examples:
+curl https://example.com
+curl -I https://example.com
+
+-I requests response headers.
+
+curl is useful for web troubleshooting and API testing against systems you are authorized to use.`
+},
+
+/* ---------- SECURITY TOOLS ---------- */
+
+{
+ keys:["burp","burp suite"],
+ answer:
+`🛡️ Burp Suite
+
+Burp Suite is a web-security testing platform.
+
+It can help authorized testers understand:
+• HTTP requests
+• HTTP responses
+• Cookies
+• Headers
+• Web application behavior
+
+Use it against your own application or an authorized training target.`
+},
+
+{
+ keys:["owasp zap","zap"],
+ answer:
+`🛡️ OWASP ZAP
+
+OWASP ZAP is an open-source web application security testing tool.
+
+It is useful for:
+• Learning HTTP
+• Finding common web-security issues
+• Intercepting authorized test traffic
+• Security assessment
+
+Practice with intentionally vulnerable applications or your own projects.`
+},
+
+{
+ keys:["metasploit"],
+ answer:
+`🧰 Metasploit
+
+Metasploit is a security-testing framework used by professionals and researchers.
+
+It contains modules for security assessment and controlled testing.
+
+For safe learning, use it only inside:
+• Your own virtual machines
+• Purpose-built security labs
+• Explicitly authorized environments
+
+TUX-AI focuses on the framework's concepts and defensive learning rather than unauthorized exploitation.`
+},
+
+{
+ keys:["nikto"],
+ answer:
+`🔍 Nikto
+
+Nikto is a web-server assessment tool.
+
+It can identify potentially interesting server configurations and known web-server issues.
+
+Use it only against servers you own or are explicitly authorized to assess.`
+},
+
+{
+ keys:["lynis"],
+ answer:
+`🔐 Lynis
+
+Lynis is a Linux security auditing tool.
+
+It checks system configuration and can provide hardening suggestions.
+
+It is particularly useful for:
+• System auditing
+• Configuration review
+• Security hardening
+• Compliance preparation`
+},
+
+{
+ keys:["openvas","greenbone"],
+ answer:
+`🟢 Greenbone / OpenVAS
+
+Greenbone provides vulnerability-management tools, including OpenVAS components.
+
+They help organizations identify known vulnerabilities in authorized systems.
+
+A normal defensive workflow is:
+scan → review findings → prioritize → patch → verify.`
+},
+
+{
+ keys:["fail2ban"],
+ answer:
+`🚫 Fail2ban
+
+Fail2ban monitors logs and can react to repeated suspicious authentication attempts.
+
+It is commonly used to reduce automated login abuse against services such as SSH.
+
+It should be configured carefully so legitimate users are not accidentally blocked.`
+},
+
+{
+ keys:["iptables","nftables","firewall"],
+ answer:
+`🔥 Linux Firewalls
+
+iptables and nftables are Linux firewall frameworks.
+
+A firewall controls network traffic according to defined rules.
+
+Good defensive practice:
+• Allow only required services
+• Restrict unnecessary exposure
+• Log important events
+• Review rules regularly
+
+Never blindly copy firewall rules without understanding their effect.`
+},
+
+/* ---------- IDS / DEFENSIVE ---------- */
+
+{
+ keys:["suricata"],
+ answer:
+`🛡️ Suricata
+
+Suricata is an open-source network threat-detection engine.
+
+It can perform:
+• IDS
+• IPS
+• Network security monitoring
+
+It analyzes network traffic using rules and protocol information.`
+},
+
+{
+ keys:["zeek"],
+ answer:
+`📊 Zeek
+
+Zeek is a network-security monitoring platform.
+
+Instead of simply showing packets, Zeek can generate structured logs describing network activity.
+
+It is useful for:
+• Network monitoring
+• Threat hunting
+• Incident response
+• Security research`
+},
+
+{
+ keys:["yara"],
+ answer:
+`🔬 YARA
+
+YARA is used to identify and classify files or activity based on patterns and rules.
+
+Security teams use YARA for:
+• Malware research
+• Threat hunting
+• File classification
+• Incident response
+
+Rules should be developed and tested carefully.`
+},
+
+/* ---------- FORENSICS ---------- */
+
+{
+ keys:["autopsy"],
+ answer:
+`🔬 Autopsy
+
+Autopsy is a digital-forensics platform.
+
+It can help investigators examine forensic evidence such as disk images.
+
+Typical uses:
+• Timeline analysis
+• File-system examination
+• Evidence review
+• Investigation documentation
+
+Always work with evidence you are legally authorized to examine.`
+},
+
+{
+ keys:["volatility"],
+ answer:
+`🧠 Volatility
+
+Volatility is a memory-forensics framework.
+
+It helps investigators analyze memory images to understand what was happening on a system.
+
+It is useful for:
+• Incident response
+• Digital forensics
+• Malware investigations
+• Memory analysis`
+},
+
+{
+ keys:["ghidra"],
+ answer:
+`🔬 Ghidra
+
+Ghidra is a software reverse-engineering framework developed by the NSA.
+
+It can help researchers understand compiled programs through:
+• Disassembly
+• Decompilation
+• Program analysis
+
+Use it for software you are authorized to analyze.`
+},
+
+/* ---------- PHONE / AWARENESS ---------- */
+
+{
+ keys:["phonesploit","phone sploit"],
+ answer:
+`📱 PhoneSploit
+
+PhoneSploit is a security-related Android/ADB utility found in public repositories.
+
+ADB (Android Debug Bridge) is a legitimate Android development and debugging interface.
+
+Important:
+ADB access should only be used on devices you own or have explicit permission to administer.
+
+TUX-AI can teach:
+• What ADB is
+• Android debugging concepts
+• Device-security risks
+• How developers secure debugging
+
+It will not provide instructions for accessing another person's phone.`
+},
+
+{
+ keys:["phoneextract","phone extract"],
+ answer:
+`📱 Phone/data extraction tools
+
+Tools with names such as PhoneExtract can relate to extracting or examining information from mobile devices.
+
+Mobile-data extraction is highly sensitive.
+
+Safe learning topics include:
+• Android permissions
+• ADB security
+• Backups
+• Digital forensics
+• Evidence handling
+• Privacy protection
+
+Only examine a device or data when you have clear authorization.`
+},
+
+{
+ keys:["zphisher","phishing"],
+ answer:
+`🎣 Zphisher / Phishing Awareness
+
+Zphisher is associated with phishing demonstrations and therefore can be dangerous when misused.
+
+For ethical learning, focus on:
+• What phishing is
+• How fake login pages deceive users
+• Warning signs of phishing
+• Safe reporting
+• Account protection
+• MFA
+• Security awareness
+
+Never collect another person's credentials or deploy phishing pages against real users.
+
+TUX-AI intentionally does not provide credential-theft or real-world phishing instructions.`
+},
+
+/* ---------- CMATRIX ---------- */
+
+{
+ keys:["cmatrix","matrix"],
+ answer:
+`🟢 CMatrix
+
+CMatrix is a harmless terminal program that displays a Matrix-style animation.
+
+It is useful for:
+• Linux terminal customization
+• Learning how terminal programs work
+• Practicing package installation
+
+It does not perform hacking by itself.
+
+Typical usage:
+cmatrix`
+},
+
+{
+ keys:["figlet"],
+ answer:
+`🔤 FIGlet
+
+FIGlet creates large ASCII-style text in the terminal.
+
+Example:
+figlet TUX-AI
+
+It is a harmless terminal customization utility.`
+},
+
+{
+ keys:["cowsay"],
+ answer:
+`🐮 Cowsay
+
+Cowsay displays text using an ASCII-art character.
+
+Example:
+cowsay "TUX-AI"
+
+It is a harmless Linux terminal utility.`
+},
+
+/* ---------- SSH ---------- */
+
+{
+ keys:["ssh"],
+ answer:
+`🔐 SSH
+
+SSH provides secure remote administration.
+
+Common concepts:
+• Authentication
+• Encryption
+• Host keys
+• User accounts
+• Public/private keys
+
+Only connect to systems you own or are authorized to administer.`
+},
+
+/* ---------- HTTP ---------- */
+
+{
+ keys:["http","https"],
+ answer:
+`🌐 HTTP / HTTPS
+
+HTTP is the protocol commonly used for web communication.
+
+Important concepts:
+• Request
+• Response
+• Headers
+• Status codes
+• Cookies
+• Methods
+
+HTTPS adds TLS encryption to protect data in transit.`
+},
+
+{
+ keys:["http status","status codes"],
+ answer:
+`📡 HTTP Status Codes
+
+Common codes:
+
+200 — OK
+201 — Created
+301 — Redirect
+302 — Temporary redirect
+400 — Bad Request
+401 — Authentication required
+403 — Forbidden
+404 — Not Found
+500 — Server Error
+502 — Bad Gateway
+503 — Service Unavailable
+
+These codes help troubleshoot web applications.`
+},
+
+/* ---------- PYTHON ---------- */
+
+{
+ keys:["python","python linux"],
+ answer:
+`🐍 Python on Linux
+
+Python is widely used for automation, scripting, data processing and security research.
+
+Useful commands:
+python3 --version
+python3 script.py
+
+Virtual environments help isolate project dependencies.
+
+Example concept:
+python3 -m venv .venv`
+},
+
+/* ---------- GIT ---------- */
+
+{
+ keys:["git","github"],
+ answer:
+`🌿 Git
+
+Git is a version-control system.
+
+Common commands:
+git init
+git status
+git add
+git commit
+git log
+git branch
+
+GitHub hosts Git repositories and provides collaboration features.
+
+Never commit passwords, API keys or private credentials to a repository.`
+},
+
+/* ---------- CYBERSECURITY ---------- */
+
+{
+ keys:["cybersecurity","cyber security"],
+ answer:
+`🛡️ Cybersecurity
+
+Cybersecurity protects systems, networks, applications and data.
+
+Core areas:
+• Authentication
+• Authorization
+• Confidentiality
+• Integrity
+• Availability
+• Monitoring
+• Incident response
+• Vulnerability management
+• Secure configuration
+
+Ethical security testing requires authorization and a defined scope.`
+},
+
+{
+ keys:["ethical hacking","ethical security"],
+ answer:
+`🎯 Ethical Security
+
+A safe security-testing workflow is:
+
+1. Get explicit permission.
+2. Define scope.
+3. Use an authorized lab or target.
+4. Test safely.
+5. Record observations.
+6. Report findings.
+7. Remediate.
+8. Verify the fix.
+
+Never test random public systems without permission.`
+},
+
+{
+ keys:["malware"],
+ answer:
+`🦠 Malware
+
+Malware is software designed to perform harmful or unauthorized actions.
+
+Common categories:
+• Virus
+• Worm
+• Trojan
+• Ransomware
+• Spyware
+• Rootkit
+
+Defensive learning focuses on:
+• Detection
+• Isolation
+• Analysis
+• Removal
+• Prevention`
+},
+
+{
+ keys:["vulnerability"],
+ answer:
+`🔎 Vulnerability
+
+A vulnerability is a weakness that could affect confidentiality, integrity or availability.
+
+Defensive workflow:
+identify → assess risk → prioritize → patch/configure → verify → document`
+},
+
+{
+ keys:["mitre attack","mitre"],
+ answer:
+`🗺️ MITRE ATT&CK
+
+MITRE ATT&CK is a knowledge base describing adversary tactics and techniques.
+
+Security teams use it for:
+• Threat modeling
+• Detection engineering
+• Threat hunting
+• Incident response
+• Security education`
+},
+
+{
+ keys:["owasp"],
+ answer:
+`🌐 OWASP
+
+OWASP is a major application-security community.
+
+The OWASP Top 10 describes important categories of web-application security risks.
+
+It is useful for developers and security learners who want to build safer web applications.`
+},
+
+/* ---------- TOOLS ---------- */
+
+{
+ keys:["netcat","nc"],
+ answer:
+`🔌 Netcat
+
+Netcat is a networking utility often used for testing and troubleshooting network connections.
+
+Because it can also be misused, practice only in your own localhost or authorized lab.
+
+Useful learning topics:
+• TCP connections
+• UDP concepts
+• Port testing
+• Simple network troubleshooting`
+},
+
+{
+ keys:["traceroute","trace route"],
+ answer:
+`🛰️ traceroute
+
+traceroute helps show the network path toward a destination.
+
+It can help diagnose routing problems and understand network hops.
+
+Linux example:
+traceroute example.com`
+},
+
+{
+ keys:["dig"],
+ answer:
+`🌍 dig
+
+dig is a DNS-query tool.
+
+Example:
+dig example.com
+
+It can display DNS records and response information.
+
+Useful for:
+• DNS troubleshooting
+• Learning DNS
+• Resolver testing`
+},
+
+{
+ keys:["nslookup"],
+ answer:
+`🌍 nslookup
+
+nslookup queries DNS information.
+
+Example:
+nslookup example.com
+
+It is useful for basic DNS troubleshooting.`
+},
+
+{
+ keys:["whois"],
+ answer:
+`📋 WHOIS
+
+WHOIS services can provide registration-related information for domains or IP resources, depending on the registry and privacy rules.
+
+Use information responsibly and respect privacy and applicable laws.`
+},
+
+{
+ keys:["wget"],
+ answer:
+`⬇️ wget
+
+wget is a command-line downloader.
+
+It is commonly used to retrieve files or web resources.
+
+Only download software from trusted sources and verify what you install.`
+},
+
+/* ---------- HELP ---------- */
+
+{
+ keys:["help","what can you do"],
+ answer:
+`🤖 TUX-AI can explain:
+
+🐧 Linux
+🌐 Networking
+🔐 SSH
+📡 TCP/UDP
+🌍 DNS
+🚪 Ports
+🦈 Wireshark
+🔎 Nmap
+📡 tcpdump
+🛡️ Burp Suite
+🛡️ OWASP ZAP
+🧰 Metasploit concepts
+🟢 CMatrix
+🎣 Phishing awareness
+📱 Android/ADB security
+🔬 Ghidra
+🔬 Autopsy
+🧠 Volatility
+🛡️ Suricata
+📊 Zeek
+🔬 YARA
+🔐 Firewalls
+🐍 Python
+🌿 Git
+📜 Linux logs
+⚙️ Processes
+📦 APT
+🔐 Permissions
+
+Ask:
+"Explain <topic>"`
+}
+
+];
+
+/* =========================================================
+   FIND ANSWER
+   ========================================================= */
+
+function normalize(text){
+  return text
+    .toLowerCase()
+    .replace(/[?!.:,;]/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function findAnswer(question){
+
+  const q = normalize(question);
+
+  let best = null;
+  let bestScore = 0;
+
+  for(const item of knowledge){
+
+    let score = 0;
+
+    for(const key of item.keys){
+
+      const k = normalize(key);
+
+      if(q === k){
+        score += 100;
       }
-
-
-      /* =========================
-         LINUX
-         ========================= */
-
-      if (
-        q === "linux" ||
-        q.includes("what is linux")
-      ) {
-
-        return "Linux is an open-source operating-system kernel.\n\nLinux distributions such as Kali Linux, Ubuntu and Debian use the Linux kernel.";
-
+      else if(q.includes(k)){
+        score += 50;
       }
+      else{
 
+        const words = k.split(" ");
 
-      /* =========================
-         PWD
-         ========================= */
-
-      if (
-        q === "pwd" ||
-        q.includes("what is pwd") ||
-        q.includes("what does pwd") ||
-        q.includes("print working directory")
-      ) {
-
-        return "pwd means Print Working Directory.\n\nIt shows the directory you are currently inside.\n\nCommand:\npwd";
-
-      }
-
-
-      /* =========================
-         LS
-         ========================= */
-
-      if (
-        q === "ls" ||
-        q.includes("what is ls") ||
-        q.includes("what does ls") ||
-        q.includes("list files")
-      ) {
-
-        return "ls lists files and directories.\n\nExamples:\nls\nls -l\nls -la";
-
-      }
-
-
-      /* =========================
-         CD
-         ========================= */
-
-      if (
-        q === "cd" ||
-        q.includes("what is cd") ||
-        q.includes("what does cd") ||
-        q.includes("change directory")
-      ) {
-
-        return "cd means Change Directory.\n\nExamples:\ncd Documents\ncd ..\ncd ~";
-
-      }
-
-
-      /* =========================
-         MKDIR
-         ========================= */
-
-      if (
-        q === "mkdir" ||
-        q.includes("what is mkdir") ||
-        q.includes("what does mkdir") ||
-        q.includes("mkdir command")
-      ) {
-
-        return "mkdir means Make Directory.\n\nIt creates a new directory.\n\nExample:\nmkdir linux_lab";
-
-      }
-
-
-      /* =========================
-         TOUCH
-         ========================= */
-
-      if (
-        q === "touch" ||
-        q.includes("what is touch") ||
-        q.includes("what does touch") ||
-        q.includes("touch command")
-      ) {
-
-        return "touch can create an empty file.\n\nExample:\ntouch notes.txt";
-
-      }
-
-
-      /* =========================
-         CAT
-         ========================= */
-
-      if (
-        q === "cat" ||
-        q.includes("what is cat") ||
-        q.includes("what does cat") ||
-        q.includes("cat command")
-      ) {
-
-        return "cat displays the contents of a text file.\n\nExample:\ncat notes.txt";
-
-      }
-
-
-      /* =========================
-         CP
-         IMPORTANT:
-         Do NOT use q.includes("cp")
-         because TCP contains 'cp'.
-         ========================= */
-
-      if (
-        q === "cp" ||
-        q.includes("what is cp") ||
-        q.includes("what does cp") ||
-        q.includes("cp command")
-      ) {
-
-        return "cp copies files or directories.\n\nExample:\ncp file.txt backup.txt";
-
-      }
-
-
-      /* =========================
-         MV
-         ========================= */
-
-      if (
-        q === "mv" ||
-        q.includes("what is mv") ||
-        q.includes("what does mv") ||
-        q.includes("mv command")
-      ) {
-
-        return "mv moves or renames files and directories.\n\nExample:\nmv old.txt new.txt";
-
-      }
-
-
-      /* =========================
-         RM
-         ========================= */
-
-      if (
-        q === "rm" ||
-        q.includes("what is rm") ||
-        q.includes("what does rm") ||
-        q.includes("rm command")
-      ) {
-
-        return "rm removes files.\n\nExample:\nrm notes.txt\n\nBe careful when deleting files.";
-
-      }
-
-
-      /* =========================
-         CHMOD
-         ========================= */
-
-      if (
-        q === "chmod" ||
-        q.includes("what is chmod") ||
-        q.includes("what does chmod") ||
-        q.includes("chmod command")
-      ) {
-
-        return "chmod changes Linux file permissions.\n\nExample:\nchmod +x script.sh\n\nYou can check permissions with:\nls -l";
-
-      }
-
-
-      /* =========================
-         WHOAMI
-         ========================= */
-
-      if (
-        q === "whoami" ||
-        q.includes("what is whoami") ||
-        q.includes("what does whoami")
-      ) {
-
-        return "whoami displays the username of the current user.\n\nCommand:\nwhoami";
-
-      }
-
-
-      /* =========================
-         SUDO
-         ========================= */
-
-      if (
-        q === "sudo" ||
-        q.includes("what is sudo") ||
-        q.includes("what does sudo")
-      ) {
-
-        return "sudo allows an authorized user to run a command with elevated privileges.\n\nExample:\nsudo apt update";
-
-      }
-
-
-      /* =========================
-         APT
-         ========================= */
-
-      if (
-        q === "apt" ||
-        q.includes("what is apt") ||
-        q.includes("what does apt") ||
-        q.includes("apt command")
-      ) {
-
-        return "APT is a package manager commonly used by Debian-based Linux distributions.\n\nExamples:\nsudo apt update\nsudo apt install package-name";
-
-      }
-
-
-      /* =========================
-         TCP vs UDP
-         IMPORTANT:
-         This comes BEFORE TCP and UDP.
-         ========================= */
-
-      if (
-        q.includes("difference between tcp and udp") ||
-        q.includes("difference between tcp udp") ||
-        q.includes("tcp vs udp") ||
-        q.includes("tcp versus udp") ||
-        q.includes("tcp and udp difference") ||
-        q.includes("compare tcp and udp")
-      ) {
-
-        return "TCP vs UDP:\n\nTCP:\n• Connection-oriented\n• Reliable and ordered\n• Uses acknowledgments\n• Retransmits missing data\n• More protocol overhead\n\nUDP:\n• Connectionless\n• No TCP-style delivery guarantee\n• Lower protocol overhead\n• Does not use TCP-style acknowledgments\n\nIn simple terms:\nTCP focuses on reliable, ordered delivery.\nUDP focuses on lower overhead and does not provide TCP's delivery guarantees.";
-
-      }
-
-
-      /* =========================
-         TCP
-         ========================= */
-
-      if (
-        q === "tcp" ||
-        q.includes("what is tcp") ||
-        q.includes("what does tcp") ||
-        q.includes("explain tcp")
-      ) {
-
-        return "TCP stands for Transmission Control Protocol.\n\nTCP is connection-oriented and provides reliable, ordered data delivery.\n\nSimplified handshake:\nSYN → SYN-ACK → ACK";
-
-      }
-
-
-      /* =========================
-         UDP
-         ========================= */
-
-      if (
-        q === "udp" ||
-        q.includes("what is udp") ||
-        q.includes("what does udp") ||
-        q.includes("explain udp")
-      ) {
-
-        return "UDP stands for User Datagram Protocol.\n\nUDP is connectionless and has lower protocol overhead than TCP.\n\nUDP does not provide TCP-style delivery guarantees.";
-
-      }
-
-
-      /* =========================
-         IP ADDRESS
-         ========================= */
-
-      if (
-        q === "ip" ||
-        q.includes("what is an ip address") ||
-        q.includes("what is ip address") ||
-        q.includes("explain ip address")
-      ) {
-
-        return "An IP address identifies a network interface on an IP network.\n\nUseful Linux commands:\nip addr\nip -br a\nip route";
-
-      }
-
-
-      /* =========================
-         MAC ADDRESS
-         ========================= */
-
-      if (
-        q.includes("mac address") ||
-        q.includes("what is mac")
-      ) {
-
-        return "A MAC address is a link-layer address associated with a network interface.\n\nView interfaces with:\nip link";
-
-      }
-
-
-      /* =========================
-         DNS
-         ========================= */
-
-      if (
-        q === "dns" ||
-        q.includes("what is dns") ||
-        q.includes("explain dns")
-      ) {
-
-        return "DNS stands for Domain Name System.\n\nIt translates domain names into IP addresses so applications can find network services.";
-
-      }
-
-
-      /* =========================
-         GATEWAY
-         ========================= */
-
-      if (
-        q.includes("gateway") ||
-        q.includes("what is a gateway")
-      ) {
-
-        return "A default gateway is normally the router or next-hop device used to reach networks outside your local network.\n\nView routes with:\nip route";
-
-      }
-
-
-      /* =========================
-         PORT
-         ========================= */
-
-      if (
-        q === "port" ||
-        q.includes("what is a port") ||
-        q.includes("network port") ||
-        q.includes("explain port")
-      ) {
-
-        return "A network port identifies a service endpoint for TCP or UDP.\n\nTo view listening TCP ports on Linux:\n\nss -ltn\n\nTo include process information when permitted:\nss -ltnp";
-
-      }
-
-
-      /* =========================
-         PING
-         ========================= */
-
-      if (
-        q === "ping" ||
-        q.includes("what is ping") ||
-        q.includes("what does ping")
-      ) {
-
-        return "ping is a network diagnostic utility commonly used to test reachability using ICMP echo messages.\n\nExample:\nping 8.8.8.8";
-
-      }
-
-
-      /* =========================
-         SS
-         ========================= */
-
-      if (
-        q === "ss" ||
-        q.includes("ss command") ||
-        q.includes("what is ss")
-      ) {
-
-        return "ss displays socket information.\n\nExamples:\nss -tuln\nss -ltn\nss -ltnp";
-
-      }
-
-
-      /* =========================
-         TCPDUMP
-         ========================= */
-
-      if (
-        q === "tcpdump" ||
-        q.includes("what is tcpdump") ||
-        q.includes("explain tcpdump")
-      ) {
-
-        return "tcpdump is a command-line packet capture and analysis tool.\n\nIn an authorized local lab you can use:\nsudo tcpdump -i lo -nn\n\nIt is useful for learning network traffic and protocols.";
-
-      }
-
-
-      /* =========================
-         PROCESS
-         ========================= */
-
-      if (
-        q === "process" ||
-        q.includes("what is a process") ||
-        q.includes("what is process")
-      ) {
-
-        return "A process is a running instance of a program.\n\nUseful commands:\nps\nps aux\ntop";
-
-      }
-
-
-      /* =========================
-         MEMORY
-         ========================= */
-
-      if (
-        q.includes("memory") ||
-        q.includes("ram")
-      ) {
-
-        return "You can inspect memory usage with:\n\nfree -h";
-
-      }
-
-
-      /* =========================
-         DISK
-         ========================= */
-
-      if (
-        q.includes("disk space") ||
-        q.includes("storage") ||
-        q.includes("disk usage")
-      ) {
-
-        return "Useful disk commands:\n\ndf -h\n\nShows filesystem space.\n\ndu -sh folder\n\nShows folder size.";
-
-      }
-
-
-      /* =========================
-         BASH
-         ========================= */
-
-      if (
-        q === "bash" ||
-        q.includes("what is bash") ||
-        q.includes("what does bash")
-      ) {
-
-        return "Bash is a command-line shell commonly used on Linux.\n\nIt supports commands, scripts, variables, loops and functions.";
-
-      }
-
-
-      /* =========================
-         FIREWALL
-         ========================= */
-
-      if (
-        q.includes("firewall") ||
-        q.includes("what is a firewall")
-      ) {
-
-        return "A firewall controls network traffic according to configured rules.\n\nLinux systems commonly use technologies such as nftables and tools such as UFW.";
-
-      }
-
-
-      /* =========================
-         WIRESHARK
-         ========================= */
-
-      if (
-        q === "wireshark" ||
-        q.includes("what is wireshark") ||
-        q.includes("explain wireshark")
-      ) {
-
-        return "Wireshark is a graphical network protocol analyzer.\n\nIt is useful for studying packets and protocols such as TCP, UDP and DNS in an authorized lab.";
-
-      }
-
-
-      /* =========================
-         CYBERSECURITY
-         ========================= */
-
-      if (
-        q.includes("cybersecurity") ||
-        q.includes("what is cybersecurity") ||
-        q.includes("ethical hacking")
-      ) {
-
-        return "Cybersecurity focuses on protecting systems, networks and data.\n\nFor ethical security learning, practice only on systems you own or have explicit permission to test.";
-
-      }
-
-
-      /* =========================
-         HELP
-         ========================= */
-
-      if (
-        q === "help" ||
-        q.includes("what can you do")
-      ) {
-
-        return "TUX-AI currently understands:\n\n• Linux\n• pwd\n• ls\n• cd\n• mkdir\n• touch\n• cat\n• cp\n• mv\n• rm\n• chmod\n• sudo\n• apt\n• IP addresses\n• MAC addresses\n• DNS\n• Gateways\n• TCP\n• UDP\n• TCP vs UDP\n• Ports\n• ping\n• ss\n• tcpdump\n• Processes\n• Memory\n• Disk\n• Bash\n• Firewalls\n• Wireshark\n• Cybersecurity";
-
-      }
-
-
-      /* =========================
-         DEFAULT
-         ========================= */
-
-      return "I don't have a built-in answer for that topic yet. 🤖\n\nTry asking about Linux, commands, networking, TCP, UDP, TCP vs UDP, ports, DNS, processes, permissions or cybersecurity.";
-
-    }
-
-
-    /* =========================
-       SEND MESSAGE
-       ========================= */
-
-    function sendMessage() {
-
-      const question = input.value.trim();
-
-
-      if (question === "") {
-
-        return;
-
-      }
-
-
-      addMessage(
-        "user",
-        "You",
-        question
-      );
-
-
-      const response = getResponse(question);
-
-
-      addMessage(
-        "ai",
-        "TUX-AI",
-        response
-      );
-
-
-      input.value = "";
-
-      input.focus();
-
-    }
-
-
-    /* =========================
-       SEND BUTTON
-       ========================= */
-
-    sendButton.addEventListener(
-      "click",
-      sendMessage
-    );
-
-
-    /* =========================
-       ENTER KEY
-       ========================= */
-
-    input.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (event.key === "Enter") {
-
-          sendMessage();
-
+        for(const word of words){
+          if(word.length > 2 && q.includes(word)){
+            score += 5;
+          }
         }
-
       }
-    );
+    }
 
-  </script>
+    if(score > bestScore){
+      bestScore = score;
+      best = item.answer;
+    }
+  }
 
+  return best;
+}
+
+/* =========================================================
+   CHAT
+   ========================================================= */
+
+function addMessage(text,type){
+
+  const messages = document.getElementById("messages");
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "message " + type;
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+
+  bubble.textContent = text;
+
+  wrapper.appendChild(bubble);
+  messages.appendChild(wrapper);
+
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function sendMessage(){
+
+  const input = document.getElementById("userInput");
+  const question = input.value.trim();
+
+  if(!question) return;
+
+  addMessage(question,"user");
+
+  input.value = "";
+
+  setTimeout(()=>{
+
+    const answer = findAnswer(question);
+
+    if(answer){
+
+      addMessage("🐧 TUX-AI:\n\n" + answer,"bot");
+
+    }
+    else{
+
+      addMessage(
+`🐧 TUX-AI:
+
+I don't have a built-in answer for that topic yet.
+
+Try asking about:
+
+Linux
+Nmap
+Wireshark
+tcpdump
+CMatrix
+Zphisher
+PhoneExtract
+PhoneSploit
+Burp Suite
+OWASP ZAP
+Metasploit
+Ghidra
+Autopsy
+Volatility
+YARA
+Zeek
+Suricata
+DNS
+TCP
+UDP
+Ports
+SSH
+Python
+Git
+Linux permissions
+APT
+Processes
+Logs
+
+You can also ask:
+"Help"
+or
+"What can you do?"
+
+🛡️ Security tools should only be used on systems you own or are explicitly authorized to test.`,
+        "bot"
+      );
+
+    }
+
+  },250);
+}
+
+function quickAsk(question){
+
+  document.getElementById("userInput").value = question;
+  sendMessage();
+
+}
+
+document.getElementById("userInput").addEventListener("keydown",function(event){
+
+  if(event.key === "Enter"){
+    event.preventDefault();
+    sendMessage();
+  }
+
+});
+
+</script>
 
 </body>
-
 </html>
