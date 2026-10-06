@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TUX-AI | Linux Learning Center</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #05070d;
+      color: white;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 7, 13, 0.95);
+      border-bottom: 1px solid #17202b;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #00ff88;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #bbb;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #00ff88;
+      background: #0b1512;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 55px 20px 30px;
+      text-align: center;
+    }
+
+    .hero-icon {
+      font-size: 55px;
+    }
+
+    .hero h1 {
+      margin: 10px 0;
+      font-size: 42px;
+    }
+
+    .hero h1 span {
+      color: #00ff88;
+    }
+
+    .hero p {
+      max-width: 750px;
+      margin: auto;
+      color: #a9b0ba;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* SEARCH */
+    .search-box {
+      max-width: 700px;
+      margin: 30px auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #26313d;
+      background: #0b1017;
+      color: white;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .search-box input:focus {
+      border-color: #00ff88;
+    }
+
+    /* CATEGORIES */
+    .categories {
+      max-width: 1200px;
+      margin: 10px auto 25px;
+      padding: 0 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .category-btn {
+      border: 1px solid #26313d;
+      background: #0b1017;
+      color: #aaa;
+      padding: 9px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      color: #00ff88;
+      border-color: #00ff88;
+      background: #09150f;
+    }
+
+    /* LESSON GRID */
+    .lessons {
+      max-width: 1200px;
+      margin: auto;
+      padding: 10px 20px 60px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 18px;
+    }
+
+    .lesson-card {
+      background: #0a0f16;
+      border: 1px solid #1b2632;
+      border-radius: 15px;
+      padding: 22px;
+      transition: 0.25s;
+      display: flex;
+      flex-direction: column;
+      min-height: 250px;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-4px);
+      border-color: #00ff88;
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.08);
+    }
+
+    .lesson-number {
+      color: #00ff88;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .lesson-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .lesson-card h3 {
+      margin: 0 0 10px;
+    }
+
+    .lesson-card p {
+      color: #9ca5b0;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .lesson-tag {
+      display: inline-block;
+      width: fit-content;
+      font-size: 12px;
+      color: #00ff88;
+      background: #08150f;
+      border: 1px solid #123d29;
+      padding: 5px 9px;
+      border-radius: 20px;
+      margin-bottom: 15px;
+    }
+
+    .start-btn {
+      border: none;
+      background: #00ff88;
+      color: #031008;
+      font-weight: bold;
+      padding: 11px 15px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .start-btn:hover {
+      background: #54ffaa;
+    }
+
+    /* NO RESULTS */
+    #noResults {
+      display: none;
+      text-align: center;
+      color: #888;
+      padding: 40px;
+      grid-column: 1 / -1;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 2000;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 850px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #090e15;
+      border: 1px solid #26323e;
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      background: transparent;
+      border: none;
+      color: #aaa;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #00ff88;
+    }
+
+    .modal-content h2 {
+      color: #00ff88;
+      padding-right: 35px;
+    }
+
+    .modal-content h3 {
+      margin-top: 25px;
+      color: #ddd;
+    }
+
+    .modal-content p {
+      color: #b4bbc4;
+      line-height: 1.7;
+    }
+
+    .command {
+      background: #030508;
+      border: 1px solid #1c2935;
+      border-left: 3px solid #00ff88;
+      padding: 14px;
+      border-radius: 8px;
+      margin: 12px 0;
+      overflow-x: auto;
+      font-family: Consolas, monospace;
+      color: #d5ffe8;
+      white-space: pre-wrap;
+    }
+
+    .warning {
+      background: #151207;
+      border: 1px solid #5c4a16;
+      color: #e4d28c;
+      padding: 14px;
+      border-radius: 9px;
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+
+    .tip {
+      background: #07150f;
+      border: 1px solid #17462e;
+      color: #a5eec5;
+      padding: 14px;
+      border-radius: 9px;
+      margin-top: 18px;
+      line-height: 1.6;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #17202b;
+      text-align: center;
+      padding: 30px 20px;
+      color: #69727d;
+    }
+
+    footer strong {
+      color: #00ff88;
+    }
+
+    @media (max-width: 700px) {
+      .nav {
+        flex-direction: column;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="nav">
+
+    <div class="logo">🐧 TUX-AI</div>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="chat.html">Chat</a>
+      <a href="analyzer.html">Analyzer</a>
+      <a href="learn.html" class="active">Learn</a>
+    </div>
+
+  </nav>
+</header>
+
+
+<section class="hero">
+
+  <div class="hero-icon">📚</div>
+
+  <h1>
+    TUX-AI <span>Learning Center</span>
+  </h1>
+
+  <p>
+    Learn Linux, networking, cybersecurity and ethical-security fundamentals
+    through structured beginner-friendly lessons, commands and safe laboratory concepts.
+  </p>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="🔎 Search lessons... e.g. permissions, TCP, SSH"
+      oninput="searchLessons()"
+    >
+  </div>
+
+</section>
+
+
+<div class="categories">
+
+  <button class="category-btn active" onclick="filterLessons('all', this)">
+    All
+  </button>
+
+  <button class="category-btn" onclick="filterLessons('linux', this)">
+    🐧 Linux
+  </button>
+
+  <button class="category-btn" onclick="filterLessons('networking', this)">
+    🌐 Networking
+  </button>
+
+  <button class="category-btn" onclick="filterLessons('security', this)">
+    🛡️ Security
+  </button>
+
+  <button class="category-btn" onclick="filterLessons('python', this)">
+    🐍 Python
+  </button>
+
+  <button class="category-btn" onclick="filterLessons('tools', this)">
+    🧰 Tools
+  </button>
+
+</div>
+
+
+<section class="lessons" id="lessonGrid">
+
+  <!-- 01 -->
+
+  <article class="lesson-card"
+    data-category="linux"
+    data-search="linux introduction basics terminal shell">
+
+    <div class="lesson-number">LESSON 01</div>
+    <div class="lesson-icon">🐧</div>
+
+    <span class="lesson-tag">Linux Basics</span>
+
+    <h3>Introduction to Linux</h3>
+
+    <p>
+      Understand Linux, distributions, the terminal and why Linux is important
+      in servers, development and cybersecurity.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(1)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 02 -->
+
+  <article class="lesson-card"
+    data-category="linux"
+    data-search="terminal commands pwd ls cd linux shell">
+
+    <div class="lesson-number">LESSON 02</div>
+    <div class="lesson-icon">⌨️</div>
+
+    <span class="lesson-tag">Linux</span>
+
+    <h3>Terminal & Essential Commands</h3>
+
+    <p>
+      Learn pwd, ls, cd, clear, history and basic terminal navigation.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(2)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 03 -->
+
+  <article class="lesson-card"
+    data-category="linux"
+    data-search="files directories mkdir touch cp mv rm find">
+
+    <div class="lesson-number">LESSON 03</div>
+    <div class="lesson-icon">📁</div>
+
+    <span class="lesson-tag">Linux</span>
+
+    <h3>Files & Directories</h3>
+
+    <p>
+      Create, copy, move, rename, inspect and safely remove files and folders.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(3)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 04 -->
+
+  <article class="lesson-card"
+    data-category="linux"
+    data-search="permissions chmod chown chgrp rwx ownership">
+
+    <div class="lesson-number">LESSON 04</div>
+    <div class="lesson-icon">🔐</div>
+
+    <span class="lesson-tag">Linux</span>
+
+    <h3>Permissions & Ownership</h3>
+
+    <p>
+      Understand users, groups, read/write/execute permissions, chmod and chown.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(4)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 05 -->
+
+  <article class="lesson-card"
+    data-category="linux"
+    data-search="process ps top kill jobs systemctl service">
+
+    <div class="lesson-number">LESSON 05</div>
+    <div class="lesson-icon">⚙️</div>
+
+    <span class="lesson-tag">Linux</span>
+
+    <h3>Processes & Services</h3>
+
+    <p>
+      Learn how Linux runs programs and how to inspect processes and services.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(5)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 06 -->
+
+  <article class="lesson-card"
+    data-category="linux"
+    data-search="apt package install update upgrade dpkg">
+
+    <div class="lesson-number">LESSON 06</div>
+    <div class="lesson-icon">📦</div>
+
+    <span class="lesson-tag">Linux</span>
+
+    <h3>APT & Package Management</h3>
+
+    <p>
+      Understand repositories, package installation, updates and common APT issues.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(6)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 07 -->
+
+  <article class="lesson-card"
+    data-category="networking"
+    data-search="ip address ip route network interface">
+
+    <div class="lesson-number">LESSON 07</div>
+    <div class="lesson-icon">🌐</div>
+
+    <span class="lesson-tag">Networking</span>
+
+    <h3>Linux Networking Basics</h3>
+
+    <p>
+      Learn interfaces, IP addresses, routes, gateways and basic network inspection.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(7)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 08 -->
+
+  <article class="lesson-card"
+    data-category="networking"
+    data-search="tcp udp protocol networking">
+
+    <div class="lesson-number">LESSON 08</div>
+    <div class="lesson-icon">🔄</div>
+
+    <span class="lesson-tag">Networking</span>
+
+    <h3>TCP & UDP</h3>
+
+    <p>
+      Understand connection-oriented and connectionless transport protocols.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(8)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 09 -->
+
+  <article class="lesson-card"
+    data-category="networking"
+    data-search="ports sockets ss netstat listening">
+
+    <div class="lesson-number">LESSON 09</div>
+    <div class="lesson-icon">🔌</div>
+
+    <span class="lesson-tag">Networking</span>
+
+    <h3>Ports & Sockets</h3>
+
+    <p>
+      Learn what ports are and how to inspect listening TCP and UDP sockets.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(9)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 10 -->
+
+  <article class="lesson-card"
+    data-category="networking"
+    data-search="dns domain hostname resolver dig nslookup">
+
+    <div class="lesson-number">LESSON 10</div>
+    <div class="lesson-icon">🌍</div>
+
+    <span class="lesson-tag">Networking</span>
+
+    <h3>DNS Fundamentals</h3>
+
+    <p>
+      Understand domain names, DNS resolution and useful diagnostic commands.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(10)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 11 -->
+
+  <article class="lesson-card"
+    data-category="networking"
+    data-search="ssh remote login ssh-keygen authorized keys">
+
+    <div class="lesson-number">LESSON 11</div>
+    <div class="lesson-icon">🔑</div>
+
+    <span class="lesson-tag">Networking</span>
+
+    <h3>SSH Basics</h3>
+
+    <p>
+      Learn secure remote administration concepts and SSH key authentication.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(11)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 12 -->
+
+  <article class="lesson-card"
+    data-category="python"
+    data-search="python linux python3 pip virtual environment">
+
+    <div class="lesson-number">LESSON 12</div>
+    <div class="lesson-icon">🐍</div>
+
+    <span class="lesson-tag">Python</span>
+
+    <h3>Python on Linux</h3>
+
+    <p>
+      Run Python programs, understand pip and use virtual environments safely.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(12)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 13 -->
+
+  <article class="lesson-card"
+    data-category="security"
+    data-search="cybersecurity fundamentals security CIA">
+
+    <div class="lesson-number">LESSON 13</div>
+    <div class="lesson-icon">🛡️</div>
+
+    <span class="lesson-tag">Security</span>
+
+    <h3>Cybersecurity Fundamentals</h3>
+
+    <p>
+      Learn confidentiality, integrity, availability and basic security thinking.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(13)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 14 -->
+
+  <article class="lesson-card"
+    data-category="security"
+    data-search="ethical hacking authorization scope rules">
+
+    <div class="lesson-number">LESSON 14</div>
+    <div class="lesson-icon">🎯</div>
+
+    <span class="lesson-tag">Security</span>
+
+    <h3>Ethical Security</h3>
+
+    <p>
+      Understand authorization, scope, responsible testing and safe security labs.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(14)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 15 -->
+
+  <article class="lesson-card"
+    data-category="security"
+    data-search="logs journalctl authentication linux security logs">
+
+    <div class="lesson-number">LESSON 15</div>
+    <div class="lesson-icon">📜</div>
+
+    <span class="lesson-tag">Security</span>
+
+    <h3>Linux Logs</h3>
+
+    <p>
+      Learn how logs help troubleshoot systems and investigate authorized lab activity.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(15)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 16 -->
+
+  <article class="lesson-card"
+    data-category="tools"
+    data-search="tcpdump packet capture pcap network">
+
+    <div class="lesson-number">LESSON 16</div>
+    <div class="lesson-icon">📡</div>
+
+    <span class="lesson-tag">Tools</span>
+
+    <h3>Packet Capture Basics</h3>
+
+    <p>
+      Learn PCAP concepts and basic packet inspection using traffic from your own lab.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(16)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 17 -->
+
+  <article class="lesson-card"
+    data-category="tools"
+    data-search="curl wget HTTP web requests">
+
+    <div class="lesson-number">LESSON 17</div>
+    <div class="lesson-icon">🌐</div>
+
+    <span class="lesson-tag">Tools</span>
+
+    <h3>curl & HTTP Basics</h3>
+
+    <p>
+      Understand HTTP requests, responses and basic web troubleshooting.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(17)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 18 -->
+
+  <article class="lesson-card"
+    data-category="tools"
+    data-search="git github repository commit branch">
+
+    <div class="lesson-number">LESSON 18</div>
+    <div class="lesson-icon">🔧</div>
+
+    <span class="lesson-tag">Tools</span>
+
+    <h3>Git Basics</h3>
+
+    <p>
+      Learn repositories, commits, branches and basic project version control.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(18)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 19 -->
+
+  <article class="lesson-card"
+    data-category="linux"
+    data-search="disk storage df du free memory">
+
+    <div class="lesson-number">LESSON 19</div>
+    <div class="lesson-icon">💾</div>
+
+    <span class="lesson-tag">Linux</span>
+
+    <h3>Storage & System Resources</h3>
+
+    <p>
+      Check disk usage, memory and system resource information.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(19)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <!-- 20 -->
+
+  <article class="lesson-card"
+    data-category="security"
+    data-search="security lab practice virtual machine cybersecurity">
+
+    <div class="lesson-number">LESSON 20</div>
+    <div class="lesson-icon">🧪</div>
+
+    <span class="lesson-tag">Safe Labs</span>
+
+    <h3>Build a Safe Security Lab</h3>
+
+    <p>
+      Learn how to practice cybersecurity concepts using systems you own or are authorized to test.
+    </p>
+
+    <button class="start-btn" onclick="openLesson(20)">
+      Start Lesson →
+    </button>
+
+  </article>
+
+
+  <div id="noResults">
+    <h3>No lessons found</h3>
+    <p>Try another search term.</p>
+  </div>
+
+</section>
+
+
+<!-- LESSON MODAL -->
+
+<div class="modal" id="lessonModal">
+
+  <div class="modal-content">
+
+    <button class="close" onclick="closeLesson()">×</button>
+
+    <div id="lessonContent"></div>
+
+  </div>
+
+</div>
+
+
+<footer>
+  <strong>TUX-AI</strong> Linux Learning Center
+  <br>
+  Learn • Practice • Build • Secure
+</footer>
+
+
+<script>
+
+  const lessons = {
+
+    1: {
+      title: "🐧 Introduction to Linux",
+      category: "Linux Basics",
+      content: `
+        <h3>What is Linux?</h3>
+
+        <p>
+          Linux is an open-source operating-system family widely used on servers,
+          desktops, cloud systems, embedded devices and cybersecurity labs.
+        </p>
+
+        <h3>Important concept</h3>
+
+        <p>
+          Linux is commonly interacted with through a shell such as Bash.
+          The shell receives commands and asks the operating system to perform them.
+        </p>
+
+        <div class="command">whoami
+pwd
+uname -a</div>
+
+        <div class="tip">
+          Tip: Start by understanding what every command does instead of memorizing commands blindly.
+        </div>
+      `
+    },
+
+
+    2: {
+      title: "⌨️ Terminal & Essential Commands",
+      category: "Linux",
+      content: `
+        <h3>Navigation commands</h3>
+
+        <div class="command">pwd
+ls
+ls -la
+cd /tmp
+cd ..
+clear
+history</div>
+
+        <p>
+          <b>pwd</b> shows your current directory.
+          <b>ls</b> lists files.
+          <b>cd</b> changes directories.
+        </p>
+
+        <h3>Command structure</h3>
+
+        <div class="command">command [options] [arguments]</div>
+
+        <p>
+          Options modify command behavior while arguments specify what the command should operate on.
+        </p>
+      `
+    },
+
+
+    3: {
+      title: "📁 Files & Directories",
+      category: "Linux",
+      content: `
+        <h3>Create files and directories</h3>
+
+        <div class="command">mkdir lab
+cd lab
+touch example.txt</div>
+
+        <h3>Copy and move</h3>
+
+        <div class="command">cp example.txt backup.txt
+mv backup.txt old_backup.txt</div>
+
+        <h3>Inspect</h3>
+
+        <div class="command">ls -lah
+file example.txt</div>
+
+        <h3>Remove</h3>
+
+        <div class="command">rm example.txt
+rmdir empty_folder</div>
+
+        <div class="warning">
+          Be careful with deletion commands. Always verify the path before removing files.
+        </div>
+      `
+    },
+
+
+    4: {
+      title: "🔐 Permissions & Ownership",
+      category: "Linux",
+      content: `
+        <h3>Read, write and execute</h3>
+
+        <p>
+          Linux permissions are commonly represented as:
+          <b>r</b> read, <b>w</b> write and <b>x</b> execute.
+        </p>
+
+        <div class="command">ls -l
+chmod 644 file.txt
+chmod 755 script.sh</div>
+
+        <h3>Ownership</h3>
+
+        <div class="command">ls -l
+id
+groups</div>
+
+        <p>
+          Ownership and permissions are important for system security because they control access to resources.
+        </p>
+      `
+    },
+
+
+    5: {
+      title: "⚙️ Processes & Services",
+      category: "Linux",
+      content: `
+        <h3>View processes</h3>
+
+        <div class="command">ps aux
+top
+pgrep bash</div>
+
+        <h3>Services</h3>
+
+        <div class="command">systemctl status
+systemctl list-units --type=service</div>
+
+        <p>
+          Processes are running instances of programs. Services are programs commonly managed by the system service manager.
+        </p>
+      `
+    },
+
+
+    6: {
+      title: "📦 APT & Package Management",
+      category: "Linux",
+      content: `
+        <h3>Update package information</h3>
+
+        <div class="command">sudo apt update</div>
+
+        <h3>Install a package</h3>
+
+        <div class="command">sudo apt install package-name</div>
+
+        <h3>Upgrade packages</h3>
+
+        <div class="command">sudo apt upgrade</div>
+
+        <h3>Common package repair</h3>
+
+        <div class="command">sudo dpkg --configure -a
+sudo apt --fix-broken install</div>
+
+        <div class="tip">
+          If a package installation fails, read the actual error message before trying random commands.
+        </div>
+      `
+    },
+
+
+    7: {
+      title: "🌐 Linux Networking Basics",
+      category: "Networking",
+      content: `
+        <h3>View interfaces</h3>
+
+        <div class="command">ip -br a</div>
+
+        <h3>View routing</h3>
+
+        <div class="command">ip route</div>
+
+        <h3>Test connectivity</h3>
+
+        <div class="command">ping -c 4 127.0.0.1</div>
+
+        <p>
+          An IP address identifies a network interface within an IP network.
+          A route determines where packets should be sent.
+        </p>
+      `
+    },
+
+
+    8: {
+      title: "🔄 TCP & UDP",
+      category: "Networking",
+      content: `
+        <h3>TCP</h3>
+
+        <p>
+          TCP provides reliable, ordered, connection-oriented communication.
+        </p>
+
+        <h3>UDP</h3>
+
+        <p>
+          UDP is connectionless and provides lower protocol overhead, but does not provide TCP's built-in reliability guarantees.
+        </p>
+
+        <div class="command">ss -ltn
+ss -lun</div>
+
+        <p>
+          The first command displays listening TCP sockets and the second displays UDP sockets.
+        </p>
+      `
+    },
+
+
+    9: {
+      title: "🔌 Ports & Sockets",
+      category: "Networking",
+      content: `
+        <h3>Inspect listening sockets</h3>
+
+        <div class="command">ss -ltnp
+ss -lunp</div>
+
+        <p>
+          A port helps identify a service endpoint. A socket represents a communication endpoint used by a network application.
+        </p>
+
+        <div class="tip">
+          In your own lab, use socket inspection to understand which services are listening and why.
+        </div>
+      `
+    },
+
+
+    10: {
+      title: "🌍 DNS Fundamentals",
+      category: "Networking",
+      content: `
+        <h3>What is DNS?</h3>
+
+        <p>
+          DNS translates names such as example.com into IP addresses and other DNS records.
+        </p>
+
+        <div class="command">getent hosts example.com
+dig example.com
+nslookup example.com</div>
+
+        <h3>Basic troubleshooting</h3>
+
+        <div class="command">ip -br a
+ip route</div>
+      `
+    },
+
+
+    11: {
+      title: "🔑 SSH Basics",
+      category: "Networking",
+      content: `
+        <h3>What is SSH?</h3>
+
+        <p>
+          SSH provides encrypted remote administration and other secure communication capabilities.
+        </p>
+
+        <div class="command">ssh user@host</div>
+
+        <h3>Key generation</h3>
+
+        <div class="command">ssh-keygen</div>
+
+        <p>
+          SSH keys can provide authentication without relying only on passwords.
+        </p>
+
+        <div class="warning">
+          Only connect to systems you own or are explicitly authorized to administer.
+        </div>
+      `
+    },
+
+
+    12: {
+      title: "🐍 Python on Linux",
+      category: "Python",
+      content: `
+        <h3>Check Python</h3>
+
+        <div class="command">python3 --version</div>
+
+        <h3>Run Python</h3>
+
+        <div class="command">python3</div>
+
+        <h3>Virtual environment</h3>
+
+        <div class="command">python3 -m venv .venv
+source .venv/bin/activate</div>
+
+        <h3>Packages</h3>
+
+        <div class="command">python -m pip install package-name</div>
+      `
+    },
+
+
+    13: {
+      title: "🛡️ Cybersecurity Fundamentals",
+      category: "Security",
+      content: `
+        <h3>The CIA Triad</h3>
+
+        <p>
+          <b>Confidentiality</b> protects information from unauthorized access.
+        </p>
+
+        <p>
+          <b>Integrity</b> protects information from unauthorized modification.
+        </p>
+
+        <p>
+          <b>Availability</b> keeps systems and information accessible when needed.
+        </p>
+
+        <h3>Security mindset</h3>
+
+        <p>
+          Security involves understanding assets, threats, vulnerabilities, controls and risk.
+        </p>
+      `
+    },
+
+
+    14: {
+      title: "🎯 Ethical Security",
+      category: "Security",
+      content: `
+        <h3>Authorization comes first</h3>
+
+        <p>
+          Ethical security testing must have clear permission and a defined scope.
+        </p>
+
+        <h3>Safe workflow</h3>
+
+        <div class="command">1. Define scope
+2. Build or use an authorized lab
+3. Identify the system
+4. Test safely
+5. Document observations
+6. Remediate
+7. Verify the fix</div>
+
+        <div class="warning">
+          Do not test accounts, devices, networks or websites without authorization.
+        </div>
+      `
+    },
+
+
+    15: {
+      title: "📜 Linux Logs",
+      category: "Security",
+      content: `
+        <h3>Why logs matter</h3>
+
+        <p>
+          Logs record system and application events and are useful for troubleshooting and authorized security investigations.
+        </p>
+
+        <div class="command">journalctl
+journalctl -b
+journalctl -p warning</div>
+
+        <p>
+          Log analysis can help identify service failures, authentication events and system problems.
+        </p>
+      `
+    },
+
+
+    16: {
+      title: "📡 Packet Capture Basics",
+      category: "Tools",
+      content: `
+        <h3>What is a packet capture?</h3>
+
+        <p>
+          A PCAP file stores captured network packets for later analysis.
+        </p>
+
+        <div class="command">sudo tcpdump -i lo -nn</div>
+
+        <h3>Save a capture</h3>
+
+        <div class="command">sudo tcpdump -i lo -nn -w lab.pcap</div>
+
+        <div class="warning">
+          Capture only traffic you are authorized to inspect, such as traffic generated inside your own lab.
+        </div>
+      `
+    },
+
+
+    17: {
+      title: "🌐 curl & HTTP Basics",
+      category: "Tools",
+      content: `
+        <h3>Make a basic HTTP request</h3>
+
+        <div class="command">curl https://example.com</div>
+
+        <h3>Inspect response headers</h3>
+
+        <div class="command">curl -I https://example.com</div>
+
+        <p>
+          HTTP clients send requests and receive responses containing status codes, headers and optional content.
+        </p>
+
+        <div class="tip">
+          Example status codes include 200 for success, 404 for not found and 500 for a server-side error.
+        </div>
+      `
+    },
+
+
+    18: {
+      title: "🔧 Git Basics",
+      category: "Tools",
+      content: `
+        <h3>Start a repository</h3>
+
+        <div class="command">git init</div>
+
+        <h3>Check changes</h3>
+
+        <div class="command">git status</div>
+
+        <h3>Save a version</h3>
+
+        <div class="command">git add .
+git commit -m "Update project"</div>
+
+        <p>
+          Git records project history so you can track changes and collaborate safely.
+        </p>
+      `
+    },
+
+
+    19: {
+      title: "💾 Storage & System Resources",
+      category: "Linux",
+      content: `
+        <h3>Disk usage</h3>
+
+        <div class="command">df -h</div>
+
+        <h3>Directory size</h3>
+
+        <div class="command">du -sh .</div>
+
+        <h3>Memory</h3>
+
+        <div class="command">free -h</div>
+
+        <p>
+          Resource checks are useful when programs become slow, fail to start or report storage and memory errors.
+        </p>
+      `
+    },
+
+
+    20: {
+      title: "🧪 Build a Safe Security Lab",
+      category: "Safe Labs",
+      content: `
+        <h3>What is a security lab?</h3>
+
+        <p>
+          A security lab is an isolated environment where you can learn security concepts without affecting systems you do not own.
+        </p>
+
+        <h3>Good lab components</h3>
+
+        <div class="command">Your computer
+      ↓
+Virtual Machine
+      ↓
+Linux environment
+      ↓
+Local practice services
+      ↓
+Logs + packet captures
+      ↓
+Analysis</div>
+
+        <h3>Lab rules</h3>
+
+        <p>
+          Keep experiments inside systems you own or have explicit permission to test.
+          Prefer intentionally vulnerable training environments and local services.
+        </p>
+
+        <div class="warning">
+          Never use a learning lab as permission to attack real websites, accounts or networks.
+        </div>
+      `
+    }
+
+  };
+
+
+  /* OPEN LESSON */
+
+  function openLesson(id) {
+
+    const lesson = lessons[id];
+
+    if (!lesson) {
+      return;
+    }
+
+    document.getElementById("lessonContent").innerHTML = `
+      <h2>${lesson.title}</h2>
+      <span class="lesson-tag">${lesson.category}</span>
+      ${lesson.content}
+    `;
+
+    document.getElementById("lessonModal").classList.add("show");
+
+    document.body.style.overflow = "hidden";
+  }
+
+
+  /* CLOSE LESSON */
+
+  function closeLesson() {
+
+    document.getElementById("lessonModal").classList.remove("show");
+
+    document.body.style.overflow = "auto";
+  }
+
+
+  /* CLOSE WHEN CLICKING OUTSIDE */
+
+  document.getElementById("lessonModal").addEventListener("click", function(event) {
+
+    if (event.target === this) {
+      closeLesson();
+    }
+
+  });
+
+
+  /* ESCAPE KEY */
+
+  document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+      closeLesson();
+    }
+
+  });
+
+
+  /* SEARCH */
+
+  function searchLessons() {
+
+    const query =
+      document.getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
+
+    const cards =
+      document.querySelectorAll(".lesson-card");
+
+    let visible = 0;
+
+    cards.forEach(card => {
+
+      const text =
+        (
+          card.innerText +
+          " " +
+          card.dataset.search
+        ).toLowerCase();
+
+      if (text.includes(query)) {
+
+        card.style.display = "flex";
+        visible++;
+
+      } else {
+
+        card.style.display = "none";
+
+      }
+
+    });
+
+    document.getElementById("noResults").style.display =
+      visible === 0 ? "block" : "none";
+  }
+
+
+  /* CATEGORY FILTER */
+
+  function filterLessons(category, button) {
+
+    document
+      .querySelectorAll(".category-btn")
+      .forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    const cards =
+      document.querySelectorAll(".lesson-card");
+
+    let visible = 0;
+
+    cards.forEach(card => {
+
+      if (
+        category === "all" ||
+        card.dataset.category === category
+      ) {
+
+        card.style.display = "flex";
+        visible++;
+
+      } else {
+
+        card.style.display = "none";
+
+      }
+
+    });
+
+    document.getElementById("noResults").style.display =
+      visible === 0 ? "block" : "none";
+
+    document.getElementById("searchInput").value = "";
+  }
+
+</script>
+
+</body>
+</html>
