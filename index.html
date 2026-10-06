@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,343 +7,556 @@
   <title>TUX-AI Linux Assistant</title>
 
   <style>
-
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      background: #05070d;
-      color: white;
       font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, #092b20 0%, #05070d 45%, #020304 100%);
+      color: white;
+      min-height: 100vh;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
     header {
-      padding: 20px 7%;
-      border-bottom: 1px solid #172536;
-      background: #080c14;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(3, 8, 6, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(0, 255, 140, 0.18);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 16px 22px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 20px;
     }
 
     .logo {
-      color: #00e5ff;
-      font-size: 25px;
+      font-size: 22px;
       font-weight: bold;
+      color: #00ff88;
       letter-spacing: 1px;
     }
 
-    nav a {
-      color: #b8c5d1;
-      text-decoration: none;
-      margin-left: 20px;
-      font-size: 14px;
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
     }
 
-    nav a:hover {
-      color: #00e5ff;
+    .nav-links a {
+      padding: 9px 13px;
+      border-radius: 10px;
+      color: #c9d8d1;
+      font-size: 14px;
+      transition: 0.25s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(0, 255, 136, 0.12);
+      color: #00ff88;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.12);
     }
 
     .hero {
-      min-height: 75vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      max-width: 1100px;
+      margin: auto;
+      padding: 85px 22px 55px;
       text-align: center;
-      padding: 60px 20px;
-    }
-
-    .hero-content {
-      max-width: 850px;
     }
 
     .badge {
       display: inline-block;
-      padding: 8px 15px;
-      border: 1px solid #16485a;
-      border-radius: 30px;
-      color: #00e5ff;
-      background: #07151d;
-      margin-bottom: 20px;
-      font-size: 13px;
+      padding: 8px 14px;
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      border-radius: 999px;
+      color: #00ff88;
+      background: rgba(0, 255, 136, 0.07);
+      margin-bottom: 22px;
+      font-size: 14px;
     }
 
     h1 {
-      font-size: 55px;
-      margin: 10px 0;
-      line-height: 1.1;
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: 1;
+      margin-bottom: 22px;
+      color: #ffffff;
+      text-shadow: 0 0 30px rgba(0, 255, 136, 0.18);
     }
 
     h1 span {
-      color: #00e5ff;
+      color: #00ff88;
     }
 
-    .subtitle {
-      color: #9aa8b8;
+    .hero p {
+      max-width: 760px;
+      margin: auto;
+      color: #a9bbb3;
       font-size: 18px;
       line-height: 1.7;
-      max-width: 700px;
-      margin: 20px auto 30px;
     }
 
-    .buttons {
+    .hero-buttons {
+      margin-top: 30px;
       display: flex;
       justify-content: center;
-      gap: 15px;
       flex-wrap: wrap;
+      gap: 12px;
     }
 
     .btn {
       display: inline-block;
-      padding: 15px 25px;
-      border-radius: 10px;
-      text-decoration: none;
+      padding: 13px 21px;
+      border-radius: 12px;
       font-weight: bold;
-      transition: 0.2s;
+      border: 1px solid rgba(0, 255, 136, 0.25);
+      transition: 0.25s;
     }
 
-    .primary {
-      background: #00e5ff;
-      color: #031018;
+    .btn.primary {
+      background: #00ff88;
+      color: #021009;
+      box-shadow: 0 0 25px rgba(0, 255, 136, 0.2);
     }
 
-    .secondary {
-      background: #101a27;
-      color: #00e5ff;
-      border: 1px solid #1b5063;
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: #d8e5df;
     }
 
     .btn:hover {
       transform: translateY(-2px);
     }
 
-    .features {
-      padding: 50px 7%;
-      background: #070b12;
-    }
-
-    .features h2 {
-      text-align: center;
-      color: #00e5ff;
-      margin-bottom: 35px;
-    }
-
-    .grid {
-      max-width: 1100px;
+    .section {
+      max-width: 1200px;
       margin: auto;
+      padding: 35px 22px 75px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .section-title h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #8fa39a;
+    }
+
+    .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
     }
 
     .card {
-      padding: 25px;
-      background: #0b111b;
-      border: 1px solid #172b3b;
-      border-radius: 15px;
-      transition: 0.2s;
+      position: relative;
+      overflow: hidden;
+      padding: 26px;
+      min-height: 205px;
+      border-radius: 18px;
+      background: linear-gradient(
+        145deg,
+        rgba(11, 27, 21, 0.95),
+        rgba(5, 10, 9, 0.95)
+      );
+      border: 1px solid rgba(0, 255, 136, 0.14);
+      transition: 0.3s;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: rgba(0, 255, 136, 0.08);
+      filter: blur(35px);
+      border-radius: 50%;
+      right: -40px;
+      top: -40px;
     }
 
     .card:hover {
-      border-color: #00e5ff;
-      transform: translateY(-3px);
+      transform: translateY(-5px);
+      border-color: rgba(0, 255, 136, 0.45);
+      box-shadow: 0 10px 35px rgba(0, 255, 136, 0.08);
+    }
+
+    .icon {
+      font-size: 32px;
+      margin-bottom: 18px;
     }
 
     .card h3 {
-      color: #00e5ff;
-      margin-top: 0;
+      font-size: 20px;
+      margin-bottom: 10px;
     }
 
     .card p {
-      color: #91a0b0;
-      line-height: 1.6;
+      color: #91a39a;
+      line-height: 1.55;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .card-link {
+      color: #00ff88;
+      font-weight: bold;
       font-size: 14px;
     }
 
-    .card a {
-      color: #00e5ff;
-      text-decoration: none;
-      font-size: 14px;
+    /* Dashboard special card */
+    .dashboard-card {
+      border-color: rgba(0, 255, 136, 0.38);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(0, 55, 34, 0.75),
+          rgba(4, 16, 11, 0.95)
+        );
+      box-shadow:
+        inset 0 0 30px rgba(0, 255, 136, 0.04),
+        0 0 25px rgba(0, 255, 136, 0.05);
     }
 
-    footer {
+    .dashboard-card .card-link {
+      display: inline-block;
+      padding: 9px 13px;
+      border-radius: 9px;
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.25);
+    }
+
+    .stats {
+      margin-top: 35px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .stat {
       text-align: center;
-      padding: 25px;
-      color: #637080;
-      border-top: 1px solid #172536;
+      padding: 22px 12px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(0,255,136,0.1);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      color: #00ff88;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: #81948b;
       font-size: 13px;
     }
 
-    @media (max-width: 600px) {
-
-      h1 {
-        font-size: 38px;
-      }
-
-      .subtitle {
-        font-size: 16px;
-      }
-
-      header {
-        padding: 18px 20px;
-      }
-
-      nav a {
-        margin-left: 10px;
-      }
-
+    footer {
+      border-top: 1px solid rgba(0,255,136,0.12);
+      padding: 28px 20px;
+      text-align: center;
+      color: #65766e;
+      font-size: 13px;
     }
 
+    footer strong {
+      color: #00ff88;
+    }
+
+    @media (max-width: 800px) {
+      .nav {
+        flex-direction: column;
+      }
+
+      .nav-links {
+        justify-content: center;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .hero {
+        padding-top: 55px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+        padding: 7px 9px;
+      }
+    }
   </style>
-
 </head>
-
 
 <body>
 
-
+  <!-- NAVIGATION -->
   <header>
+    <nav class="nav">
 
-    <div class="logo">
-      TUX-AI
-    </div>
+      <a href="index.html" class="logo">
+        🐧 TUX-AI
+      </a>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="chat.html">Chat</a>
-      <a href="analyzer.html">Analyzer</a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="chat.html">Chat</a>
+        <a href="analyzer.html">Analyzer</a>
+        <a href="learn.html">Learn</a>
+        <a href="labs.html">Labs</a>
+        <a href="tools.html">Tools</a>
+        <a href="dashboard.html">Dashboard</a>
+      </div>
+
     </nav>
-
   </header>
 
 
+  <!-- HERO -->
   <section class="hero">
 
-    <div class="hero-content">
+    <div class="badge">
+      🟢 Linux • Cybersecurity • Learning
+    </div>
 
-      <div class="badge">
-        🐧 Linux & Cybersecurity Learning Assistant
-      </div>
+    <h1>
+      Welcome to <span>TUX-AI</span>
+    </h1>
 
-      <h1>
-        Meet <span>TUX-AI</span>
-      </h1>
+    <p>
+      Your intelligent learning companion for Linux,
+      cybersecurity, ethical security education,
+      troubleshooting and technical learning.
+    </p>
 
-      <p class="subtitle">
-        Your intelligent learning companion for Linux,
-        cybersecurity, ethical security education,
-        troubleshooting and technical learning.
-      </p>
+    <div class="hero-buttons">
 
+      <a href="chat.html" class="btn primary">
+        💬 Open TUX-AI Chat
+      </a>
 
-      <div class="buttons">
+      <a href="dashboard.html" class="btn secondary">
+        📊 Open Dashboard
+      </a>
 
-        <a href="chat.html" class="btn primary">
-          🤖 Chat with TUX-AI
-        </a>
-
-        <a href="analyzer.html" class="btn secondary">
-          🔍 Analyze Error
-        </a>
-
-      </div>
+      <a href="labs.html" class="btn secondary">
+        🧪 Explore Labs
+      </a>
 
     </div>
 
   </section>
 
 
-  <section class="features">
+  <!-- FEATURES -->
+  <section class="section">
 
-    <h2>
-      TUX-AI Features
-    </h2>
+    <div class="section-title">
+      <h2>TUX-AI Platform</h2>
+      <p>Everything you need in one Linux learning workspace.</p>
+    </div>
 
+    <div class="cards">
 
-    <div class="grid">
+      <!-- CHAT -->
+      <a href="chat.html" class="card">
 
+        <div class="icon">💬</div>
 
-      <div class="card">
-
-        <h3>🤖 AI Chat</h3>
+        <h3>Chat with TUX-AI</h3>
 
         <p>
-          Ask questions about Linux, networking,
-          commands and cybersecurity concepts.
+          Ask Linux, networking, Python and
+          cybersecurity questions and get
+          beginner-friendly explanations.
         </p>
 
-        <a href="chat.html">
+        <div class="card-link">
           Open Chat →
-        </a>
+        </div>
 
-      </div>
+      </a>
 
 
-      <div class="card">
+      <!-- ANALYZER -->
+      <a href="analyzer.html" class="card">
 
-        <h3>🔍 Error Analyzer</h3>
+        <div class="icon">🔍</div>
+
+        <h3>Smart Error Analyzer</h3>
 
         <p>
-          Paste a Linux error and TUX-AI
-          explains the likely problem and
-          useful troubleshooting checks.
+          Paste Linux, networking, Python,
+          Git or HTTP errors and get useful
+          troubleshooting guidance.
         </p>
 
-        <a href="analyzer.html">
+        <div class="card-link">
           Analyze Error →
-        </a>
+        </div>
 
-      </div>
+      </a>
 
 
-      <div class="card">
+      <!-- LEARN -->
+      <a href="learn.html" class="card">
 
-        <h3>📚 Learn Linux</h3>
+        <div class="icon">📚</div>
+
+        <h3>Learn Linux</h3>
 
         <p>
-          Learn Linux commands, networking,
-          system administration and technical
-          fundamentals step by step.
+          Study structured Linux, networking,
+          cybersecurity, Python and system
+          administration lessons.
         </p>
 
-        <a href="#">
+        <div class="card-link">
           Start Learning →
-        </a>
+        </div>
 
-      </div>
+      </a>
 
 
-      <div class="card">
+      <!-- LABS -->
+      <a href="labs.html" class="card">
 
-        <h3>🧪 Security Labs</h3>
+        <div class="icon">🧪</div>
+
+        <h3>Security Labs</h3>
 
         <p>
-          Practice cybersecurity concepts in
-          safe, authorized learning environments.
+          Practice safe and authorized Linux
+          and cybersecurity concepts inside
+          controlled learning labs.
         </p>
 
-        <a href="#">
-          Open Labs →
-        </a>
+        <div class="card-link">
+          Explore Labs →
+        </div>
 
+      </a>
+
+
+      <!-- TOOLS -->
+      <a href="tools.html" class="card">
+
+        <div class="icon">🛠️</div>
+
+        <h3>Linux Tools</h3>
+
+        <p>
+          Explore command references,
+          permission calculations, networking
+          references and system utilities.
+        </p>
+
+        <div class="card-link">
+          Open Tools →
+        </div>
+
+      </a>
+
+
+      <!-- DASHBOARD -->
+      <a href="dashboard.html" class="card dashboard-card">
+
+        <div class="icon">📊</div>
+
+        <h3>TUX-AI Dashboard</h3>
+
+        <p>
+          Track your lessons, labs, tools,
+          learning progress and platform
+          activity from one place.
+        </p>
+
+        <div class="card-link">
+          Open Dashboard →
+        </div>
+
+      </a>
+
+    </div>
+
+
+    <!-- QUICK STATS -->
+    <div class="stats">
+
+      <div class="stat">
+        <strong>20+</strong>
+        <span>Lessons</span>
       </div>
 
+      <div class="stat">
+        <strong>20</strong>
+        <span>Security Labs</span>
+      </div>
+
+      <div class="stat">
+        <strong>12</strong>
+        <span>Tools</span>
+      </div>
+
+      <div class="stat">
+        <strong>24/7</strong>
+        <span>Learning</span>
+      </div>
 
     </div>
 
   </section>
 
 
+  <!-- FOOTER -->
   <footer>
 
-    TUX-AI Linux Assistant • Built for Linux & Cybersecurity Learning
+    <p>
+      <strong>TUX-AI Linux Assistant</strong>
+      • Learn Linux • Practice Safely • Build Skills
+    </p>
+
+    <p style="margin-top:8px;">
+      Ethical security education — use labs only on systems
+      you own or are authorized to test.
+    </p>
 
   </footer>
 
 
 </body>
-
-        </html>
+  </html>
