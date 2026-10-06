@@ -2,129 +2,138 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>TUX-AI Chat</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
   background:#050807;
   color:#eafff0;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:Arial,Helvetica,sans-serif
 }
 
 header{
   position:sticky;
   top:0;
-  z-index:10;
-  background:rgba(5,8,7,.96);
-  border-bottom:1px solid #123b22;
-  padding:16px 5%;
+  z-index:20;
+  padding:15px 5%;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:20px;
+  align-items:center;
+  gap:15px;
   flex-wrap:wrap;
+  background:rgba(5,8,7,.97);
+  border-bottom:1px solid #174b29
 }
 
 .logo{
   color:#39ff88;
   font-size:22px;
-  font-weight:bold;
+  font-weight:bold
 }
 
 nav{
   display:flex;
-  gap:8px;
   flex-wrap:wrap;
+  gap:6px
 }
 
 nav a{
   color:#b7d9c3;
   text-decoration:none;
-  padding:8px 11px;
-  border-radius:8px;
+  padding:8px 10px;
+  border-radius:8px
 }
 
 nav a:hover{
-  background:#0c2114;
   color:#39ff88;
+  background:#0c2114
 }
 
 main{
   max-width:1100px;
   margin:auto;
-  padding:45px 20px;
+  padding:40px 18px
 }
 
 .hero{
   text-align:center;
-  margin-bottom:30px;
+  margin-bottom:28px
 }
 
 .hero h1{
-  font-size:42px;
-  margin:0 0 10px;
   color:#39ff88;
+  font-size:42px;
+  margin:0 0 10px
 }
 
 .hero p{
-  color:#9ab8a4;
+  color:#9ab8a4
 }
 
-.chat-box{
-  background:#08100b;
+.chat{
+  overflow:hidden;
   border:1px solid #174b29;
   border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 0 35px rgba(57,255,136,.06);
+  background:#08100b;
+  box-shadow:0 0 35px rgba(57,255,136,.06)
 }
 
 .messages{
-  min-height:430px;
-  max-height:600px;
+  min-height:440px;
+  max-height:620px;
   overflow-y:auto;
-  padding:20px;
+  padding:20px
 }
 
 .message{
-  margin-bottom:18px;
   display:flex;
+  margin-bottom:18px
 }
 
 .message.user{
-  justify-content:flex-end;
+  justify-content:flex-end
 }
 
 .bubble{
-  max-width:85%;
+  max-width:88%;
   padding:14px 16px;
   border-radius:14px;
-  line-height:1.6;
-  white-space:pre-wrap;
+  line-height:1.65;
+  white-space:pre-wrap
 }
 
 .user .bubble{
-  background:#123b22;
-  color:#eafff0;
+  background:#123b22
 }
 
 .bot .bubble{
   background:#0b1710;
-  border:1px solid #174b29;
-  color:#d8f5df;
+  border:1px solid #174b29
 }
 
-.input-area{
-  border-top:1px solid #174b29;
+.quick{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
   padding:14px;
+  border-top:1px solid #123b22
+}
+
+.quick button{
+  background:#0b2114;
+  color:#7dffa9;
+  border:1px solid #1d6135
+}
+
+.input{
   display:flex;
   gap:10px;
+  padding:14px;
+  border-top:1px solid #174b29
 }
 
 input{
@@ -135,56 +144,49 @@ input{
   border:1px solid #245b35;
   background:#050807;
   color:white;
-  outline:none;
   font-size:16px;
+  outline:none
 }
 
 input:focus{
-  border-color:#39ff88;
+  border-color:#39ff88
 }
 
 button{
+  padding:12px 18px;
   border:0;
   border-radius:10px;
-  padding:12px 18px;
   background:#39ff88;
   color:#031008;
   font-weight:bold;
-  cursor:pointer;
+  cursor:pointer
 }
 
 button:hover{
-  opacity:.9;
+  opacity:.9
 }
 
-.quick{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  padding:15px;
-  border-top:1px solid #123b22;
-}
-
-.quick button{
-  background:#0b2114;
-  color:#7dffa9;
-  border:1px solid #1d6135;
-}
-
-.warning{
+.notice{
   margin-top:20px;
   padding:15px;
-  border:1px solid #315b3c;
-  background:#09130c;
   border-radius:12px;
+  background:#09130c;
+  border:1px solid #315b3c;
   color:#a9cdb2;
-  line-height:1.6;
+  line-height:1.6
 }
 
 footer{
   text-align:center;
-  color:#64816c;
   padding:30px;
+  color:#64816c
+}
+
+@media(max-width:700px){
+  .hero h1{font-size:32px}
+  .bubble{max-width:95%}
+  .input{flex-direction:column}
+  .input button{width:100%}
 }
 </style>
 </head>
@@ -210,470 +212,1595 @@ footer{
 
 <section class="hero">
   <h1>🤖 TUX-AI Chat</h1>
-  <p>Linux • Networking • Cybersecurity • Ethical Security • Python • System Administration</p>
+  <p>Linux • Networking • Cybersecurity • Tools • Python • System Administration</p>
 </section>
 
-<section class="chat-box">
+<section class="chat">
 
-  <div id="messages" class="messages">
-    <div class="message bot">
-      <div class="bubble">
-        🐧 <strong>TUX-AI:</strong> Hello! Ask me about Linux, networking, cybersecurity, security tools, Python, system administration or authorized security labs.
-      </div>
-    </div>
-  </div>
+<div id="messages" class="messages">
 
-  <div class="quick">
-    <button onclick="quickAsk('Explain Nmap')">Nmap</button>
-    <button onclick="quickAsk('Explain Wireshark')">Wireshark</button>
-    <button onclick="quickAsk('Explain CMatrix')">CMatrix</button>
-    <button onclick="quickAsk('Explain Zphisher')">Zphisher</button>
-    <button onclick="quickAsk('Explain PhoneExtract')">PhoneExtract</button>
-    <button onclick="quickAsk('Explain Linux permissions')">Permissions</button>
-    <button onclick="quickAsk('Explain TCP vs UDP')">TCP vs UDP</button>
-    <button onclick="quickAsk('Explain DNS')">DNS</button>
-  </div>
+<div class="message bot">
+<div class="bubble">🐧 <strong>TUX-AI:</strong>
 
-  <div class="input-area">
-    <input
-      id="userInput"
-      type="text"
-      placeholder="Ask TUX-AI anything about Linux or cybersecurity..."
-      autocomplete="off"
-    >
-    <button onclick="sendMessage()">Send</button>
-  </div>
+Welcome!
+
+Ask me about a Linux, networking, cybersecurity or defensive-security tool.
+
+Examples:
+• Explain Nmap
+• How do I install it?
+• How do I use it?
+• What commands are useful?
+• What is it used for?
+• Troubleshoot it
+• Is it safe?
+
+I remember the tool from the previous message, so follow-up questions work too.</div>
+</div>
+
+</div>
+
+<div class="quick">
+<button onclick="ask('Explain Nmap')">Nmap</button>
+<button onclick="ask('Explain Wireshark')">Wireshark</button>
+<button onclick="ask('Explain tcpdump')">tcpdump</button>
+<button onclick="ask('Explain CMatrix')">CMatrix</button>
+<button onclick="ask('Explain Burp Suite')">Burp Suite</button>
+<button onclick="ask('Explain OWASP ZAP')">OWASP ZAP</button>
+<button onclick="ask('Explain Ghidra')">Ghidra</button>
+<button onclick="ask('Explain Lynis')">Lynis</button>
+<button onclick="ask('Explain Zphisher')">Zphisher</button>
+</div>
+
+<div class="input">
+<input id="userInput"
+       type="text"
+       placeholder="Ask TUX-AI..."
+       autocomplete="off">
+<button onclick="send()">Send</button>
+</div>
 
 </section>
 
-<div class="warning">
-  🛡️ <strong>Ethical-security notice:</strong>
-  TUX-AI is designed for learning, defensive security and authorized labs.
-  Only test systems, accounts, devices and networks that you own or have explicit permission to test.
-  Some security tools can be misused, so TUX-AI intentionally provides awareness and defensive explanations rather than instructions for credential theft, unauthorized access, phishing deployment or bypassing security.
+<div class="notice">
+🛡️ <strong>Safety:</strong>
+Use security tools only on systems, devices, applications and networks that you own or have explicit permission to test.
+Potentially harmful tools are covered for awareness and defensive learning rather than credential theft, unauthorized access, phishing deployment or privacy-invasive extraction.
 </div>
 
 </main>
 
 <footer>
-  TUX-AI Linux Assistant • Learn responsibly • Practice only in authorized environments
+TUX-AI Linux Assistant • Learn responsibly • Practice in authorized environments
 </footer>
 
 <script>
 
-/* =========================================================
-   TUX-AI KNOWLEDGE BASE
-   ========================================================= */
+/* ==========================================================
+   TOOL DATABASE
+   Each tool contains:
+   name
+   aliases
+   category
+   description
+   install
+   usage
+   commands
+   troubleshooting
+   safety
+   ========================================================== */
 
-const knowledge = [
+const tools = [
 
-/* ---------- LINUX ---------- */
+/* ================= LINUX ================= */
 
 {
- keys:["linux","what is linux"],
- answer:
-`🐧 Linux
+name:"Linux",
+aliases:["linux","linux operating system"],
+category:"Linux",
+description:
+`Linux is an open-source kernel used by many operating-system distributions.
 
-Linux is an open-source operating-system kernel used by distributions such as Kali Linux, Ubuntu, Debian, Fedora and Arch.
+Popular distributions include:
+• Debian
+• Ubuntu
+• Kali Linux
+• Fedora
+• Arch Linux
 
-Common areas:
-• File management
-• Users and permissions
-• Processes
-• Networking
-• Package management
-• System administration
-• Security
+Linux is widely used for servers, development, cloud systems and cybersecurity.`,
 
-Useful commands:
+install:
+`Linux installation depends on the distribution.
+
+For learning, a virtual machine is a safe way to experiment without changing your main operating system.
+
+Common approaches:
+• Virtual machine
+• Dual boot
+• Dedicated computer
+• Cloud VM
+
+For beginners, a VM is often the easiest laboratory environment.`,
+
+usage:
+`Start with:
 pwd
 ls
 cd
 mkdir
 cp
 mv
-rm
-cat
-less
 grep
 find
 chmod
-chown
 ps
-top
-systemctl
-journalctl
-df
-du
-free
 ip
-ss`
-},
-
-{
- keys:["ls","linux ls"],
- answer:
-`📁 ls
-
-ls lists files and directories.
-
-Examples:
-ls
-ls -l
-ls -a
-ls -lah
-
-Useful flags:
--l  detailed listing
--a  hidden files
--h  human-readable sizes
-
-Use it to inspect a directory safely.`
-},
-
-{
- keys:["pwd"],
- answer:
-`📍 pwd
-
-pwd means "print working directory".
-
-It displays the directory you are currently inside.
-
-Example:
-pwd
-
-Typical output:
- /home/kali`
-},
-
-{
- keys:["cd"],
- answer:
-`📂 cd
-
-cd changes your current directory.
-
-Examples:
-cd Documents
-cd ..
-cd ~
-cd /tmp
-
-.. means the parent directory.
-~ represents your home directory.`
-},
-
-{
- keys:["grep"],
- answer:
-`🔎 grep
-
-grep searches text for a pattern.
-
-Example:
-grep "error" logfile.txt
-
-Useful options:
--i  ignore case
--n  show line numbers
--r  search directories recursively
-
-It is very useful for Linux logs and troubleshooting.`
-},
-
-{
- keys:["find"],
- answer:
-`🔍 find
-
-find searches for files and directories.
-
-Example:
-find . -name "*.log"
-
-Another example:
-find /tmp -type f
-
-Be careful when searching large system directories because results can be very large.`
-},
-
-{
- keys:["chmod","linux permissions","permissions"],
- answer:
-`🔐 Linux Permissions
-
-Linux permissions control who can read, write or execute a file.
-
-Three main permission groups:
-• Owner
-• Group
-• Others
-
-Three common permissions:
-r = read
-w = write
-x = execute
-
-Example:
-chmod +x script.sh
-
-Numeric permissions:
-4 = read
-2 = write
-1 = execute
-
-Example:
-chmod 755 script.sh
-
-Always understand the permission change before applying it.`
-},
-
-{
- keys:["chown"],
- answer:
-`👤 chown
-
-chown changes file ownership.
-
-General form:
-chown USER:GROUP FILE
-
-Example:
-sudo chown kali:kali example.txt
-
-Use ownership changes carefully because incorrect ownership can break applications or system services.`
-},
-
-{
- keys:["apt","package management"],
- answer:
-`📦 APT
-
-APT is the package-management system commonly used by Debian-based Linux distributions.
-
-Common commands:
-sudo apt update
-sudo apt upgrade
-apt search PACKAGE
-sudo apt install PACKAGE
-sudo apt remove PACKAGE
-
-Use official repositories and understand what a package does before installing it.`
-},
-
-{
- keys:["systemctl"],
- answer:
-`⚙️ systemctl
-
-systemctl manages systemd services.
-
-Useful read-only commands:
-systemctl status SERVICE
-systemctl list-units --type=service
-
-Example:
-systemctl status ssh
-
-It can help diagnose whether a service is running.`
-},
-
-{
- keys:["journalctl"],
- answer:
-`📜 journalctl
-
-journalctl reads logs collected by systemd.
-
-Examples:
-journalctl
-journalctl -b
-journalctl -u SERVICE
-journalctl -p warning
-
-Logs are extremely useful for troubleshooting and incident analysis.`
-},
-
-{
- keys:["ps","processes"],
- answer:
-`⚙️ Processes
-
-ps displays running processes.
-
-Examples:
-ps
-ps aux
-
-Other useful tools:
-top
-htop
-
-Use process information to troubleshoot CPU, memory and application problems.`
-},
-
-{
- keys:["df","disk space"],
- answer:
-`💾 df
-
-df reports filesystem disk usage.
-
-Example:
-df -h
-
--h makes sizes easier to read.
-
-For directory usage:
-du -sh DIRECTORY`
-},
-
-{
- keys:["free","memory"],
- answer:
-`🧠 free
-
-free displays memory and swap information.
-
-Example:
-free -h
-
-It is useful when diagnosing memory pressure.`
-},
-
-/* ---------- NETWORKING ---------- */
-
-{
- keys:["networking","network basics"],
- answer:
-`🌐 Networking Basics
-
-Important concepts:
-• IP address
-• Subnet
-• Default gateway
-• DNS
-• MAC address
-• TCP
-• UDP
-• Ports
-• Routing
-
-Useful Linux commands:
-ip addr
-ip route
-ping
 ss
-traceroute
-dig
 
-Use these commands primarily for systems and networks you are authorized to administer or troubleshoot.`
+Learn one command at a time and use --help or the manual pages to understand options.`,
+
+commands:
+`Useful examples:
+
+pwd
+ls -lah
+cd ..
+mkdir test
+cp file.txt backup.txt
+grep "error" logfile.txt
+find . -name "*.txt"
+df -h
+free -h
+ip addr
+ss -tuln`,
+
+troubleshoot:
+`For Linux problems:
+
+1. Read the complete error.
+2. Check the current directory.
+3. Check permissions.
+4. Check whether the package/service exists.
+5. Check logs.
+6. Search the exact error.
+7. Make one change at a time.`,
+
+safety:
+`Linux commands can modify important files.
+
+Be especially careful with:
+sudo
+rm
+chmod
+chown
+systemctl
+
+Understand a command before running it.`
 },
 
+/* ================= NMAP ================= */
+
 {
- keys:["nmap"],
- answer:
-`🔎 Nmap
+name:"Nmap",
+aliases:["nmap","network mapper"],
+category:"Networking",
+description:
+`Nmap is a network discovery and security-auditing tool.
 
-Nmap is a network discovery and security-auditing tool.
-
-It can help administrators understand:
+It can help authorized administrators identify:
 • Hosts
+• Open ports
 • Services
-• Ports
-• Service versions
+• Service information
 • Network exposure
 
-Safe learning approach:
-Use Nmap only against your own computer, localhost, a personal VM or an explicitly authorized lab.
+It is commonly used in network administration and security auditing.`,
 
-Example concept:
-Nmap asks a target what network services are available and reports what it observes.
+install:
+`Debian/Kali/Ubuntu-style systems commonly provide Nmap through APT.
 
-For TUX-AI labs, practice with localhost or your own virtual machines.`
+First update package information if needed:
+
+sudo apt update
+
+Then install:
+
+sudo apt install nmap
+
+Check installation:
+
+nmap --version
+
+Use trusted repositories and verify packages before installation.`,
+
+usage:
+`For safe learning, use localhost, your own VM or an explicitly authorized lab.
+
+A basic learning workflow is:
+
+1. Identify your own lab target.
+2. Check whether it is reachable.
+3. Perform a limited authorized scan.
+4. Read the results.
+5. Identify unnecessary services.
+6. Harden the system if required.`,
+
+commands:
+`Useful safe examples against your own machine:
+
+nmap --version
+
+nmap 127.0.0.1
+
+nmap -p 22,80,443 127.0.0.1
+
+The -p option specifies ports.
+
+Do not scan systems you do not own or have permission to test.`,
+
+troubleshoot:
+`If Nmap is not found:
+
+Check:
+nmap --version
+
+Then verify installation through your distribution's package manager.
+
+If a scan produces unexpected results, check:
+• Target address
+• Network connection
+• Firewall
+• Service state
+• Virtual-machine networking`,
+
+safety:
+`Only scan authorized systems.
+
+Public Internet scanning can affect systems you do not control. Keep practice inside localhost, your own VMs or an authorized training environment.`
 },
 
+/* ================= WIRESHARK ================= */
+
 {
- keys:["wireshark"],
- answer:
-`🦈 Wireshark
+name:"Wireshark",
+aliases:["wireshark","packet analyzer","pcap analyzer"],
+category:"Network Analysis",
+description:
+`Wireshark is a graphical network-protocol analyzer.
 
-Wireshark is a graphical network-protocol analyzer.
-
-It can inspect authorized packet captures and help you understand:
+It can display packet details and help learners understand:
 • TCP
 • UDP
 • DNS
 • HTTP
-• TLS metadata
+• TLS
 • Protocol behavior
 • Network troubleshooting
 
-A PCAP is a recorded collection of network packets.
+Captured traffic can be saved as PCAP files.`,
 
-Only capture or analyze traffic you are authorized to inspect.`
+install:
+`On Debian-based Linux:
+
+sudo apt update
+sudo apt install wireshark
+
+Then launch Wireshark from the desktop or terminal.
+
+During installation, Linux distributions may ask whether non-root users should be allowed to capture packets. Follow your distribution's documented permission setup.`,
+
+usage:
+`Safe workflow:
+
+1. Open Wireshark.
+2. Select an interface you own/control.
+3. Start a capture.
+4. Generate a small amount of test traffic.
+5. Stop capture.
+6. Inspect packets.
+7. Save a PCAP if needed.
+
+Useful display filters include:
+
+tcp
+udp
+dns
+http
+
+Filters are for analyzing captured traffic; they do not grant permission to inspect traffic.`,
+
+commands:
+`Wireshark is primarily graphical.
+
+A useful companion is:
+
+tshark --version
+
+tshark is Wireshark's command-line analyzer.
+
+PCAP files can also be opened from Wireshark's graphical interface.`,
+
+troubleshoot:
+`If no interfaces appear:
+
+• Check network connectivity.
+• Check capture permissions.
+• Confirm the interface exists.
+• Restart Wireshark after changing permissions.
+• Test with a controlled VM network.`,
+
+safety:
+`Only capture traffic you are authorized to inspect.
+
+Never assume that traffic visible on a network is yours to collect or analyze.`
 },
+  
+/* ================= TCPDUMP ================= */
 
 {
- keys:["tcpdump"],
- answer:
-`📡 tcpdump
-
-tcpdump is a command-line packet-capture and analysis tool.
+name:"tcpdump",
+aliases:["tcpdump","packet capture","packet capture tool"],
+category:"Network Analysis",
+description:
+`tcpdump is a command-line packet capture and analysis utility.
 
 It is useful for:
-• Network troubleshooting
-• Protocol analysis
-• Authorized lab exercises
-• Incident investigation
+• Troubleshooting
+• Network monitoring
+• Protocol learning
+• Authorized security labs
+• Incident investigation.`,
 
-A basic defensive workflow is:
-1. Capture traffic from an interface you control.
-2. Save the capture.
-3. Analyze the PCAP.
-4. Document observations.
+install:
+`Debian-based Linux:
 
-Only capture traffic you have permission to inspect.`
+sudo apt update
+sudo apt install tcpdump
+
+Check:
+
+tcpdump --version`,
+
+usage:
+`A safe learning workflow:
+
+1. Choose an interface you control.
+2. Capture a small amount of test traffic.
+3. Save the PCAP.
+4. Analyze it with Wireshark or tshark.
+
+For example, localhost traffic can be used for a controlled lab.`,
+
+commands:
+`Useful concepts:
+
+tcpdump --version
+
+sudo tcpdump -D
+
+sudo tcpdump -i lo
+
+The -i option selects an interface.
+
+Use sudo only when required by the capture permissions.`,
+
+troubleshoot:
+`If tcpdump reports permission errors:
+
+• Check whether your user has capture permissions.
+• Check the interface name.
+• Verify that the interface is active.
+• Use a controlled VM environment.
+
+Do not solve permission issues by giving excessive permissions blindly.`,
+
+safety:
+`Packet captures can contain sensitive information.
+
+Only capture traffic from systems and networks you are authorized to monitor.`
+},
+
+/* ================= CMATRIX ================= */
+
+{
+name:"CMatrix",
+aliases:["cmatrix","matrix"],
+category:"Terminal",
+description:
+`CMatrix is a harmless terminal animation that displays falling Matrix-style characters.
+
+It is a terminal customization/demo program, not a hacking tool.`,
+
+install:
+`On Debian-based Linux distributions:
+
+sudo apt update
+sudo apt install cmatrix
+
+Check:
+
+cmatrix --help
+
+If the package is unavailable, use your distribution's official package search instead of downloading random scripts.`,
+
+usage:
+`Start it with:
+
+cmatrix
+
+It displays the animation directly in the terminal.
+
+Exit using the program's documented quit key, commonly q or Ctrl+C depending on the version/configuration.`,
+
+commands:
+`Basic:
+
+cmatrix
+
+Help:
+
+cmatrix -h
+
+You can explore the options shown by:
+
+cmatrix --help`,
+
+troubleshoot:
+`If "cmatrix: command not found" appears:
+
+1. Check installation.
+2. Run:
+   which cmatrix
+3. Check:
+   cmatrix --version
+4. Reinstall from your distribution's trusted repository if necessary.`,
+
+safety:
+`CMatrix is harmless and does not provide hacking capabilities by itself.`
+},
+
+/* ================= BURP ================= */
+
+{
+name:"Burp Suite",
+aliases:["burp","burp suite"],
+category:"Web Security",
+description:
+`Burp Suite is a web-security testing platform.
+
+It helps authorized testers understand:
+• HTTP requests
+• HTTP responses
+• Headers
+• Cookies
+• Sessions
+• Web-application behavior.`,
+
+install:
+`Use the official PortSwigger distribution for installation.
+
+For Linux, follow the official installer/documentation for the version you choose.
+
+Avoid downloading modified copies from unknown websites.`,
+
+usage:
+`Safe learning:
+
+1. Create a small web application you own.
+2. Run it locally.
+3. Configure Burp as your browser's authorized test proxy.
+4. Observe your own HTTP requests.
+5. Study headers, parameters and responses.
+6. Fix security problems in your application.`,
+
+commands:
+`Burp Suite is mainly a graphical application.
+
+Important concepts:
+Proxy
+HTTP history
+Repeater
+Target
+Scanner
+Decoder
+
+Availability of features depends on the Burp edition.`,
+
+troubleshoot:
+`If your browser does not connect:
+
+• Check the proxy address.
+• Check the proxy port.
+• Confirm Burp is running.
+• Confirm the browser is configured for the test proxy.
+• Use a local application for practice.`,
+
+safety:
+`Use Burp only against applications you own or are explicitly authorized to test.`
+},
+
+/* ================= ZAP ================= */
+
+{
+name:"OWASP ZAP",
+aliases:["zap","owasp zap","zaproxy"],
+category:"Web Security",
+description:
+`OWASP ZAP is an open-source web-application security testing tool.
+
+It can help developers and authorized testers understand web traffic and identify common security weaknesses.`,
+
+install:
+`Use the official OWASP ZAP distribution or your operating system's trusted package source.
+
+After installation, verify that ZAP launches correctly before configuring a test browser.`,
+
+usage:
+`Safe practice:
+
+• Build a local test application.
+• Start ZAP.
+• Configure the browser for the local test environment.
+• Observe requests.
+• Review findings.
+• Fix your application.
+• Retest.`,
+
+commands:
+`ZAP is primarily graphical, though it also provides automation options.
+
+Learn these concepts first:
+• Proxy
+• Sites
+• History
+• Passive scanning
+• Active scanning
+• Contexts
+
+Active testing should stay inside an authorized lab.`,
+
+troubleshoot:
+`If ZAP cannot see browser traffic:
+
+• Verify proxy settings.
+• Check the ZAP listener.
+• Confirm the test site is reachable.
+• Avoid mixing multiple proxy configurations.`,
+
+safety:
+`Use active security testing only against applications you own or are authorized to assess.`
+},
+
+/* ================= LYNIS ================= */
+
+{
+name:"Lynis",
+aliases:["lynis"],
+category:"Linux Security",
+description:
+`Lynis is a Linux security-auditing and hardening tool.
+
+It checks system configuration and provides recommendations.`,
+
+install:
+`On many Debian-based systems:
+
+sudo apt update
+sudo apt install lynis
+
+Check:
+
+lynis --version`,
+
+usage:
+`A typical defensive workflow:
+
+1. Run an audit on your own Linux VM.
+2. Read the findings.
+3. Understand each recommendation.
+4. Apply appropriate hardening.
+5. Run the audit again.
+6. Document improvements.`,
+
+commands:
+`Useful commands:
+
+lynis --version
+sudo lynis audit system
+
+The audit system option performs a system-security audit.`,
+
+troubleshoot:
+`If Lynis is unavailable:
+
+• Check package installation.
+• Check PATH.
+• Verify package repositories.
+• Use the official project documentation for version-specific details.`,
+
+safety:
+`Lynis is designed for auditing, but recommendations should still be reviewed before changing a production system.`
+},
+
+/* ================= SSH ================= */
+
+{
+name:"SSH",
+aliases:["ssh","secure shell","openssh"],
+category:"Administration",
+description:
+`SSH provides secure remote administration.
+
+Important concepts:
+• Authentication
+• Encryption
+• Host keys
+• Public/private keys
+• Users
+• Ports
+• Server configuration.`,
+
+install:
+`On Debian-based Linux, OpenSSH server can be installed with the distribution's package manager.
+
+Common package:
+
+openssh-server
+
+Client tools are often provided by:
+
+openssh-client
+
+Check:
+
+ssh -V`,
+
+usage:
+`For your own VM:
+
+ssh USER@YOUR_VM_ADDRESS
+
+Use key-based authentication when appropriate.
+
+For learning, localhost and your own virtual machines are excellent practice environments.`,
+
+commands:
+`Useful commands:
+
+ssh -V
+ssh USER@HOST
+ssh-keygen
+ssh-copy-id USER@HOST
+
+Only connect to systems you are authorized to administer.`,
+
+troubleshoot:
+`Common SSH problems:
+
+Connection refused:
+→ SSH service may not be running.
+
+Timeout:
+→ Network or firewall problem.
+
+Permission denied:
+→ Authentication problem.
+
+Host key warning:
+→ Verify the host identity before proceeding.`,
+
+safety:
+`Never use SSH credentials belonging to another person.`
+},
+
+/* ================= DNS ================= */
+
+{
+name:"dig",
+aliases:["dig","dns lookup"],
+category:"Networking",
+description:
+`dig is a DNS query and troubleshooting utility.
+
+It can display DNS records and resolver responses.`,
+
+install:
+`On Debian-based systems, dig is commonly provided by dnsutils or a related DNS utility package.
+
+Check:
+
+dig -v`,
+
+usage:
+`Example:
+
+dig example.com
+
+You can inspect the response to understand DNS resolution.`,
+
+commands:
+`Useful:
+
+dig example.com
+dig example.com A
+dig example.com AAAA
+
+A = IPv4 address record
+AAAA = IPv6 address record`,
+
+troubleshoot:
+`If DNS fails:
+
+1. Check network connectivity.
+2. Check resolver configuration.
+3. Test another known domain.
+4. Compare DNS servers.
+5. Inspect the complete dig response.`,
+
+safety:
+`DNS queries are normal administrative operations, but information obtained from them should still be used responsibly.`
+},
+
+/* ================= GIT ================= */
+
+{
+name:"Git",
+aliases:["git","github"],
+category:"Development",
+description:
+`Git is a distributed version-control system.
+
+It tracks changes to files and helps developers collaborate.`,
+
+install:
+`Debian-based Linux:
+
+sudo apt update
+sudo apt install git
+
+Check:
+
+git --version`,
+
+usage:
+`Basic workflow:
+
+git init
+git status
+git add .
+git commit -m "Initial commit"
+
+For GitHub repositories, authentication and repository permissions should be configured securely.`,
+
+commands:
+`Useful:
+
+git --version
+git status
+git log
+git branch
+git diff
+
+Never commit passwords, API keys or private tokens.`,
+
+troubleshoot:
+`Common problems:
+
+"not a git repository"
+→ You may be outside the repository.
+
+Authentication failure
+→ Check repository access and credentials.
+
+Merge conflict
+→ Review the conflicting files before committing.`,
+
+safety:
+`Treat tokens and credentials as secrets. Remove exposed credentials and rotate them if accidentally committed.`
+},
+
+/* ================= PYTHON ================= */
+
+{
+name:"Python",
+aliases:["python","python3"],
+category:"Programming",
+description:
+`Python is a programming language widely used for automation, development, data processing and security research.`,
+
+install:
+`Check whether Python is already installed:
+
+python3 --version
+
+Use your operating system's official package manager or the official Python distribution appropriate for your platform.`,
+
+usage:
+`Run a script:
+
+python3 script.py
+
+Create a virtual environment:
+
+python3 -m venv .venv
+
+Activate it according to your shell and operating system.`,
+
+commands:
+`Useful:
+
+python3 --version
+python3 -m pip --version
+python3 -m venv .venv
+python3 script.py`,
+
+troubleshoot:
+`If Python packages are missing:
+
+• Check Python version.
+• Check the active virtual environment.
+• Check pip.
+• Read the complete traceback.
+• Install dependencies from a trusted source.`,
+
+safety:
+`Do not execute unknown Python scripts blindly. Read the code and verify dependencies before running them.`
+},
+
+/* ================= GIT NETWORK UTILITIES ================= */
+
+{
+name:"Netcat",
+aliases:["netcat","nc"],
+category:"Networking",
+description:
+`Netcat is a networking utility used for testing and troubleshooting connections.
+
+Because it can be used in both legitimate and abusive ways, TUX-AI focuses on localhost and authorized-lab use.`,
+
+install:
+`On Debian-based distributions, the package is commonly called netcat-openbsd or a related netcat package.
+
+Use your distribution's package manager and verify the package before installation.`,
+
+usage:
+`Safe learning topics:
+
+• TCP concepts
+• UDP concepts
+• Localhost testing
+• Port troubleshooting
+• Client/server networking concepts
+
+Keep experiments inside your own VM or localhost.`,
+
+commands:
+`For safe learning, use localhost-based experiments and understand the client/server model before connecting to other systems.`,
+
+troubleshoot:
+`If nc is not found:
+
+which nc
+nc -h
+
+Then verify the appropriate package is installed.`,
+
+safety:
+`Do not use Netcat to access or control systems you do not own or administer.`
+},
+
+/* ================= FORENSICS ================= */
+
+{
+name:"Autopsy",
+aliases:["autopsy"],
+category:"Digital Forensics",
+description:
+`Autopsy is a digital-forensics platform used to examine authorized forensic evidence.
+
+It can help with:
+• File-system analysis
+• Timelines
+• Evidence review
+• Investigation documentation.`,
+
+install:
+`Install Autopsy using the official project distribution and follow the version-specific installation instructions for your operating system.`,
+
+usage:
+`A safe learning approach is to use sample forensic images provided for training.
+
+Typical workflow:
+1. Create a case.
+2. Add authorized evidence.
+3. Process evidence.
+4. Review results.
+5. Document findings.`,
+
+commands:
+`Autopsy is primarily graphical.
+
+The important concepts are:
+Cases
+Data sources
+Artifacts
+Timeline
+File-system analysis
+Reports`,
+
+troubleshoot:
+`For forensic software problems:
+
+• Check supported OS/version.
+• Check dependencies.
+• Use a known-good sample image.
+• Review application logs.`,
+
+safety:
+`Forensic evidence can contain extremely sensitive information. Only examine evidence you are legally authorized to handle.`
 },
 
 {
- keys:["tcp","tcp protocol"],
- answer:
-`🔗 TCP
+name:"Volatility",
+aliases:["volatility","memory forensics"],
+category:"Digital Forensics",
+description:
+`Volatility is a memory-forensics framework used to analyze memory images.
 
-TCP is connection-oriented.
+It is useful for:
+• Incident response
+• Digital forensics
+• Malware investigations
+• Memory analysis.`,
 
-Important characteristics:
-• Reliable delivery
-• Sequence numbers
-• Acknowledgments
-• Retransmission
-• Ordered data
+install:
+`Use the official Volatility project documentation and a supported Python environment.
 
-TCP is commonly used for applications where reliable delivery matters.`
+Keep forensic tooling isolated in a dedicated analysis environment.`,
+
+usage:
+`Safe learning:
+
+Use publicly available training memory images.
+
+Learn:
+• What a memory image is
+• Processes
+• Network artifacts
+• Loaded modules
+• Memory structures
+
+Do not collect memory from devices without authorization.`,
+
+commands:
+`The exact command syntax depends on the Volatility version.
+
+Start with:
+
+vol --help
+
+Then use the official documentation for the installed version.`,
+
+troubleshoot:
+`If Volatility fails:
+
+• Check Python version.
+• Check installed dependencies.
+• Confirm the memory image is supported.
+• Read the complete error message.
+• Check the documentation for the exact version.`,
+
+safety:
+`Memory images may contain passwords, tokens and personal data. Treat them as highly sensitive evidence.`
+},
+
+/* ================= GHIDRA ================= */
+
+{
+name:"Ghidra",
+aliases:["ghidra","reverse engineering"],
+category:"Reverse Engineering",
+description:
+`Ghidra is a software reverse-engineering framework.
+
+It includes tools for:
+• Disassembly
+• Decompilation
+• Program analysis
+• Binary research.`,
+
+install:
+`Use the official Ghidra release from its official project distribution.
+
+Check the supported Java/runtime requirements for the version you install.`,
+
+usage:
+`Safe learning:
+
+Analyze:
+• Your own compiled programs
+• Open-source programs
+• Training binaries
+• Capture-the-flag educational samples that explicitly permit analysis.
+
+Start by importing a sample and examining its functions and strings.`,
+
+commands:
+`Ghidra is primarily graphical.
+
+The key concepts are:
+Project
+Program
+Decompiler
+Listing
+Functions
+Strings
+Symbol information`,
+
+troubleshoot:
+`If Ghidra does not launch:
+
+• Check Java requirements.
+• Verify the extracted installation.
+• Check the launch script.
+• Review Ghidra logs.`,
+
+safety:
+`Only reverse-engineer software you are authorized to analyze.`
+},
+
+/* ================= SURICATA ================= */
+
+{
+name:"Suricata",
+aliases:["suricata","ids","ips"],
+category:"Defensive Security",
+description:
+`Suricata is an open-source network threat-detection engine.
+
+It supports:
+• IDS
+• IPS
+• Network security monitoring.`,
+
+install:
+`Use your Linux distribution's trusted package repository or the official Suricata documentation.
+
+After installation, verify the version and configuration before enabling monitoring.`,
+
+usage:
+`A safe lab workflow:
+
+1. Monitor your own VM network.
+2. Generate benign test traffic.
+3. Review alerts.
+4. Understand the rule that triggered.
+5. Tune false positives.`,
+
+commands:
+`Useful first checks:
+
+suricata --build-info
+suricata --version
+
+Configuration and rule commands depend on your distribution and installation.`,
+
+troubleshoot:
+`Check:
+
+• Configuration syntax
+• Network interface
+• Rule files
+• Permissions
+• Log directory
+• Service status`,
+
+safety:
+`Deploy monitoring only on networks you are authorized to monitor.`
+},
+
+/* ================= ZEEK ================= */
+
+{
+name:"Zeek",
+aliases:["zeek","bro"],
+category:"Network Security Monitoring",
+description:
+`Zeek is a network-security monitoring platform.
+
+It produces structured logs describing network activity.`,
+
+install:
+`Use the official Zeek documentation or your distribution's trusted package repository.
+
+Check compatibility with your Linux distribution before installation.`,
+
+usage:
+`Use Zeek in a controlled lab to learn:
+
+• DNS logs
+• Connection logs
+• HTTP logs
+• Network metadata
+• Event-based analysis.`,
+
+commands:
+`Check installation:
+
+zeek --version
+
+Use the official documentation for version-specific deployment commands.`,
+
+troubleshoot:
+`Check:
+
+• Interface
+• Capture permissions
+• Configuration
+• Log directory
+• Version compatibility.`,
+
+safety:
+`Monitor only networks where you have permission.`
+},
+
+/* ================= YARA ================= */
+
+{
+name:"YARA",
+aliases:["yara","yara rules"],
+category:"Threat Detection",
+description:
+`YARA is a rule-based tool for identifying and classifying files or other data using patterns.
+
+It is commonly used in malware research and threat hunting.`,
+
+install:
+`Install YARA through your operating system's trusted package manager or the official project distribution.
+
+Verify:
+
+yara --version`,
+
+usage:
+`Safe learning:
+
+Create rules for harmless sample files in your own laboratory.
+
+Learn:
+• Strings
+• Conditions
+• Rule structure
+• Matching
+• False positives.`,
+
+commands:
+`Start with:
+
+yara --help
+yara --version
+
+Use the official documentation for the installed version's rule syntax.`,
+
+troubleshoot:
+`If rules do not match:
+
+• Check string definitions.
+• Check conditions.
+• Test with a known sample.
+• Review syntax errors.
+• Reduce the rule to a simple test case.`,
+
+safety:
+`Use only authorized samples and do not distribute harmful files.`
+},
+
+/* ================= ZPHISHER ================= */
+
+{
+name:"Zphisher",
+aliases:["zphisher","phishing","phishing tool"],
+category:"Security Awareness",
+restricted:true,
+description:
+`Zphisher is associated with phishing demonstrations.
+
+Phishing attempts to deceive users into providing sensitive information.
+
+For TUX-AI, the safe focus is:
+• Phishing awareness
+• Recognizing fake login pages
+• Account protection
+• MFA
+• Reporting suspicious messages.`,
+
+install:
+`TUX-AI does not provide deployment instructions for phishing frameworks or credential-collection infrastructure.
+
+For learning, use a dedicated security-awareness platform or a purpose-built training environment that does not collect real credentials.`,
+
+usage:
+`Learn the defensive side:
+
+• Identify suspicious domains.
+• Check unexpected login requests.
+• Inspect URLs carefully.
+• Use password managers.
+• Enable MFA.
+• Report suspicious messages.
+
+Never collect another person's credentials.`,
+
+commands:
+`TUX-AI does not provide commands for deploying phishing pages or collecting credentials.
+
+It can explain phishing indicators and defensive controls.`,
+
+troubleshoot:
+`For a suspected phishing message:
+
+1. Do not enter credentials.
+2. Do not open unknown attachments.
+3. Check the sender and domain.
+4. Report it through the appropriate channel.
+5. Change credentials if you believe they were exposed.
+6. Enable MFA.`,
+
+safety:
+`Real-world phishing and credential collection against users without permission is harmful and unauthorized.`
+},
+
+/* ================= PHONE TOOLS ================= */
+
+{
+name:"PhoneSploit",
+aliases:["phonesploit","phone sploit"],
+category:"Android Security Awareness",
+restricted:true,
+description:
+`PhoneSploit is associated with Android/ADB-related security tooling.
+
+ADB means Android Debug Bridge and is legitimately used for Android development and debugging.
+
+TUX-AI focuses on:
+• ADB concepts
+• Android security
+• Debugging risks
+• Authorized device administration.`,
+
+install:
+`TUX-AI does not provide instructions for using PhoneSploit to access another person's device.
+
+For legitimate Android development, install the official Android SDK Platform Tools and use ADB with your own test device or emulator.`,
+
+usage:
+`Safe Android lab topics:
+
+• Android emulator
+• Your own test phone
+• ADB authorization
+• Developer options
+• USB debugging
+• App debugging
+• Device security.`,
+
+commands:
+`Safe ADB learning can include checking the official ADB help and connecting to your own authorized emulator/device.
+
+Never use debugging access to bypass another person's device security.`,
+
+troubleshoot:
+`For legitimate ADB problems:
+
+• Check USB debugging.
+• Check device authorization.
+• Check the cable/connection.
+• Verify adb is installed.
+• Check adb devices.
+
+Only work with your own or explicitly authorized device.`,
+
+safety:
+`Mobile devices contain private information. Do not attempt unauthorized access or extraction.`
 },
 
 {
- keys:["udp","udp protocol"],
- answer:
-`📨 UDP
+name:"PhoneExtract",
+aliases:["phoneextract","phone extract"],
+category:"Mobile Forensics",
+restricted:true,
+description:
+`Phone/data-extraction tools can involve highly sensitive personal information.
 
-UDP is connectionless.
+Safe TUX-AI topics include:
+• Android permissions
+• Backups
+• ADB security
+• Mobile forensics
+• Evidence handling
+• Privacy protection.`,
 
-Characteristics:
-• Low protocol overhead
-• No built-in delivery guarantee
-• No built-in ordering
-• Fast/simple transport
+install:
+`TUX-AI does not provide instructions for extracting another person's private phone data.
 
-Common examples include DNS queries, streaming and real-time applications.`
-},
+For legitimate mobile-forensics learning, use approved training images, emulators or devices you own.`,
 
-{
- keys:["tcp vs udp","tcp udp"],
- answer:
-`⚖️ TCP vs UDP
+usage:
+`Safe learning:
+
+• Analyze sample forensic datasets.
+• Learn Android storage concepts.
+• Study permission models.
+• Understand backup security.
+• Practice evidence documentation.`,
+
+commands:
+`No commands are provided for extracting private information from someone else's device.
+
+TUX-AI can instead explain Android security and authorized forensic concepts.`,
+
+troubleshoot:
+`For an authorized forensic laboratory:
+
+• Verify the evidence source.
+• Preserve the original.
+• Work on a forensic copy where appropriate.
+• Document actions.
+• Protect sensitive information.`,
+
+safety:
+`Mobile data can include messages, photos, accounts and other private information. Authorization is essential.`
+}
+
+];
+
+  /* ==========================================================
+   CURRENT TOOL MEMORY
+   ========================================================== */
+
+let currentTool = null;
+
+
+/* ==========================================================
+   NORMALIZE TEXT
+   ========================================================== */
+
+function normalize(text){
+  return text
+    .toLowerCase()
+    .replace(/[?!.,:;()[\]{}]/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+
+/* ==========================================================
+   FIND TOOL
+   ========================================================== */
+
+function findTool(question){
+
+  const q=normalize(question);
+
+  let best=null;
+  let score=0;
+
+  for(const tool of tools){
+
+    let s=0;
+
+    for(const alias of tool.aliases){
+
+      const a=normalize(alias);
+
+      if(q===a) s+=100;
+
+      else if(q.includes(a)) s+=70;
+
+      else{
+        const words=a.split(" ");
+
+        for(const word of words){
+          if(word.length>2 && q.includes(word)){
+            s+=8;
+          }
+        }
+      }
+    }
+
+    if(s>score){
+      score=s;
+      best=tool;
+    }
+  }
+
+  return score>=8 ? best : null;
+}
+
+
+/* ==========================================================
+   DETECT FOLLOW-UP INTENT
+   ========================================================== */
+
+function getIntent(question){
+
+  const q=normalize(question);
+
+  if(
+    q.includes("install") ||
+    q.includes("installation") ||
+    q.includes("setup") ||
+    q.includes("set up") ||
+    q.includes("download")
+  ){
+    return "install";
+  }
+
+  if(
+    q.includes("use it") ||
+    q.includes("how to use") ||
+    q.includes("usage") ||
+    q.includes("how does it work") ||
+    q.includes("how it works")
+  ){
+    return "usage";
+  }
+
+  if(
+    q.includes("command") ||
+    q.includes("commands") ||
+    q.includes("syntax") ||
+    q.includes("example")
+  ){
+    return "commands";
+  }
+
+  if(
+    q.includes("troubleshoot") ||
+    q.includes("not working") ||
+    q.includes("error") ||
+    q.includes("problem") ||
+    q.includes("fix")
+  ){
+    return "troubleshoot";
+  }
+
+  if(
+    q.includes("safe") ||
+    q.includes("security") ||
+    q.includes("legal") ||
+    q.includes("authorized")
+  ){
+    return "safety";
+  }
+
+  if(
+    q.includes("what is") ||
+    q.includes("explain") ||
+    q.includes("about") ||
+    q.includes("meaning")
+  ){
+    return "description";
+  }
+
+  return "general";
+}
+
+
+/* ==========================================================
+   FOLLOW-UP DETECTION
+   ========================================================== */
+
+function looksLikeFollowUp(question){
+
+  const q=normalize(question);
+
+  const words=[
+    "it",
+    "this",
+    "that",
+    "tool",
+    "install",
+    "installation",
+    "setup",
+    "set up",
+    "use it",
+    "how do i use",
+    "commands",
+    "command",
+    "troubleshoot",
+    "not working",
+    "error",
+    "fix",
+    "safe",
+    "is it safe",
+    "what does it do"
+  ];
+
+  return words.some(word=>q.includes(word));
+}
+
+
+/* ==========================================================
+   ANSWER TOOL
+   ========================================================== */
+
+function answerTool(tool,intent){
+
+  if(intent==="install"){
+    return `🧰 ${tool.name} — Installation
+
+${tool.install}
+
+📌 After installation, verify the program before using it.`;
+  }
+
+  if(intent==="usage"){
+    return `▶️ ${tool.name} — How to Use
+
+${tool.usage}`;
+  }
+
+  if(intent==="commands"){
+    return `⌨️ ${tool.name} — Commands / Examples
+
+${tool.commands}`;
+  }
+
+  if(intent==="troubleshoot"){
+    return `🔧 ${tool.name} — Troubleshooting
+
+${tool.troubleshoot}`;
+  }
+
+  if(intent==="safety"){
+    return `🛡️ ${tool.name} — Safety
+
+${tool.safety}`;
+  }
+
+  if(intent==="description"){
+    return `🔎 ${tool.name}
+
+${tool.description}
+
+📦 Installation:
+Ask: "How do I install it?"
+
+▶️ Usage:
+Ask: "How do I use it?"
+
+⌨️ Commands:
+Ask: "What commands are useful?"
+
+🔧 Troubleshooting:
+Ask: "How do I troubleshoot it?"`;
+  }
+
+  return `🔎 ${tool.name}
+
+${tool.description}
+
+Ask a follow-up such as:
+
+• How do I install it?
+• How do I use it?
+• What commands are useful?
+• How do I troubleshoot it?
+• Is it safe?`;
+  }
+  
+/* ==========================================================
+   GENERAL KNOWLEDGE
+   ========================================================== */
+
+function generalAnswer(question){
+
+  const q=normalize(question);
+
+  if(q.includes("tcp vs udp")){
+    return `⚖️ TCP vs UDP
 
 TCP:
 • Connection-oriented
@@ -684,545 +1811,44 @@ TCP:
 UDP:
 • Connectionless
 • Lower overhead
-• No delivery guarantee
-• No ordering guarantee
-
-The correct choice depends on the application.`
-},
-
-{
- keys:["ports","port"],
- answer:
-`🚪 Network Ports
-
-A port identifies a network service endpoint.
-
-Common examples:
-22  SSH
-53  DNS
-80  HTTP
-443 HTTPS
-
-Linux commands:
-ss -tuln
-ss -ltn
-
-Only expose services that are actually needed.`
-},
-
-{
- keys:["dns"],
- answer:
-`🌍 DNS
-
-DNS translates names into network information.
-
-Example:
-example.com → IP address
-
-Useful commands:
-dig example.com
-nslookup example.com
-
-DNS troubleshooting often involves checking:
-• DNS server
-• Resolver configuration
-• Connectivity
-• Records
-• Caching`
-},
-
-{
- keys:["ip command","ip addr","ip route"],
- answer:
-`🌐 ip command
-
-The ip command is a modern Linux networking utility.
-
-Examples:
-ip addr
-ip route
-ip link
-
-ip addr → interfaces and addresses
-ip route → routing table
-ip link → interface state
-
-These are excellent first commands for diagnosing Linux networking.`
-},
-
-{
- keys:["ping"],
- answer:
-`📶 ping
-
-ping tests IP-level reachability using ICMP.
-
-Example:
-ping 127.0.0.1
-
-127.0.0.1 is localhost.
-
-A successful ping does not prove that every application service is working; it mainly tests a particular form of network reachability.`
-},
-
-{
- keys:["curl"],
- answer:
-`🌐 curl
-
-curl transfers data using network protocols such as HTTP and HTTPS.
-
-Examples:
-curl https://example.com
-curl -I https://example.com
-
--I requests response headers.
-
-curl is useful for web troubleshooting and API testing against systems you are authorized to use.`
-},
-
-/* ---------- SECURITY TOOLS ---------- */
-
-{
- keys:["burp","burp suite"],
- answer:
-`🛡️ Burp Suite
-
-Burp Suite is a web-security testing platform.
-
-It can help authorized testers understand:
-• HTTP requests
-• HTTP responses
-• Cookies
-• Headers
-• Web application behavior
-
-Use it against your own application or an authorized training target.`
-},
-
-{
- keys:["owasp zap","zap"],
- answer:
-`🛡️ OWASP ZAP
-
-OWASP ZAP is an open-source web application security testing tool.
-
-It is useful for:
-• Learning HTTP
-• Finding common web-security issues
-• Intercepting authorized test traffic
-• Security assessment
-
-Practice with intentionally vulnerable applications or your own projects.`
-},
-
-{
- keys:["metasploit"],
- answer:
-`🧰 Metasploit
-
-Metasploit is a security-testing framework used by professionals and researchers.
-
-It contains modules for security assessment and controlled testing.
-
-For safe learning, use it only inside:
-• Your own virtual machines
-• Purpose-built security labs
-• Explicitly authorized environments
-
-TUX-AI focuses on the framework's concepts and defensive learning rather than unauthorized exploitation.`
-},
-
-{
- keys:["nikto"],
- answer:
-`🔍 Nikto
-
-Nikto is a web-server assessment tool.
-
-It can identify potentially interesting server configurations and known web-server issues.
-
-Use it only against servers you own or are explicitly authorized to assess.`
-},
-
-{
- keys:["lynis"],
- answer:
-`🔐 Lynis
-
-Lynis is a Linux security auditing tool.
-
-It checks system configuration and can provide hardening suggestions.
-
-It is particularly useful for:
-• System auditing
-• Configuration review
-• Security hardening
-• Compliance preparation`
-},
-
-{
- keys:["openvas","greenbone"],
- answer:
-`🟢 Greenbone / OpenVAS
-
-Greenbone provides vulnerability-management tools, including OpenVAS components.
-
-They help organizations identify known vulnerabilities in authorized systems.
-
-A normal defensive workflow is:
-scan → review findings → prioritize → patch → verify.`
-},
-
-{
- keys:["fail2ban"],
- answer:
-`🚫 Fail2ban
-
-Fail2ban monitors logs and can react to repeated suspicious authentication attempts.
-
-It is commonly used to reduce automated login abuse against services such as SSH.
-
-It should be configured carefully so legitimate users are not accidentally blocked.`
-},
-
-{
- keys:["iptables","nftables","firewall"],
- answer:
-`🔥 Linux Firewalls
-
-iptables and nftables are Linux firewall frameworks.
-
-A firewall controls network traffic according to defined rules.
-
-Good defensive practice:
-• Allow only required services
-• Restrict unnecessary exposure
-• Log important events
-• Review rules regularly
-
-Never blindly copy firewall rules without understanding their effect.`
-},
-
-/* ---------- IDS / DEFENSIVE ---------- */
-
-{
- keys:["suricata"],
- answer:
-`🛡️ Suricata
-
-Suricata is an open-source network threat-detection engine.
-
-It can perform:
-• IDS
-• IPS
-• Network security monitoring
-
-It analyzes network traffic using rules and protocol information.`
-},
-
-{
- keys:["zeek"],
- answer:
-`📊 Zeek
-
-Zeek is a network-security monitoring platform.
-
-Instead of simply showing packets, Zeek can generate structured logs describing network activity.
-
-It is useful for:
-• Network monitoring
-• Threat hunting
-• Incident response
-• Security research`
-},
-
-{
- keys:["yara"],
- answer:
-`🔬 YARA
-
-YARA is used to identify and classify files or activity based on patterns and rules.
-
-Security teams use YARA for:
-• Malware research
-• Threat hunting
-• File classification
-• Incident response
-
-Rules should be developed and tested carefully.`
-},
-
-/* ---------- FORENSICS ---------- */
-
-{
- keys:["autopsy"],
- answer:
-`🔬 Autopsy
-
-Autopsy is a digital-forensics platform.
-
-It can help investigators examine forensic evidence such as disk images.
-
-Typical uses:
-• Timeline analysis
-• File-system examination
-• Evidence review
-• Investigation documentation
-
-Always work with evidence you are legally authorized to examine.`
-},
-
-{
- keys:["volatility"],
- answer:
-`🧠 Volatility
-
-Volatility is a memory-forensics framework.
-
-It helps investigators analyze memory images to understand what was happening on a system.
-
-It is useful for:
-• Incident response
-• Digital forensics
-• Malware investigations
-• Memory analysis`
-},
-
-{
- keys:["ghidra"],
- answer:
-`🔬 Ghidra
-
-Ghidra is a software reverse-engineering framework developed by the NSA.
-
-It can help researchers understand compiled programs through:
-• Disassembly
-• Decompilation
-• Program analysis
-
-Use it for software you are authorized to analyze.`
-},
-
-/* ---------- PHONE / AWARENESS ---------- */
-
-{
- keys:["phonesploit","phone sploit"],
- answer:
-`📱 PhoneSploit
-
-PhoneSploit is a security-related Android/ADB utility found in public repositories.
-
-ADB (Android Debug Bridge) is a legitimate Android development and debugging interface.
-
-Important:
-ADB access should only be used on devices you own or have explicit permission to administer.
-
-TUX-AI can teach:
-• What ADB is
-• Android debugging concepts
-• Device-security risks
-• How developers secure debugging
-
-It will not provide instructions for accessing another person's phone.`
-},
-
-{
- keys:["phoneextract","phone extract"],
- answer:
-`📱 Phone/data extraction tools
-
-Tools with names such as PhoneExtract can relate to extracting or examining information from mobile devices.
-
-Mobile-data extraction is highly sensitive.
-
-Safe learning topics include:
-• Android permissions
-• ADB security
-• Backups
-• Digital forensics
-• Evidence handling
-• Privacy protection
-
-Only examine a device or data when you have clear authorization.`
-},
-
-{
- keys:["zphisher","phishing"],
- answer:
-`🎣 Zphisher / Phishing Awareness
-
-Zphisher is associated with phishing demonstrations and therefore can be dangerous when misused.
-
-For ethical learning, focus on:
-• What phishing is
-• How fake login pages deceive users
-• Warning signs of phishing
-• Safe reporting
-• Account protection
-• MFA
-• Security awareness
-
-Never collect another person's credentials or deploy phishing pages against real users.
-
-TUX-AI intentionally does not provide credential-theft or real-world phishing instructions.`
-},
-
-/* ---------- CMATRIX ---------- */
-
-{
- keys:["cmatrix","matrix"],
- answer:
-`🟢 CMatrix
-
-CMatrix is a harmless terminal program that displays a Matrix-style animation.
-
-It is useful for:
-• Linux terminal customization
-• Learning how terminal programs work
-• Practicing package installation
-
-It does not perform hacking by itself.
-
-Typical usage:
-cmatrix`
-},
-
-{
- keys:["figlet"],
- answer:
-`🔤 FIGlet
-
-FIGlet creates large ASCII-style text in the terminal.
-
-Example:
-figlet TUX-AI
-
-It is a harmless terminal customization utility.`
-},
-
-{
- keys:["cowsay"],
- answer:
-`🐮 Cowsay
-
-Cowsay displays text using an ASCII-art character.
-
-Example:
-cowsay "TUX-AI"
-
-It is a harmless Linux terminal utility.`
-},
-
-/* ---------- SSH ---------- */
-
-{
- keys:["ssh"],
- answer:
-`🔐 SSH
-
-SSH provides secure remote administration.
-
-Common concepts:
-• Authentication
-• Encryption
-• Host keys
-• User accounts
-• Public/private keys
-
-Only connect to systems you own or are authorized to administer.`
-},
-
-/* ---------- HTTP ---------- */
-
-{
- keys:["http","https"],
- answer:
-`🌐 HTTP / HTTPS
-
-HTTP is the protocol commonly used for web communication.
-
-Important concepts:
-• Request
-• Response
-• Headers
-• Status codes
-• Cookies
-• Methods
-
-HTTPS adds TLS encryption to protect data in transit.`
-},
-
-{
- keys:["http status","status codes"],
- answer:
-`📡 HTTP Status Codes
-
-Common codes:
-
-200 — OK
-201 — Created
-301 — Redirect
-302 — Temporary redirect
-400 — Bad Request
-401 — Authentication required
-403 — Forbidden
-404 — Not Found
-500 — Server Error
-502 — Bad Gateway
-503 — Service Unavailable
-
-These codes help troubleshoot web applications.`
-},
-
-/* ---------- PYTHON ---------- */
-
-{
- keys:["python","python linux"],
- answer:
-`🐍 Python on Linux
-
-Python is widely used for automation, scripting, data processing and security research.
-
-Useful commands:
-python3 --version
-python3 script.py
-
-Virtual environments help isolate project dependencies.
-
-Example concept:
-python3 -m venv .venv`
-},
-
-/* ---------- GIT ---------- */
-
-{
- keys:["git","github"],
- answer:
-`🌿 Git
-
-Git is a version-control system.
-
-Common commands:
-git init
-git status
-git add
-git commit
-git log
-git branch
-
-GitHub hosts Git repositories and provides collaboration features.
-
-Never commit passwords, API keys or private credentials to a repository.`
-},
-
-/* ---------- CYBERSECURITY ---------- */
-
-{
- keys:["cybersecurity","cyber security"],
- answer:
-`🛡️ Cybersecurity
+• No built-in delivery guarantee
+• No built-in ordering`;
+  }
+
+  if(q.includes("help") || q.includes("what can you do")){
+    return `🤖 TUX-AI can explain many areas:
+
+🐧 Linux
+🌐 Networking
+🔎 Nmap
+🦈 Wireshark
+📡 tcpdump
+🟢 CMatrix
+🛡️ Burp Suite
+🛡️ OWASP ZAP
+🔐 SSH
+🌍 DNS
+🌿 Git
+🐍 Python
+🔬 Ghidra
+🔬 Autopsy
+🧠 Volatility
+🛡️ Suricata
+📊 Zeek
+🔬 YARA
+🔐 Lynis
+🎣 Phishing awareness
+📱 Android/ADB security
+📱 Mobile-forensics concepts
+
+Try:
+"Explain Nmap"
+then:
+"How do I install it?"`;
+  }
+
+  if(q.includes("cybersecurity") || q.includes("cyber security")){
+    return `🛡️ Cybersecurity
 
 Cybersecurity protects systems, networks, applications and data.
 
@@ -1233,379 +1859,185 @@ Core areas:
 • Integrity
 • Availability
 • Monitoring
-• Incident response
 • Vulnerability management
+• Incident response
 • Secure configuration
 
-Ethical security testing requires authorization and a defined scope.`
-},
+Ethical testing requires authorization and a defined scope.`;
+  }
 
-{
- keys:["ethical hacking","ethical security"],
- answer:
-`🎯 Ethical Security
+  if(q.includes("ethical hacking") || q.includes("ethical security")){
+    return `🎯 Ethical Security
 
-A safe security-testing workflow is:
+Safe workflow:
 
 1. Get explicit permission.
 2. Define scope.
-3. Use an authorized lab or target.
+3. Use an authorized target.
 4. Test safely.
-5. Record observations.
+5. Document observations.
 6. Report findings.
 7. Remediate.
 8. Verify the fix.
 
-Never test random public systems without permission.`
-},
-
-{
- keys:["malware"],
- answer:
-`🦠 Malware
-
-Malware is software designed to perform harmful or unauthorized actions.
-
-Common categories:
-• Virus
-• Worm
-• Trojan
-• Ransomware
-• Spyware
-• Rootkit
-
-Defensive learning focuses on:
-• Detection
-• Isolation
-• Analysis
-• Removal
-• Prevention`
-},
-
-{
- keys:["vulnerability"],
- answer:
-`🔎 Vulnerability
-
-A vulnerability is a weakness that could affect confidentiality, integrity or availability.
-
-Defensive workflow:
-identify → assess risk → prioritize → patch/configure → verify → document`
-},
-
-{
- keys:["mitre attack","mitre"],
- answer:
-`🗺️ MITRE ATT&CK
-
-MITRE ATT&CK is a knowledge base describing adversary tactics and techniques.
-
-Security teams use it for:
-• Threat modeling
-• Detection engineering
-• Threat hunting
-• Incident response
-• Security education`
-},
-
-{
- keys:["owasp"],
- answer:
-`🌐 OWASP
-
-OWASP is a major application-security community.
-
-The OWASP Top 10 describes important categories of web-application security risks.
-
-It is useful for developers and security learners who want to build safer web applications.`
-},
-
-/* ---------- TOOLS ---------- */
-
-{
- keys:["netcat","nc"],
- answer:
-`🔌 Netcat
-
-Netcat is a networking utility often used for testing and troubleshooting network connections.
-
-Because it can also be misused, practice only in your own localhost or authorized lab.
-
-Useful learning topics:
-• TCP connections
-• UDP concepts
-• Port testing
-• Simple network troubleshooting`
-},
-
-{
- keys:["traceroute","trace route"],
- answer:
-`🛰️ traceroute
-
-traceroute helps show the network path toward a destination.
-
-It can help diagnose routing problems and understand network hops.
-
-Linux example:
-traceroute example.com`
-},
-
-{
- keys:["dig"],
- answer:
-`🌍 dig
-
-dig is a DNS-query tool.
-
-Example:
-dig example.com
-
-It can display DNS records and response information.
-
-Useful for:
-• DNS troubleshooting
-• Learning DNS
-• Resolver testing`
-},
-
-{
- keys:["nslookup"],
- answer:
-`🌍 nslookup
-
-nslookup queries DNS information.
-
-Example:
-nslookup example.com
-
-It is useful for basic DNS troubleshooting.`
-},
-
-{
- keys:["whois"],
- answer:
-`📋 WHOIS
-
-WHOIS services can provide registration-related information for domains or IP resources, depending on the registry and privacy rules.
-
-Use information responsibly and respect privacy and applicable laws.`
-},
-
-{
- keys:["wget"],
- answer:
-`⬇️ wget
-
-wget is a command-line downloader.
-
-It is commonly used to retrieve files or web resources.
-
-Only download software from trusted sources and verify what you install.`
-},
-
-/* ---------- HELP ---------- */
-
-{
- keys:["help","what can you do"],
- answer:
-`🤖 TUX-AI can explain:
-
-🐧 Linux
-🌐 Networking
-🔐 SSH
-📡 TCP/UDP
-🌍 DNS
-🚪 Ports
-🦈 Wireshark
-🔎 Nmap
-📡 tcpdump
-🛡️ Burp Suite
-🛡️ OWASP ZAP
-🧰 Metasploit concepts
-🟢 CMatrix
-🎣 Phishing awareness
-📱 Android/ADB security
-🔬 Ghidra
-🔬 Autopsy
-🧠 Volatility
-🛡️ Suricata
-📊 Zeek
-🔬 YARA
-🔐 Firewalls
-🐍 Python
-🌿 Git
-📜 Linux logs
-⚙️ Processes
-📦 APT
-🔐 Permissions
-
-Ask:
-"Explain <topic>"`
-}
-
-];
-
-/* =========================================================
-   FIND ANSWER
-   ========================================================= */
-
-function normalize(text){
-  return text
-    .toLowerCase()
-    .replace(/[?!.:,;]/g," ")
-    .replace(/\s+/g," ")
-    .trim();
-}
-
-function findAnswer(question){
-
-  const q = normalize(question);
-
-  let best = null;
-  let bestScore = 0;
-
-  for(const item of knowledge){
-
-    let score = 0;
-
-    for(const key of item.keys){
-
-      const k = normalize(key);
-
-      if(q === k){
-        score += 100;
-      }
-      else if(q.includes(k)){
-        score += 50;
-      }
-      else{
-
-        const words = k.split(" ");
-
-        for(const word of words){
-          if(word.length > 2 && q.includes(word)){
-            score += 5;
-          }
-        }
-      }
-    }
-
-    if(score > bestScore){
-      bestScore = score;
-      best = item.answer;
-    }
+Practice in your own VM or an authorized laboratory.`;
   }
 
-  return best;
+  return null;
 }
 
-/* =========================================================
-   CHAT
-   ========================================================= */
+
+/* ==========================================================
+   BUILD RESPONSE
+   ========================================================== */
+
+function getResponse(question){
+
+  const directTool=findTool(question);
+
+  if(directTool){
+
+    currentTool=directTool;
+
+    return answerTool(
+      directTool,
+      getIntent(question)
+    );
+  }
+
+
+  /*
+     If the question doesn't name a tool but looks
+     like a follow-up, use the previous tool.
+  */
+
+  if(currentTool && looksLikeFollowUp(question)){
+
+    return answerTool(
+      currentTool,
+      getIntent(question)
+    );
+  }
+
+
+  const general=generalAnswer(question);
+
+  if(general) return general;
+
+
+  return `🤖 TUX-AI
+
+I don't have a built-in answer for that topic yet.
+
+Try:
+  
+• Explain Nmap
+• Explain Wireshark
+• Explain CMatrix
+• Explain tcpdump
+• Explain Burp Suite
+• Explain OWASP ZAP
+• Explain Ghidra
+• Explain Lynis
+• Explain SSH
+• Explain DNS
+• Explain Git
+• Explain Python
+• Explain Suricata
+• Explain Zeek
+• Explain YARA
+• Explain Autopsy
+• Explain Volatility
+• Explain Zphisher
+• Explain PhoneSploit
+• Explain PhoneExtract
+
+Or start a tool conversation:
+
+"Explain Nmap"
+
+then:
+
+"How do I install it?"
+
+then:
+
+"How do I use it?"
+
+then:
+
+"What commands are useful?"
+
+🛡️ TUX-AI only provides security guidance for authorized and educational use.`;
+}
+
+
+/* ==========================================================
+   CHAT UI
+   ========================================================== */
 
 function addMessage(text,type){
 
-  const messages = document.getElementById("messages");
+  const box=document.getElementById("messages");
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "message " + type;
+  const wrapper=document.createElement("div");
+  wrapper.className="message "+type;
 
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
+  const bubble=document.createElement("div");
+  bubble.className="bubble";
 
-  bubble.textContent = text;
+  bubble.textContent=text;
 
   wrapper.appendChild(bubble);
-  messages.appendChild(wrapper);
+  box.appendChild(wrapper);
 
-  messages.scrollTop = messages.scrollHeight;
+  box.scrollTop=box.scrollHeight;
 }
 
-function sendMessage(){
 
-  const input = document.getElementById("userInput");
-  const question = input.value.trim();
+function send(){
+
+  const input=document.getElementById("userInput");
+  const question=input.value.trim();
 
   if(!question) return;
 
   addMessage(question,"user");
 
-  input.value = "";
+  input.value="";
 
   setTimeout(()=>{
 
-    const answer = findAnswer(question);
+    const response=getResponse(question);
 
-    if(answer){
+    addMessage(
+      "🐧 TUX-AI:\n\n"+response,
+      "bot"
+    );
 
-      addMessage("🐧 TUX-AI:\n\n" + answer,"bot");
-
-    }
-    else{
-
-      addMessage(
-`🐧 TUX-AI:
-
-I don't have a built-in answer for that topic yet.
-
-Try asking about:
-
-Linux
-Nmap
-Wireshark
-tcpdump
-CMatrix
-Zphisher
-PhoneExtract
-PhoneSploit
-Burp Suite
-OWASP ZAP
-Metasploit
-Ghidra
-Autopsy
-Volatility
-YARA
-Zeek
-Suricata
-DNS
-TCP
-UDP
-Ports
-SSH
-Python
-Git
-Linux permissions
-APT
-Processes
-Logs
-
-You can also ask:
-"Help"
-or
-"What can you do?"
-
-🛡️ Security tools should only be used on systems you own or are explicitly authorized to test.`,
-        "bot"
-      );
-
-    }
-
-  },250);
+  },220);
 }
 
-function quickAsk(question){
 
-  document.getElementById("userInput").value = question;
-  sendMessage();
+function ask(text){
+
+  document.getElementById("userInput").value=text;
+  send();
 
 }
 
-document.getElementById("userInput").addEventListener("keydown",function(event){
 
-  if(event.key === "Enter"){
+/* ==========================================================
+   ENTER KEY
+   ========================================================== */
+
+document
+.getElementById("userInput")
+.addEventListener("keydown",function(event){
+
+  if(event.key==="Enter"){
     event.preventDefault();
-    sendMessage();
+    send();
   }
 
 });
